@@ -120,6 +120,7 @@ project(":core") {
 
 
     dependencies {
+        compile project(':RubeLoader')
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
@@ -129,7 +130,20 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
     }
 }
+project(":RubeLoader"){
 
+    apply plugin: "java"
+    sourceSets {
+        main.java.srcDirs = ['src']
+        main.resources.srcDirs = ['src']
+        test.java.srcDirs = ['tests/java']
+        test.resources.srcDirs = ['tests/resources']
+    }
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    }
+}
 tasks.eclipse.doLast {
     delete ".project"
 }
