@@ -22,6 +22,7 @@ import com.gushikustudios.rube.loader.RubeSceneLoader;
  * Created by zac520 on 8/10/14.
  */
 public class GameScreen implements Screen{
+
     MainGame game;
     private boolean debug = true;
     Stage stage;
