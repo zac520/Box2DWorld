@@ -3,7 +3,12 @@ package com.NZGames.Box2DWorld.screens;
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.Player;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
+import com.NZGames.Box2DWorld.handlers.MyContactListener;
+import com.NZGames.Box2DWorld.handlers.MyInput;
+import com.NZGames.Box2DWorld.handlers.MyInputProcessor;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,6 +32,7 @@ public class GameScreen implements Screen{
     Stage stage;
     private SpriteBatch batch;
     private World world;
+    private MyContactListener cl;
 
     OrthographicCamera camera;
     OrthographicCamera box2DCam;
@@ -40,7 +46,7 @@ public class GameScreen implements Screen{
     private Animation walkRightAnimation;
     private static final float RUNNING_FRAME_DURATION = 0.06f;
     Player player;
-
+    private float accelx;
     public GameScreen(MainGame pGame){
         game = pGame;
         batch = new SpriteBatch();
@@ -48,6 +54,8 @@ public class GameScreen implements Screen{
         //create the world
         //x and y forces, then inactive bodies should "sleep" (true)
         world = new World(new Vector2(0, -9.81f), true);
+        cl = new MyContactListener();
+        world.setContactListener(cl);
 
         //set up the main camera
         camera=new OrthographicCamera();
@@ -68,6 +76,10 @@ public class GameScreen implements Screen{
 
         createPlatform();
         createPlayerAdvanced();
+
+        //add in the input processing
+        MyInput.resetKeys();
+        Gdx.input.setInputProcessor(new MyInputProcessor());
     }
 
     public void update(float delta){
@@ -75,6 +87,7 @@ public class GameScreen implements Screen{
         //of setting bodies after collision (2 recommended))
         world.step(delta, 6, 2);
 
+        handleInput();
 
         //update the player
         player.update(delta);
@@ -96,16 +109,17 @@ public class GameScreen implements Screen{
         //draw box2d world
         if(debug) {
 
-//            box2DCam.position.set(
-//                    player.getBody().getPosition().x,
-//                    BlockBunnyGame.SCREEN_HEIGHT/2 / Box2DVars.PPM,
-//                    0
-//            );
-//            box2DCam.update();
+            box2DCam.position.set(
+                    player.getBody().getPosition().x,
+                    player.getBody().getPosition().y,
+                    0
+            );
+            box2DCam.update();
             box2DRenderer.render(world, box2DCam.combined);
 
         }
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -136,7 +150,82 @@ public class GameScreen implements Screen{
     public void dispose() {
 
     }
+    public void handleInput() {
 
+        //handle accelerometer input
+        accelx = Gdx.input.getAccelerometerY();
+        //player.getBody().applyForceToCenter(accelx * 2.5f, 0, true);
+        if(accelx >1){
+            if(player.getBody().getLinearVelocity().x < Player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(Player.FORWARD_FORCE, 0, true);
+            }
+        }
+        else if (accelx < -1){
+            if(player.getBody().getLinearVelocity().x > -Player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(-Player.FORWARD_FORCE, 0, true);
+            }
+        }
+
+
+        //set player direction
+        if(accelx !=0) {
+            if (accelx < 0) {
+                player.facingLeft = true;
+
+            } else {
+                player.facingLeft = false;
+
+            }
+        }
+
+        //playerJump
+        if (MyInput.isPressed(MyInput.BUTTON1)) {
+            //System.out.println("pressed Z");
+            if (cl.isPlayerOnGround()) {
+                //force is in newtons
+                player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, 4f);
+                //player.getBody().applyForceToCenter(0, 175, true);
+                MyInput.setKey(MyInput.BUTTON1, false);
+
+            }
+        }
+
+
+
+        //switch block color
+        if (MyInput.isPressed(MyInput.BUTTON2)) {
+            //System.out.println("hold X");
+            MyInput.setKey(MyInput.BUTTON2, false);
+
+        }
+
+        if (MyInput.isDown(MyInput.BUTTON3)) {
+            if(player.getBody().getLinearVelocity().x < Player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(Player.FORWARD_FORCE, 0, true);
+
+            }
+            player.facingLeft = false;
+
+        }
+
+        if (MyInput.isDown(MyInput.BUTTON4)) {
+            if(player.getBody().getLinearVelocity().x > -Player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(-Player.FORWARD_FORCE, 0, true);
+
+            }
+            player.facingLeft = true;
+        }
+
+        //if player is on the ground and moving left or right, then set walking to true
+        if((cl.isPlayerOnGround()) && Math.abs(player.getBody().getLinearVelocity().x)>0){
+            player.isWalking = true;
+        }
+        else{
+            player.isWalking = false;
+        }
+
+
+    }
     private void createPlatform(){
         //create platform
         //to create a body we do 5 steps:
@@ -175,7 +264,7 @@ public class GameScreen implements Screen{
     public void createPlayerAdvanced(){
         //load the char body
         RubeSceneLoader loader = new RubeSceneLoader(world);
-        RubeScene scene = loader.addScene(Gdx.files.internal("assets/textures/mainCharRight.json"));
+        RubeScene scene = loader.addScene(Gdx.files.internal("assets/textures/TestLevel.json"));
 
         //get all of the bodies that we just loaded in (will have their names as UserData)
         Array<Body> myBodies = scene.getBodies();
@@ -185,7 +274,7 @@ public class GameScreen implements Screen{
         for(int x = 0; x< myBodies.size; x++){
             myString = (String) myBodies.get(x).getUserData();
             if(myString.compareTo("player")==0){
-                player = new Player(myBodies.get(x), 0.496098f, 0.703487f); //make a player with it
+                player = new Player(myBodies.get(x), 1, 2); //make a player with it
                 myBodies.get(x).setUserData(player);//make it so we can find it by asking for player
 
 

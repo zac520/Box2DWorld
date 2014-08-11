@@ -15,7 +15,7 @@ public class Player {
     public static final float       DAMP_EFFECT = 0.0f;
     float           stateTime = 0;
     int             crystalCount = 0;
-    public static  int PLAYER_MAX_SPEED = 3;
+    public static  int PLAYER_MAX_SPEED = 5;
     public static int FORWARD_FORCE = 8;
     public float height=40;
     public float width=30;

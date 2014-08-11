@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  */
 public class MenuScreen implements Screen {
 
+
     BitmapFont font;
     MainGame game;
     OrthographicCamera camera;

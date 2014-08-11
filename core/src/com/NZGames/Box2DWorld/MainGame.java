@@ -11,8 +11,8 @@ import com.gushikustudios.rube.loader.RubeSceneLoader;
 
 public class MainGame extends Game {
 
-	public static int SCREEN_WIDTH = 320;
-    public static int SCREEN_HEIGHT = 240;
+	public static int SCREEN_WIDTH = 320*4;
+    public static int SCREEN_HEIGHT = 240*4;
 
     @Override
 	public void create () {
