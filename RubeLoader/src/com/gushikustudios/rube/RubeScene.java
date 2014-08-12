@@ -274,7 +274,7 @@ public class RubeScene
    {
       return mImages;
    }
-   
+
    public void setMappedImage(Body body, RubeImage image)
    {
       Array<RubeImage> images = mBodyImageMap.get(body);
