@@ -22,22 +22,19 @@ public class MyContactListener implements ContactListener {
         Fixture fa = c.getFixtureA();
         Fixture fb = c.getFixtureB();
 
-        //System.out.println("contact between " + fa.getUserData() + " and " + fb.getUserData());
 
-        //if "foot" is on ground, set playerOnGround to true
         if(fa.getUserData() != null && fa.getUserData().equals("foot")){
-            //System.out.println("fa is foot");
             playerOnGround = true;
             numFootContacts ++;
-
-
         }
+
         if(fb.getUserData() != null && fb.getUserData().equals("foot")){
-            //System.out.println("fb is foot");
             playerOnGround = true;
             numFootContacts ++;
-
         }
+
+
+
         if(fa.getUserData() != null && fa.getUserData().equals("crystal")){
             //remove crystal
             //since world is updating, we are going to queue the crystals
@@ -50,8 +47,8 @@ public class MyContactListener implements ContactListener {
                     bodiesToRemove.add(fa.getBody());
                 }
             }
-
         }
+
         if(fb.getUserData() != null && fb.getUserData().equals("crystal")){
             //remove crystal
             //since world is updating, we are going to queue the crystals
@@ -112,19 +109,29 @@ public class MyContactListener implements ContactListener {
             numFootContacts --;
         }
 
+        //sleep objects
         if(fa.getUserData() != null && fa.getUserData().equals("awake")){
-            //remove crystal
-            //since world is updating, we are going to queue the crystals
-            //and remove them after the update for each step
+
             fb.getBody().setAwake(false);
 
         }
         if(fb.getUserData() != null && fb.getUserData().equals("awake")){
-            //remove crystal
-            //since world is updating, we are going to queue the crystals
-            //and remove them after the update for each step
+
             fa.getBody().setAwake(false);
         }
+
+
+        //spikes
+        if(fa.getUserData() != null && fa.getUserData().equals("spike")){
+            System.out.print("Collision occured1");
+            fb.getBody().setAwake(false);
+
+        }
+        if(fb.getUserData() != null && fb.getUserData().equals("spike")){
+            System.out.print("Collision occured1");
+            fa.getBody().setAwake(false);
+        }
+
     }
 
     //collision detection

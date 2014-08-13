@@ -2,6 +2,7 @@ package com.NZGames.Box2DWorld.screens;
 
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.Player;
+import com.NZGames.Box2DWorld.entities.SpikeKinematic;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.handlers.MyContactListener;
 import com.NZGames.Box2DWorld.handlers.MyInput;
@@ -42,12 +43,14 @@ public class GameScreen implements Screen{
     /** Textures **/
     private TextureRegion currentPlayerFrame;
     private TextureRegion ground;
-
+    public TextureAtlas atlas;
     /** Animations **/
     private Animation walkLeftAnimation;
     private Animation walkRightAnimation;
     private static final float RUNNING_FRAME_DURATION = 0.06f;
+
     Player player;
+
     private float accelx;
     public GameScreen(MainGame pGame){
         game = pGame;
@@ -72,12 +75,12 @@ public class GameScreen implements Screen{
         box2DCam = new OrthographicCamera();
         box2DCam.setToOrtho(false, MainGame.SCREEN_WIDTH / Box2DVars.PPM, MainGame.SCREEN_HEIGHT / Box2DVars.PPM);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("assets/textures/TestLevel2.txt"));
+        atlas = new TextureAtlas(Gdx.files.internal("assets/textures/TestLevel.txt"));
         walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
         walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
 
         //set up the ground for later
-        ground = new TextureRegion(atlas.findRegion("WhiteLevel2"));
+        ground = new TextureRegion(atlas.findRegion("WhiteLevel"));
 
 
         //createPlatform();
@@ -307,7 +310,7 @@ public class GameScreen implements Screen{
         //though larger, breaks it also. Not sure why, but maybe we can just scale everything always to accomodate?
         //load the char body
         RubeSceneLoader loader = new RubeSceneLoader(world);
-        RubeScene scene = loader.addScene(Gdx.files.internal("assets/textures/TestLevel2.json"));
+        RubeScene scene = loader.addScene(Gdx.files.internal("assets/textures/TestLevelSpikes.json"));
 
         //get all of the bodies that we just loaded in (will have their names as UserData)
         Array<Body> myBodies = scene.getBodies();
@@ -373,9 +376,34 @@ public class GameScreen implements Screen{
                 stage.addActor(groundStage);
             }
 
+            else if(myString.compareTo("spike")==0){
+                //find the fixture with the same name as above
+                bodyFixtures = myBodies.get(x).getFixtureList();
+                for (y = 0; y< bodyFixtures.size; y++){
+                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("spike")==0){
+                        break;
+                    }
+                }
+                //get the custom info associated with that fixture (height and width)
+                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
+
+
+                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
+                SpikeKinematic mySpike = new SpikeKinematic(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
+                myBodies.get(x).setUserData(mySpike);//make it so we can find it by asking
+
+
+                //add the spike to the stage
+                stage.addActor(mySpike);
+
+            }
+
         }
 
 
     }
 
+    private void createEntity(Body myBody){
+
+    }
 }
