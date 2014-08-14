@@ -84,7 +84,7 @@ public class GenericEnemy extends Image {
         //set the forward force
         forwardForce = body.getMass() * 5;
 
-        //set the previous t
+        //set the previous position
         previousPositionX = body.getPosition().x;
     }
 

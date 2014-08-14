@@ -16,7 +16,8 @@ public class Player {
     float           stateTime = 0;
     int             crystalCount = 0;
     public static  int PLAYER_MAX_SPEED = 8;
-    public static int FORWARD_FORCE = 32;
+    public static int FORWARD_FORCE = 32;//will be reset based on player weight
+    public static float JUMPING_FORCE = 0.1f;//will be reset based on player weight
     public float height=40;
     public float width=30;
     public float worldHeight = 0;//we will multiply by Box2D constant once to save processing
@@ -32,6 +33,10 @@ public class Player {
         this.height = myHeight;
         this.worldHeight = myHeight * Box2DVars.PPM;
         this.worldWidth = myWidth * Box2DVars.PPM;
+
+        //set the forward force to be multipled by player mass for consistency
+        this.FORWARD_FORCE =  FORWARD_FORCE * (int) this.body.getMass();
+        this.JUMPING_FORCE =  JUMPING_FORCE * (int) this.body.getMass();
     }
     public void update(float delta) {
         stateTime += delta;

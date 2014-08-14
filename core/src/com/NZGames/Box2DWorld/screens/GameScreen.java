@@ -12,14 +12,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.gushikustudios.rube.RubeScene;
 import com.gushikustudios.rube.loader.RubeSceneLoader;
@@ -30,15 +37,21 @@ import java.util.Map;
  * Created by zac520 on 8/10/14.
  */
 public class GameScreen implements Screen{
-    MainGame game;
+    /** debug options **/
     private boolean debug = false;
+    private boolean useJoystick = true;
+
+    MainGame game;
     Stage stage;
+    MyInputProcessor userInterfaceStage;
+    Skin skin;
     private SpriteBatch batch;
     private World world;
     private MyContactListener cl;
 
     OrthographicCamera camera;
     OrthographicCamera box2DCam;
+    OrthographicCamera userInterfaceCam;
     Box2DDebugRenderer box2DRenderer;
 
     /** Textures **/
@@ -50,12 +63,22 @@ public class GameScreen implements Screen{
     private Animation walkRightAnimation;
     private static final float RUNNING_FRAME_DURATION = 0.06f;
 
+
     Player player;
 
     private float accelx;
+
+    /**Touchpad Stuff **/
+    private Touchpad touchpad;
+    private Touchpad.TouchpadStyle touchpadStyle;
+    private Skin touchpadSkin;
+    private Drawable touchBackground;
+    private Drawable touchKnob;
+
     public GameScreen(MainGame pGame){
         game = pGame;
         batch = new SpriteBatch();
+        skin = new Skin(Gdx.files.internal("assets/ui/defaultskin.json"));
 
         //create the world
         //x and y forces, then inactive bodies should "sleep" (true)
@@ -69,12 +92,22 @@ public class GameScreen implements Screen{
         stage=new Stage();
         stage.getViewport().setCamera(camera);
 
+
         //set up box2d renderer
         box2DRenderer = new Box2DDebugRenderer();
 
         //set up box2dcam
         box2DCam = new OrthographicCamera();
         box2DCam.setToOrtho(false, MainGame.SCREEN_WIDTH / Box2DVars.PPM, MainGame.SCREEN_HEIGHT / Box2DVars.PPM);
+
+        //set up the UI cam with its own separate stage
+        userInterfaceCam=new OrthographicCamera();
+        userInterfaceCam.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
+        userInterfaceStage=new MyInputProcessor();
+        userInterfaceStage.getViewport().setCamera(userInterfaceCam);
+
+
+
 
         atlas = new TextureAtlas(Gdx.files.internal("assets/textures/TestLevel.txt"));
         walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
@@ -89,7 +122,47 @@ public class GameScreen implements Screen{
 
         //add in the input processing
         MyInput.resetKeys();
-        Gdx.input.setInputProcessor(new MyInputProcessor());
+        Gdx.input.setInputProcessor(userInterfaceStage);
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//put this in its own class later. It's bulky and we will be adding a menu up top as well, so it will be more bulky.
+        if(useJoystick) {
+            //Create a touchpad skin
+            touchpadSkin = new Skin();
+            //Set background image
+            touchpadSkin.add("touchBackground", new Texture("assets/graphics/touchBackground.png"));
+            //Set knob image
+            touchpadSkin.add("touchKnob", new Texture("assets/graphics/touchKnob.png"));
+            //Create TouchPad Style
+            touchpadStyle = new Touchpad.TouchpadStyle();
+            //Create Drawable's from TouchPad skin
+            touchBackground = touchpadSkin.getDrawable("touchBackground");
+            touchKnob = touchpadSkin.getDrawable("touchKnob");
+            //Apply the Drawables to the TouchPad Style
+            touchpadStyle.background = touchBackground;
+            touchpadStyle.knob = touchKnob;
+            //Create new TouchPad with the created style
+            touchpad = new Touchpad(10, touchpadStyle);
+            //setBounds(x,y,width,height)
+            touchpad.setBounds(15, 15, 200, 200);
+            userInterfaceStage.addActor(touchpad);
+        }
+            //create the jump button
+            Button jumpButton = new Button(skin, "transparent");
+            //make it the right hand side of the screen
+            jumpButton.setBounds(game.SCREEN_WIDTH / 2, 0, game.SCREEN_WIDTH / 2, game.SCREEN_HEIGHT);
+            jumpButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    //set screen
+                    MyInput.setKey(MyInput.BUTTON1, true);
+                }
+            });
+            userInterfaceStage.addActor(jumpButton);
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
     }
 
     public void update(float delta){
@@ -103,9 +176,12 @@ public class GameScreen implements Screen{
         player.update(delta);
 
         //render the stage
-        stage.act();
+        stage.act(delta);
         stage.draw();
 
+        //render the UI stage
+        userInterfaceStage.act(delta);
+        userInterfaceStage.draw();
     }
 
     @Override
@@ -142,6 +218,8 @@ public class GameScreen implements Screen{
         );
         camera.update();
 
+        //draw user interface
+        batch.setProjectionMatrix(userInterfaceCam.combined);
 
         //draw box2d world
         if(debug) {
@@ -191,7 +269,27 @@ public class GameScreen implements Screen{
 
         //handle accelerometer input
         accelx = Gdx.input.getAccelerometerY();
-        //player.getBody().applyForceToCenter(accelx * 2.5f, 0, true);
+
+
+
+        //using the joystick
+        if (useJoystick) {
+            //if the player is overextending the joystick, move the joystick to accomodate in either direction
+            if(touchpad.getKnobPercentX()>0.9){
+                touchpad.setPosition(touchpad.getX() + 10f, touchpad.getY());
+            }
+            if(touchpad.getKnobPercentX()< - 0.9){
+                touchpad.setPosition(touchpad.getX() - 10f, touchpad.getY());
+            }
+            //reset if the player drops the touchpad... maybe we shouldn't? Need user tests.
+            if(touchpad.isTouched()==false){
+                touchpad.setPosition(15,15);
+            }
+
+            accelx = touchpad.getKnobPercentX() * 10;
+        }
+
+
         if(accelx >1){
             if(player.getBody().getLinearVelocity().x < Player.PLAYER_MAX_SPEED) {
                 player.getBody().applyForceToCenter(Player.FORWARD_FORCE, 0, true);
@@ -202,6 +300,11 @@ public class GameScreen implements Screen{
                 player.getBody().applyForceToCenter(-Player.FORWARD_FORCE, 0, true);
             }
         }
+
+
+
+
+
 
 
         //set player direction
@@ -220,7 +323,7 @@ public class GameScreen implements Screen{
             //System.out.println("pressed Z");
             if (cl.isPlayerOnGround()) {
                 //force is in newtons
-                player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, 4f);
+                player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, player.JUMPING_FORCE);
                 //player.getBody().applyForceToCenter(0, 175, true);
                 MyInput.setKey(MyInput.BUTTON1, false);
 
@@ -258,7 +361,7 @@ public class GameScreen implements Screen{
         }
 
         //if player is on the ground and moving left or right, then set walking to true
-        if((cl.isPlayerOnGround()) && Math.abs(player.getBody().getLinearVelocity().x)>0){
+        if((cl.isPlayerOnGround()) && Math.abs(player.getBody().getLinearVelocity().x)>0.1){
             player.isWalking = true;
         }
         else{
