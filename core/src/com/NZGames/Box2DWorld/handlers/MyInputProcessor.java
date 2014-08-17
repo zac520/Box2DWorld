@@ -50,9 +50,9 @@ public class MyInputProcessor extends Stage {
         }
         return true;
     }
-//    @Override
-//    public boolean touchDown(int x, int y, int pointer, int button) {
-//
+    @Override
+         public boolean touchDown(int x, int y, int pointer, int button) {
+
 //        if(x< Gdx.graphics.getWidth()/2) {
 //            MyInput.setKey(MyInput.BUTTON2, true);
 //        }
@@ -60,17 +60,18 @@ public class MyInputProcessor extends Stage {
 //            MyInput.setKey(MyInput.BUTTON1, true);
 //
 //        }
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean touchUp(int x, int y, int pointer, int button) {
-//        MyInput.setKey(MyInput.BUTTON1, false);
-//        MyInput.setKey(MyInput.BUTTON2, false);
-//
-//
-//        return true;
-//    }
+
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int x, int y, int pointer, int button) {
+        MyInput.setKey(MyInput.BUTTON1, false);
+        MyInput.setKey(MyInput.BUTTON2, false);
+
+
+        return true;
+    }
 
 
 }

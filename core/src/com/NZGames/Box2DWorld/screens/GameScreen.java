@@ -4,11 +4,10 @@ import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.GenericEnemy;
 import com.NZGames.Box2DWorld.entities.Player;
 import com.NZGames.Box2DWorld.entities.SpikeKinematic;
-import com.NZGames.Box2DWorld.handlers.Box2DVars;
-import com.NZGames.Box2DWorld.handlers.MyContactListener;
-import com.NZGames.Box2DWorld.handlers.MyInput;
-import com.NZGames.Box2DWorld.handlers.MyInputProcessor;
+import com.NZGames.Box2DWorld.entities.UserInterface;
+import com.NZGames.Box2DWorld.handlers.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -43,7 +41,7 @@ public class GameScreen implements Screen{
 
     MainGame game;
     Stage stage;
-    MyInputProcessor userInterfaceStage;
+    UserInterface userInterfaceStage;
     Skin skin;
     private SpriteBatch batch;
     private World world;
@@ -75,16 +73,11 @@ public class GameScreen implements Screen{
     private Drawable touchBackground;
     private Drawable touchKnob;
 
+    RubeScene scene;
     public GameScreen(MainGame pGame){
         game = pGame;
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("assets/ui/defaultskin.json"));
-
-        //create the world
-        //x and y forces, then inactive bodies should "sleep" (true)
-        world = new World(new Vector2(0, -9.81f), true);
-        cl = new MyContactListener();
-        world.setContactListener(cl);
 
         //set up the main camera
         camera=new OrthographicCamera();
@@ -103,7 +96,7 @@ public class GameScreen implements Screen{
         //set up the UI cam with its own separate stage
         userInterfaceCam=new OrthographicCamera();
         userInterfaceCam.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
-        userInterfaceStage=new MyInputProcessor();
+        userInterfaceStage=new UserInterface(game);
         userInterfaceStage.getViewport().setCamera(userInterfaceCam);
 
 
@@ -122,45 +115,13 @@ public class GameScreen implements Screen{
 
         //add in the input processing
         MyInput.resetKeys();
-        Gdx.input.setInputProcessor(userInterfaceStage);
+        //need a multiplexor so that the user can touch the level, or the user interface
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(userInterfaceStage);
+        multiplexer.addProcessor(new MyInputProcessor());
+        Gdx.input.setInputProcessor(multiplexer);
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//put this in its own class later. It's bulky and we will be adding a menu up top as well, so it will be more bulky.
-        if(useJoystick) {
-            //Create a touchpad skin
-            touchpadSkin = new Skin();
-            //Set background image
-            touchpadSkin.add("touchBackground", new Texture("assets/graphics/touchBackground.png"));
-            //Set knob image
-            touchpadSkin.add("touchKnob", new Texture("assets/graphics/touchKnob.png"));
-            //Create TouchPad Style
-            touchpadStyle = new Touchpad.TouchpadStyle();
-            //Create Drawable's from TouchPad skin
-            touchBackground = touchpadSkin.getDrawable("touchBackground");
-            touchKnob = touchpadSkin.getDrawable("touchKnob");
-            //Apply the Drawables to the TouchPad Style
-            touchpadStyle.background = touchBackground;
-            touchpadStyle.knob = touchKnob;
-            //Create new TouchPad with the created style
-            touchpad = new Touchpad(10, touchpadStyle);
-            //setBounds(x,y,width,height)
-            touchpad.setBounds(15, 15, 200, 200);
-            userInterfaceStage.addActor(touchpad);
-        }
-            //create the jump button
-            Button jumpButton = new Button(skin, "transparent");
-            //make it the right hand side of the screen
-            jumpButton.setBounds(game.SCREEN_WIDTH / 2, 0, game.SCREEN_WIDTH / 2, game.SCREEN_HEIGHT);
-            jumpButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    //set screen
-                    MyInput.setKey(MyInput.BUTTON1, true);
-                }
-            });
-            userInterfaceStage.addActor(jumpButton);
 
-///////////////////////////////////////////////////////////////////////////////////////////
 
 
     }
@@ -168,7 +129,8 @@ public class GameScreen implements Screen{
     public void update(float delta){
         //(step, accuracy of collisions (6 or 8 steps recommended), accuracy
         //of setting bodies after collision (2 recommended))
-        world.step(delta, 6, 2);
+        //world.step(delta, 6, 2);
+        scene.step();
 
         handleInput();
 
@@ -230,7 +192,7 @@ public class GameScreen implements Screen{
                     0
             );
             box2DCam.update();
-            box2DRenderer.render(world, box2DCam.combined);
+            box2DRenderer.render(scene.getWorld(), box2DCam.combined);
 
         }
     }
@@ -267,26 +229,29 @@ public class GameScreen implements Screen{
     }
     public void handleInput() {
 
-        //handle accelerometer input
-        accelx = Gdx.input.getAccelerometerY();
 
 
 
         //using the joystick
         if (useJoystick) {
             //if the player is overextending the joystick, move the joystick to accomodate in either direction
-            if(touchpad.getKnobPercentX()>0.9){
-                touchpad.setPosition(touchpad.getX() + 10f, touchpad.getY());
+            if(userInterfaceStage.getTouchpad().getKnobPercentX()>0.9){
+                userInterfaceStage.getTouchpad().setPosition(userInterfaceStage.getTouchpad().getX() + 10f, userInterfaceStage.getTouchpad().getY());
             }
-            if(touchpad.getKnobPercentX()< - 0.9){
-                touchpad.setPosition(touchpad.getX() - 10f, touchpad.getY());
+            else if(userInterfaceStage.getTouchpad().getKnobPercentX()< - 0.9){
+                userInterfaceStage.getTouchpad().setPosition(userInterfaceStage.getTouchpad().getX() - 10f, userInterfaceStage.getTouchpad().getY());
             }
             //reset if the player drops the touchpad... maybe we shouldn't? Need user tests.
-            if(touchpad.isTouched()==false){
-                touchpad.setPosition(15,15);
+            if(userInterfaceStage.getTouchpad().isTouched()==false){
+                userInterfaceStage.getTouchpad().setPosition(15, 15);
             }
 
-            accelx = touchpad.getKnobPercentX() * 10;
+            //set acceleration in x direction to 10x the percent of the push (we are just using on/off anyways)
+            accelx = userInterfaceStage.getTouchpad().getKnobPercentX() * 10;
+        }
+        else{
+            //handle accelerometer input
+            accelx = Gdx.input.getAccelerometerY();
         }
 
 
@@ -300,11 +265,6 @@ public class GameScreen implements Screen{
                 player.getBody().applyForceToCenter(-Player.FORWARD_FORCE, 0, true);
             }
         }
-
-
-
-
-
 
 
         //set player direction
@@ -370,40 +330,6 @@ public class GameScreen implements Screen{
 
 
     }
-    private void createPlatform(){
-        //create platform
-        //to create a body we do 5 steps:
-        //1.create world
-        //  2. Define Body
-        //  3. Create body
-        //     4. Define Fixture
-        //     5. Create Fixture
-        //static body does not move, unaffected by forces
-        //kinematic bodies: not affected by world forces, but can change velocities (example: moving platform)
-        //dynamic bodies do get affected by forces (example: sprite)
-
-        //define platform body
-        BodyDef bdef = new BodyDef();
-        bdef.position.set((game.SCREEN_WIDTH / Box2DVars.PPM)/2, 15 / Box2DVars.PPM);
-        bdef.type = BodyDef.BodyType.StaticBody;
-
-        //create body
-        Body body = world.createBody(bdef);
-
-        //define shape
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((game.SCREEN_WIDTH / Box2DVars.PPM) /2, 2 / Box2DVars.PPM);
-
-        //define fixture with above shape
-        FixtureDef fdef = new FixtureDef();
-        fdef.shape = shape;
-
-        //create fixture and make a tag setUserData
-        body.createFixture(fdef).setUserData("ground");//a tag to identify this later
-
-
-
-    }
 
     public void loadWorld(){
 
@@ -413,8 +339,14 @@ public class GameScreen implements Screen{
         //I know that a value of 0.0069 for the area of a square will break it, but 0.054 will not. The polygon,
         //though larger, breaks it also. Not sure why, but maybe we can just scale everything always to accomodate?
         //load the char body
-        RubeSceneLoader loader = new RubeSceneLoader(world);
-        RubeScene scene = loader.addScene(Gdx.files.internal("assets/textures/TestLevelSpikes.json"));
+
+        //load the scene file
+        RubeSceneLoader loader = new RubeSceneLoader();
+        scene = loader.addScene(Gdx.files.internal("assets/textures/TestLevelSpikes.json"));
+
+        //attach a contact listener
+        cl = new MyContactListener();
+        scene.getWorld().setContactListener(cl);
 
         //get all of the bodies that we just loaded in (will have their names as UserData)
         Array<Body> myBodies = scene.getBodies();

@@ -16,11 +16,14 @@ public class MyContactListener implements ContactListener {
         super();
         bodiesToRemove = new Array<Body>();
     }
+
+    Fixture fa;
+    Fixture fb;
     //called when two fixtures begin to collide
     public void beginContact (Contact c){
         //System.out.println("Begin Contact");
-        Fixture fa = c.getFixtureA();
-        Fixture fb = c.getFixtureB();
+        fa = c.getFixtureA();
+        fb = c.getFixtureB();
 
 
         if(fa.getUserData() != null && fa.getUserData().equals("foot")){
@@ -94,8 +97,8 @@ public class MyContactListener implements ContactListener {
     //called when two fixtures no longer collide
     public void endContact (Contact c) {
         //System.out.println("End Contact");
-        Fixture fa = c.getFixtureA();
-        Fixture fb = c.getFixtureB();
+        fa = c.getFixtureA();
+        fb = c.getFixtureB();
 
         if(fa.getUserData() != null && fa.getUserData().equals("foot")){
             //System.out.println("fa is foot");

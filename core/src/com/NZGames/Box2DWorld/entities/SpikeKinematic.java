@@ -80,7 +80,6 @@ public class SpikeKinematic extends Image{
         stateTime += delta;
         dist += dir.len() * delta;
 
-
         //if it has gone farther than our max distance, we reverse the direction
         if(dist > maxDist) {
             dir.scl(-1,-1);//reverse the direction
