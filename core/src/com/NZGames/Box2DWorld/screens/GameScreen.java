@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -42,7 +43,7 @@ public class GameScreen implements Screen{
     MainGame game;
     Stage stage;
     UserInterface userInterfaceStage;
-    Skin skin;
+    public Skin skin;
     private SpriteBatch batch;
     private World world;
     private MyContactListener cl;
@@ -117,8 +118,8 @@ public class GameScreen implements Screen{
         MyInput.resetKeys();
         //need a multiplexor so that the user can touch the level, or the user interface
         InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
         multiplexer.addProcessor(userInterfaceStage);
-        multiplexer.addProcessor(new MyInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
 
 
@@ -409,7 +410,12 @@ public class GameScreen implements Screen{
                 groundStage.setPosition(
                         myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
                         myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2);
+
                 stage.addActor(groundStage);
+
+                //get the most recent addition to the actors and send it to the back of the stage.
+                //can we think of any better way to do this? It has to be the actor, not the image sent to the back.
+                stage.getActors().get(stage.getActors().size -1).toBack();
             }
 
             else if(myString.compareTo("spike")==0){

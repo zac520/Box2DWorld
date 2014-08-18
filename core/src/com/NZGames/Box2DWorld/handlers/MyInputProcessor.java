@@ -66,8 +66,8 @@ public class MyInputProcessor extends Stage {
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
-        MyInput.setKey(MyInput.BUTTON1, false);
-        MyInput.setKey(MyInput.BUTTON2, false);
+//        MyInput.setKey(MyInput.BUTTON1, false);
+//        MyInput.setKey(MyInput.BUTTON2, false);
 
 
         return true;

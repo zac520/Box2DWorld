@@ -1,19 +1,24 @@
 package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
+import com.NZGames.Box2DWorld.handlers.MyInput;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * Created by zac520 on 8/13/14.
  */
-public class GenericEnemy extends Image {
+public class GenericEnemy extends Image  {
     float SPIKE_FRAME_DURATION= 0.06f;
     float MAX_SPEED = 8;
     private float FORWARD_VELOCITY = 200;
@@ -27,7 +32,7 @@ public class GenericEnemy extends Image {
     private boolean facingRight = false;
     private float worldWidth;
     private float worldHeight;
-
+    Button enemyButton;
     float previousPositionX;
     Vector2 dir = new Vector2();
     float dist = 0;
@@ -68,9 +73,16 @@ public class GenericEnemy extends Image {
                 body.getPosition().x * Box2DVars.PPM - (worldWidth /2),
                 body.getPosition().y * Box2DVars.PPM - (worldHeight /2) );
 
-        //add movement for kinematic body
+        //add movement for dynamic body
         addMovement();
 
+        //make the player a button for the user to select for targeting
+        this.addListener(new ClickListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("clicked enemy");
+                return true;
+            }
+        });
     }
 
     private void addMovement(){
@@ -158,9 +170,10 @@ public class GenericEnemy extends Image {
 
         this.setDrawable(myDrawable);
 
-        //update the position to match the box2d position
+        //update the image position to match the box2d position
         this.setPosition(
                 body.getPosition().x * Box2DVars.PPM - (worldWidth /2),
                 body.getPosition().y * Box2DVars.PPM - (worldHeight /2) );
+
     }
 }
