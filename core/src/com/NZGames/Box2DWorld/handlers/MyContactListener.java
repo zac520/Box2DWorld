@@ -29,11 +29,13 @@ public class MyContactListener implements ContactListener {
         if(fa.getUserData() != null && fa.getUserData().equals("foot")){
             playerOnGround = true;
             numFootContacts ++;
+            return;
         }
 
         if(fb.getUserData() != null && fb.getUserData().equals("foot")){
             playerOnGround = true;
             numFootContacts ++;
+            return;
         }
 
 
@@ -50,6 +52,7 @@ public class MyContactListener implements ContactListener {
                     bodiesToRemove.add(fa.getBody());
                 }
             }
+            return;
         }
 
         if(fb.getUserData() != null && fb.getUserData().equals("crystal")){
@@ -61,6 +64,7 @@ public class MyContactListener implements ContactListener {
                     bodiesToRemove.add(fb.getBody());
                 }
             }
+            return;
 
         }
 
@@ -72,6 +76,7 @@ public class MyContactListener implements ContactListener {
             //if we have an intersection, and the intersection is NOT the "awake world", then it must be the player
             if(fb.getUserData() != null && !fb.getUserData().equals("awake")) {
                 playerHitEnemy = true;
+                return;
             }
 
         }
@@ -79,6 +84,8 @@ public class MyContactListener implements ContactListener {
 
             if(fa.getUserData() != null && !fa.getUserData().equals("awake")) {
                 playerHitEnemy = true;
+                return;
+
             }
 
         }
@@ -87,11 +94,18 @@ public class MyContactListener implements ContactListener {
         //wake up the box2d body
         if(fa.getUserData() != null && fa.getUserData().equals("awake")){
 
-            fb.getBody().setAwake(true);
+            //fb.getBody().setAwake(true);
+            //fb.getBody().setSleepingAllowed(false);
+            return;
+
         }
         if(fb.getUserData() != null && fb.getUserData().equals("awake")){
-            fa.getBody().setAwake(true);
+            //fa.getBody().setAwake(true);
+            //fa.getBody().setSleepingAllowed(false);
+            return;
+
         }
+
     }
 
     //called when two fixtures no longer collide
@@ -104,35 +118,38 @@ public class MyContactListener implements ContactListener {
             //System.out.println("fa is foot");
             playerOnGround = false;
             numFootContacts --;
-
+            return;
         }
         if(fb.getUserData() != null && fb.getUserData().equals("foot")){
             //System.out.println("fb is foot");
             playerOnGround = false;
             numFootContacts --;
+            return;
         }
 
         //sleep objects
         if(fa.getUserData() != null && fa.getUserData().equals("awake")){
 
             fb.getBody().setAwake(false);
-
+            return;
         }
         if(fb.getUserData() != null && fb.getUserData().equals("awake")){
 
             fa.getBody().setAwake(false);
+            return;
         }
 
 
         //spikes
         if(fa.getUserData() != null && fa.getUserData().equals("spike")){
             System.out.print("Collision occured1");
-            fb.getBody().setAwake(false);
+            return;
 
         }
         if(fb.getUserData() != null && fb.getUserData().equals("spike")){
             System.out.print("Collision occured1");
-            fa.getBody().setAwake(false);
+            return;
+
         }
 
     }

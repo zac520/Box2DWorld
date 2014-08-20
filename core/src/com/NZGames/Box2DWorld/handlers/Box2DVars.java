@@ -6,4 +6,11 @@ package com.NZGames.Box2DWorld.handlers;
 public class Box2DVars {
     //pixel per meter
     public static final float PPM = 100;
+
+
+    //category bits
+    public static final int BIT_GROUND = 1;
+    public static final int BIT_PLAYER = 2;
+    public static final int BIT_ENEMY = 4;
+
 }

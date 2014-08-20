@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -34,7 +35,7 @@ import java.util.Map;
  */
 public class GameScreen implements Screen{
     /** debug options **/
-    private boolean debug = false;
+    private boolean debug = true;
     private boolean useJoystick = true;
 
     MainGame game;
@@ -106,7 +107,6 @@ public class GameScreen implements Screen{
 
         //set up the ground for later
         ground = new TextureRegion(atlas.findRegion("WhiteLevel"));
-
 
         //createPlatform();
         loadWorld();
@@ -380,7 +380,7 @@ public class GameScreen implements Screen{
                 shape.setAsBox(MainGame.SCREEN_WIDTH/Box2DVars.PPM, MainGame.SCREEN_HEIGHT /Box2DVars.PPM);
                 fdef.shape = shape;
                 fdef.filter.categoryBits = -1;//-1 is default. this box can awaken and interact with anything
-                fdef.filter.maskBits =-1;
+                fdef.filter.maskBits = Box2DVars.BIT_ENEMY;
                 fdef.isSensor = true;
                 myBodies.get(x).createFixture(fdef).setUserData("awake");
                 shape.dispose();
