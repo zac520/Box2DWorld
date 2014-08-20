@@ -2,191 +2,289 @@ TestLevel.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Enemy1_Left1
+Arrowdownblue
   rotate: false
   xy: 2, 2
+  size: 60, 97
+  orig: 60, 97
+  offset: 0, 0
+  index: -1
+Arrowdowngreen
+  rotate: false
+  xy: 64, 2
+  size: 60, 97
+  orig: 60, 97
+  offset: 0, 0
+  index: -1
+Enemy1_Left1
+  rotate: false
+  xy: 126, 2
   size: 153, 171
   orig: 153, 171
   offset: 0, 0
   index: 1
 Enemy1_Left1
   rotate: false
-  xy: 157, 2
+  xy: 281, 2
   size: 179, 167
   orig: 179, 167
   offset: 0, 0
   index: 2
 Enemy1_Left1
   rotate: false
-  xy: 2, 2
+  xy: 126, 2
   size: 153, 171
   orig: 153, 171
   offset: 0, 0
   index: 3
 Enemy1_Left1
   rotate: false
-  xy: 338, 2
+  xy: 462, 2
   size: 171, 171
   orig: 171, 171
   offset: 0, 0
   index: 4
 Enemy1_Left1
   rotate: false
-  xy: 511, 2
+  xy: 635, 2
   size: 238, 160
   orig: 238, 160
   offset: 0, 0
   index: 5
 Enemy1_Right1
   rotate: false
-  xy: 751, 2
+  xy: 875, 2
   size: 152, 171
   orig: 152, 171
   offset: 0, 0
   index: 1
 Enemy1_Right1
   rotate: false
-  xy: 157, 2
+  xy: 281, 2
   size: 179, 167
   orig: 179, 167
   offset: 0, 0
   index: 2
 Enemy1_Right1
   rotate: false
-  xy: 751, 2
+  xy: 875, 2
   size: 152, 171
   orig: 152, 171
   offset: 0, 0
   index: 3
 Enemy1_Right1
   rotate: false
-  xy: 905, 2
+  xy: 1029, 2
   size: 174, 172
   orig: 174, 172
   offset: 0, 0
   index: 4
 Enemy1_Right1
   rotate: false
-  xy: 1081, 2
+  xy: 1205, 2
   size: 237, 159
   orig: 237, 159
   offset: 0, 0
   index: 5
+Fireball1
+  rotate: false
+  xy: 1444, 2
+  size: 39, 41
+  orig: 39, 41
+  offset: 0, 0
+  index: 1
+Fireball1
+  rotate: false
+  xy: 1485, 2
+  size: 66, 70
+  orig: 66, 70
+  offset: 0, 0
+  index: 2
+Fireball1
+  rotate: false
+  xy: 1553, 2
+  size: 89, 92
+  orig: 89, 92
+  offset: 0, 0
+  index: 3
+Fireball1
+  rotate: false
+  xy: 2, 176
+  size: 113, 110
+  orig: 113, 110
+  offset: 0, 0
+  index: 4
+HeroNoSword_LV1
+  rotate: false
+  xy: 117, 176
+  size: 222, 591
+  orig: 222, 591
+  offset: 0, 0
+  index: 1
+HeroNoSword_LV1
+  rotate: false
+  xy: 341, 176
+  size: 246, 578
+  orig: 246, 578
+  offset: 0, 0
+  index: 2
+HeroNoSword_LV1
+  rotate: false
+  xy: 589, 176
+  size: 225, 591
+  orig: 225, 591
+  offset: 0, 0
+  index: 3
+HeroNoSword_LV1
+  rotate: false
+  xy: 589, 176
+  size: 225, 591
+  orig: 225, 591
+  offset: 0, 0
+  index: 4
+HeroNoSword_RV1
+  rotate: false
+  xy: 816, 176
+  size: 222, 591
+  orig: 222, 591
+  offset: 0, 0
+  index: 1
+HeroNoSword_RV1
+  rotate: false
+  xy: 1040, 176
+  size: 246, 578
+  orig: 246, 578
+  offset: 0, 0
+  index: 2
+HeroNoSword_RV1
+  rotate: false
+  xy: 1288, 176
+  size: 222, 591
+  orig: 222, 591
+  offset: 0, 0
+  index: 3
+HeroNoSword_RV1
+  rotate: false
+  xy: 1512, 176
+  size: 230, 592
+  orig: 230, 592
+  offset: 0, 0
+  index: 4
 MainCharDown
   rotate: false
-  xy: 1320, 2
+  xy: 2, 770
   size: 15, 24
   orig: 15, 24
   offset: 0, 0
   index: 1
 MainCharDown
   rotate: false
-  xy: 1337, 2
+  xy: 19, 770
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: 2
 MainCharDown
   rotate: false
-  xy: 1355, 2
+  xy: 37, 770
   size: 15, 24
   orig: 15, 24
   offset: 0, 0
   index: 3
 MainCharLeft
   rotate: false
-  xy: 1372, 2
+  xy: 54, 770
   size: 15, 22
   orig: 15, 22
   offset: 0, 0
   index: 1
 MainCharLeft
   rotate: false
-  xy: 1389, 2
+  xy: 71, 770
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: 2
 MainCharLeft
   rotate: false
-  xy: 1407, 2
+  xy: 89, 770
   size: 15, 22
   orig: 15, 22
   offset: 0, 0
   index: 3
 MainCharRight
   rotate: false
-  xy: 1424, 2
+  xy: 106, 770
   size: 15, 22
   orig: 15, 22
   offset: 0, 0
   index: 1
 MainCharRight
   rotate: false
-  xy: 1441, 2
+  xy: 123, 770
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: 2
 MainCharRight
   rotate: false
-  xy: 1459, 2
+  xy: 141, 770
   size: 15, 22
   orig: 15, 22
   offset: 0, 0
   index: 3
 MainCharUp
   rotate: false
-  xy: 1476, 2
+  xy: 158, 770
   size: 15, 24
   orig: 15, 24
   offset: 0, 0
   index: 1
 MainCharUp
   rotate: false
-  xy: 1493, 2
+  xy: 175, 770
   size: 16, 24
   orig: 16, 24
   offset: 0, 0
   index: 2
 MainCharUp
   rotate: false
-  xy: 1511, 2
+  xy: 193, 770
   size: 15, 24
   orig: 15, 24
   offset: 0, 0
   index: 3
 Spikes
   rotate: false
-  xy: 1528, 2
+  xy: 210, 770
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: 1
 Spikes
   rotate: false
-  xy: 1552, 2
+  xy: 234, 770
   size: 26, 16
   orig: 26, 16
   offset: 0, 0
   index: 2
 Spikes
   rotate: false
-  xy: 1580, 2
+  xy: 262, 770
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: 3
 Spikes
   rotate: false
-  xy: 1604, 2
+  xy: 286, 770
   size: 16, 26
   orig: 16, 26
   offset: 0, 0
   index: 4
 WhiteLevel
   rotate: false
-  xy: 2, 176
+  xy: 2, 798
   size: 1600, 1200
   orig: 1600, 1200
   offset: 0, 0

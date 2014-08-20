@@ -8,21 +8,15 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.gushikustudios.rube.RubeScene;
@@ -35,11 +29,11 @@ import java.util.Map;
  */
 public class GameScreen implements Screen{
     /** debug options **/
-    private boolean debug = true;
+    private boolean debug = false;
     private boolean useJoystick = true;
 
     MainGame game;
-    Stage stage;
+    public Stage stage;
     UserInterface userInterfaceStage;
     public Skin skin;
     private SpriteBatch batch;
@@ -62,7 +56,7 @@ public class GameScreen implements Screen{
 
 
     Player player;
-
+    GenericActor selectedEnemy; //we will use this to track which body the player has selected, so only one can be selected at a time
     private float accelx;
 
     /**Touchpad Stuff **/
@@ -268,10 +262,10 @@ public class GameScreen implements Screen{
         //set player direction
         if(accelx !=0) {
             if (accelx < 0) {
-                player.facingLeft = true;
+                player.facingRight = false;
 
             } else {
-                player.facingLeft = false;
+                player.facingRight = true;
 
             }
         }
@@ -304,7 +298,7 @@ public class GameScreen implements Screen{
 //                        player.getBody().getLinearVelocity().x +Player.FORWARD_FORCE *0.1f,
 //                        player.getBody().getLinearVelocity().y);
             }
-            player.facingLeft = false;
+            player.facingRight = true;
 
         }
 
@@ -315,7 +309,7 @@ public class GameScreen implements Screen{
 //                        player.getBody().getLinearVelocity().x -Player.FORWARD_FORCE *0.1f,
 //                        player.getBody().getLinearVelocity().y);
             }
-            player.facingLeft = true;
+            player.facingRight = false;
         }
 
         //if player is on the ground and moving left or right, then set walking to true
@@ -329,6 +323,34 @@ public class GameScreen implements Screen{
 
     }
 
+    /**
+     * This function will be called from an enemy class to let this class know which enemy is selected
+     * @param myEnemy
+     */
+    public void selectEnemy(GenericActor myEnemy){
+
+        if(selectedEnemy!=null) {
+            if (selectedEnemy == myEnemy) {//if the body is already selected, then we unselect.
+                selectedEnemy.toggleSelected();
+                selectedEnemy = null;
+                return;
+            } else {
+                //let the old body know we are unselecting it
+                selectedEnemy.toggleSelected();
+
+                //set it to the new enemy
+                selectedEnemy = myEnemy;
+
+                //toggle the new enemy
+                selectedEnemy.toggleSelected();
+            }
+
+        }
+        else{
+            selectedEnemy = myEnemy;
+            selectedEnemy.toggleSelected();
+        }
+    }
     public void loadWorld(){
 
         //TODO figure out exactly what it is that causes the error upon import. I had a clue at the end of the night
@@ -439,24 +461,24 @@ public class GameScreen implements Screen{
 
             }
             else if(myString.compareTo("enemy")==0){
-                //find the fixture with the same name as above
-                bodyFixtures = myBodies.get(x).getFixtureList();
-                for (y = 0; y< bodyFixtures.size; y++){
-                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("enemy")==0){
-                        break;
-                    }
-                }
-                //get the custom info associated with that fixture (height and width)
-                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
-
-
-                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
-                GenericEnemy myEnemy = new GenericEnemy(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
-                myBodies.get(x).setUserData(myEnemy);//make it so we can find it by asking
-
-
-                //add the spike to the stage (we are using groups, so that we can add an arrow later)
-                stage.addActor(myEnemy.getGroup());
+//                //find the fixture with the same name as above
+//                bodyFixtures = myBodies.get(x).getFixtureList();
+//                for (y = 0; y< bodyFixtures.size; y++){
+//                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("enemy")==0){
+//                        break;
+//                    }
+//                }
+//                //get the custom info associated with that fixture (height and width)
+//                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
+//
+//
+//                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
+//                GenericEnemy myEnemy = new GenericEnemy(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
+//                myBodies.get(x).setUserData(myEnemy);//make it so we can find it by asking
+//
+//
+//                //add the spike to the stage (we are using groups, so that we can add an arrow later)
+//                stage.addActor(myEnemy.getGroup());
 
             }
             else if(myString.compareTo("enemy1")==0){
