@@ -80,6 +80,21 @@ public class UserInterface extends Stage {
         });
         this.addActor(jumpButton);
 
+        //create the magic button
+        Button magicButton = new Button(skin, "default");
+        //make it the right hand side of the screen
+        magicButton.setSize(100, 75);
+        magicButton.setPosition(myGame.SCREEN_WIDTH - magicButton.getWidth() - 175,
+                125);
+        magicButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //set screen
+                MyInput.setKey(MyInput.BUTTON2, true);
+            }
+        });
+        this.addActor(magicButton);
+
     }
     public Touchpad getTouchpad(){
       return touchpad;

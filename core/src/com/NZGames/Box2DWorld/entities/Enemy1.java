@@ -1,7 +1,6 @@
 package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
-import com.NZGames.Box2DWorld.handlers.MyInput;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,9 +20,9 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 /**
- * Created by zac520 on 8/13/14.
+ * Created by zac520 on 8/19/14.
  */
-public class GenericEnemy extends Image  {
+public class Enemy1  extends Image {
     float SPIKE_FRAME_DURATION= 0.12f;
     float MAX_SPEED = 8;
     private float FORWARD_VELOCITY = 200;
@@ -52,7 +51,7 @@ public class GenericEnemy extends Image  {
     boolean isInView = false;
 
     TextureRegion downFacingFrame; //used for turning animation
-    public GenericEnemy(Body myBody, GameScreen myGameScreen, float width, float height) {
+    public Enemy1(Body myBody, GameScreen myGameScreen, float width, float height) {
 
         //set the extended Image class to match the spike that GameScreen already made
         super(new TextureRegion(myGameScreen.atlas.findRegion("Spikes")));
@@ -65,9 +64,9 @@ public class GenericEnemy extends Image  {
         //set the animation
         //temporarily, we are using the player as our animation
         //TODO, update this with the new enemy Russel is making
-        rightAnimation = new Animation(SPIKE_FRAME_DURATION, myGameScreen.atlas.findRegions("MainCharRight"));
-        leftAnimation = new Animation(SPIKE_FRAME_DURATION, myGameScreen.atlas.findRegions("MainCharLeft"));
-        downFacingFrame = new TextureRegion(myGameScreen.atlas.findRegion("MainCharDown"));
+        rightAnimation = new Animation(SPIKE_FRAME_DURATION, myGameScreen.atlas.findRegions("Enemy1_Right1"));
+        leftAnimation = new Animation(SPIKE_FRAME_DURATION, myGameScreen.atlas.findRegions("Enemy1_Left1"));
+        downFacingFrame = new TextureRegion(myGameScreen.atlas.findRegion("Enemy1_Right1"));
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(rightAnimation.getKeyFrame(this.getStateTime(), true));
@@ -114,17 +113,17 @@ public class GenericEnemy extends Image  {
             //make the arrow move up and down
             downArrowImage.addAction(forever(
                     sequence(
-                        moveTo(
-                                getX(),
-                                getY()+ worldHeight +25,
-                                0.5f
-                        ),
-                        moveTo(
-                                getX(),
-                                getY()+ worldHeight,
-                                0.5f
-                        )
-            )));
+                            moveTo(
+                                    getX(),
+                                    getY()+ worldHeight +25,
+                                    0.5f
+                            ),
+                            moveTo(
+                                    getX(),
+                                    getY()+ worldHeight,
+                                    0.5f
+                            )
+                    )));
 
 
             graphicsGroup.addActor(downArrowImage);

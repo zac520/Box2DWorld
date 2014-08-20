@@ -1,10 +1,7 @@
 package com.NZGames.Box2DWorld.screens;
 
 import com.NZGames.Box2DWorld.MainGame;
-import com.NZGames.Box2DWorld.entities.GenericEnemy;
-import com.NZGames.Box2DWorld.entities.Player;
-import com.NZGames.Box2DWorld.entities.SpikeKinematic;
-import com.NZGames.Box2DWorld.entities.UserInterface;
+import com.NZGames.Box2DWorld.entities.*;
 import com.NZGames.Box2DWorld.handlers.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -104,8 +101,8 @@ public class GameScreen implements Screen{
 
 
         atlas = new TextureAtlas(Gdx.files.internal("assets/textures/TestLevel.txt"));
-        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
-        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
+//        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
+//        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
 
         //set up the ground for later
         ground = new TextureRegion(atlas.findRegion("WhiteLevel"));
@@ -159,17 +156,17 @@ public class GameScreen implements Screen{
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         //if player is not walking, we just give the first frame of facing right or left. Otherwise, we cycle through
-        if(player.getIsWalking()) {
-            currentPlayerFrame = player.isFacingLeft() ? walkLeftAnimation.getKeyFrame(player.getStateTime(), true) : walkRightAnimation.getKeyFrame(player.getStateTime(), true);
-        }
-        else{
-            currentPlayerFrame = player.isFacingLeft() ? walkLeftAnimation.getKeyFrame(0,true) : walkRightAnimation.getKeyFrame(0,true);
-        }
-        batch.draw(currentPlayerFrame,
-                player.getBody().getPosition().x * Box2DVars.PPM - player.worldWidth /2,
-                player.getBody().getPosition().y * Box2DVars.PPM -player.worldHeight/2,
-                player.worldWidth,
-                player.worldHeight);
+//        if(player.getIsWalking()) {
+//            currentPlayerFrame = player.isFacingLeft() ? walkLeftAnimation.getKeyFrame(player.getStateTime(), true) : walkRightAnimation.getKeyFrame(player.getStateTime(), true);
+//        }
+//        else{
+//            currentPlayerFrame = player.isFacingLeft() ? walkLeftAnimation.getKeyFrame(0,true) : walkRightAnimation.getKeyFrame(0,true);
+//        }
+//        batch.draw(currentPlayerFrame,
+//                player.getBody().getPosition().x * Box2DVars.PPM - player.worldWidth /2,
+//                player.getBody().getPosition().y * Box2DVars.PPM -player.worldHeight/2,
+//                player.worldWidth,
+//                player.worldHeight);
 
         batch.end();
 
@@ -374,7 +371,7 @@ public class GameScreen implements Screen{
 
 
                 //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
-                player = new Player(myBodies.get(x), (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
+                player = new Player(this, myBodies.get(x), (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
                 myBodies.get(x).setUserData(player);//make it so we can find it by asking for player
 
                 //create a box around the player to wake sleeping box2d objects
@@ -387,6 +384,8 @@ public class GameScreen implements Screen{
                 fdef.isSensor = true;
                 myBodies.get(x).createFixture(fdef).setUserData("awake");
                 shape.dispose();
+
+                stage.addActor(player.getGroup());
             }
 
             //create the world (all we are doing here is getting the size and adding the picture to the stage
@@ -456,8 +455,29 @@ public class GameScreen implements Screen{
                 myBodies.get(x).setUserData(myEnemy);//make it so we can find it by asking
 
 
-                //add the spike to the stage
-                stage.addActor(myEnemy);
+                //add the spike to the stage (we are using groups, so that we can add an arrow later)
+                stage.addActor(myEnemy.getGroup());
+
+            }
+            else if(myString.compareTo("enemy1")==0){
+                //find the fixture with the same name as above
+                bodyFixtures = myBodies.get(x).getFixtureList();
+                for (y = 0; y< bodyFixtures.size; y++){
+                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("enemy1")==0){
+                        break;
+                    }
+                }
+                //get the custom info associated with that fixture (height and width)
+                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
+
+
+                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
+                Enemy1 myEnemy1 = new Enemy1(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
+                myBodies.get(x).setUserData(myEnemy1);//make it so we can find it by asking
+
+
+                //add the spike to the stage (we are using groups, so that we can add an arrow later)
+                stage.addActor(myEnemy1.getGroup());
 
             }
         }
