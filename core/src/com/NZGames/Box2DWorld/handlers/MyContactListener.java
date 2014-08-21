@@ -1,5 +1,6 @@
 package com.NZGames.Box2DWorld.handlers;
 
+import com.NZGames.Box2DWorld.entities.GenericActor;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
@@ -69,25 +70,19 @@ public class MyContactListener implements ContactListener {
         }
 
 
-        //handle the spike collision
-        if(fa.getUserData() != null && fa.getUserData().equals("spike")){
-
-
-            //if we have an intersection, and the intersection is NOT the "awake world", then it must be the player
-            if(fb.getUserData() != null && !fb.getUserData().equals("awake")) {
-                playerHitEnemy = true;
-                return;
+        //handle the enemy collision
+        if(fa.getFilterData().categoryBits == Box2DVars.BIT_ENEMY){
+            if(fb.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
+                GenericActor myActor = (GenericActor) fb.getBody().getUserData();
+                myActor.incurDamage(25);
             }
-
         }
-        if(fb.getUserData() != null && fb.getUserData().equals("spike")){
 
-            if(fa.getUserData() != null && !fa.getUserData().equals("awake")) {
-                playerHitEnemy = true;
-                return;
-
+        if(fb.getFilterData().categoryBits == Box2DVars.BIT_ENEMY){
+            if(fa.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
+                GenericActor myActor = (GenericActor) fa.getBody().getUserData();
+                myActor.incurDamage(25);
             }
-
         }
 
 
@@ -142,12 +137,10 @@ public class MyContactListener implements ContactListener {
 
         //spikes
         if(fa.getUserData() != null && fa.getUserData().equals("spike")){
-            System.out.print("Collision occured1");
             return;
 
         }
         if(fb.getUserData() != null && fb.getUserData().equals("spike")){
-            System.out.print("Collision occured1");
             return;
 
         }

@@ -5,11 +5,14 @@ import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
@@ -22,8 +25,10 @@ public class Enemy1  extends GenericActor {
 
     public Enemy1(Body myBody, GameScreen myGameScreen, float width, float height) {
 
-        //set the extended Image class to match the spike that GameScreen already made
-        //super(new TextureRegion(myGameScreen.atlas.findRegion("Spikes")));
+        //set the hp and mp and contact damage
+        hitPoints = 10;
+        magicPoints = 0;
+        contactDamage = 20;
 
         //set the box2d body and the world it lives in
         this.body = myBody;
@@ -133,6 +138,24 @@ public class Enemy1  extends GenericActor {
             //allow the movement, etc that is set on creation elsewhere to run
             super.act(delta);
 
+            if(haveExtraAnimation){
+
+                animationDurationRemaining -= delta;
+                if(animationDurationRemaining >0) {
+                    extraAnimationCurrentFrame = new Image(extraAnimation.getKeyFrame(this.getStateTime(), true));
+                    extraAnimationCurrentFrame.addAction(
+                            sequence(
+                                    fadeOut(0.2f)
+                            )
+                    );
+                    graphicsGroup.addActor(extraAnimationCurrentFrame);
+                }
+                else{
+                    haveExtraAnimation = false;
+                }
+            }
+
+
             //update the time for this class
             this.update(delta);
 
@@ -157,7 +180,7 @@ public class Enemy1  extends GenericActor {
                     body.getPosition().x * Box2DVars.PPM - (worldWidth / 2),
                     body.getPosition().y * Box2DVars.PPM - (worldHeight / 2));
 
-
         }
     }
+
 }

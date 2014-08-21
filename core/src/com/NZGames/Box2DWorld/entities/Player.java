@@ -2,6 +2,7 @@ package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.screens.GameScreen;
+import com.NZGames.Box2DWorld.screens.MenuScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,11 +22,14 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 public class Player extends GenericActor{
     public boolean  isWalking = false;
     int             crystalCount = 0;
-    public static  int PLAYER_MAX_SPEED = 8;
-    public static int FORWARD_FORCE = 32;//will be reset based on player weight
-    public static float JUMPING_FORCE = 0.1f;//will be reset based on player weight
+    public static  int PLAYER_MAX_SPEED = 5;
+    public int FORWARD_FORCE = 20;//will be reset based on player weight
+    public float JUMPING_FORCE = 0.1f;//will be reset based on player weight
     public static  float RUNNING_FRAME_DURATION = 0.2f;
 
+
+
+    public Animation spellAnimation; //I think we will put these in their own class later.
 
     public Player(GameScreen myGameScreen, Body body, float myWidth, float myHeight){
 
@@ -41,8 +45,14 @@ public class Player extends GenericActor{
         this.FORWARD_FORCE =  FORWARD_FORCE * (int) this.body.getMass();
         this.JUMPING_FORCE =  JUMPING_FORCE * (int) this.body.getMass();
 
+        //set the hitPoints and magicPoints
+        hitPoints = 100;
+        magicPoints = 0;
+
+        //load the animations
         leftAnimation = new Animation(RUNNING_FRAME_DURATION, gameScreen.atlas.findRegions("HeroNoSword_LV1"));
         rightAnimation = new Animation(RUNNING_FRAME_DURATION, gameScreen.atlas.findRegions("HeroNoSword_RV1"));
+        spellAnimation = new Animation(RUNNING_FRAME_DURATION, gameScreen.atlas.findRegions("Fireball1"));
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(rightAnimation.getKeyFrame(this.getStateTime(), true));
@@ -81,6 +91,11 @@ public class Player extends GenericActor{
         //update the time for this class
         this.update(delta);
 
+        //if player runs out of hp, we st
+        if(hitPoints <=0){
+            //TODO we need a death animation, and a game over screen. For now, we just go back to menu
+            gameScreen.game.setScreen(new MenuScreen(gameScreen.game));
+        }
 
         if(isWalking) {
             myDrawable.setRegion(facingRight ? rightAnimation.getKeyFrame(getStateTime(), true) : leftAnimation.getKeyFrame(getStateTime(), true));

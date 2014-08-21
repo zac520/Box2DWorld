@@ -16,8 +16,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.gushikustudios.rube.RubeScene;
 import com.gushikustudios.rube.loader.RubeSceneLoader;
@@ -32,41 +30,38 @@ public class GameScreen implements Screen{
     private boolean debug = false;
     private boolean useJoystick = true;
 
-    MainGame game;
+    private float accelx;//used to determine forward acceleration
+
+
+    /** Game setup **/
+    public MainGame game;
     public Stage stage;
     UserInterface userInterfaceStage;
     public Skin skin;
     private SpriteBatch batch;
     private World world;
     private MyContactListener cl;
-
     OrthographicCamera camera;
     OrthographicCamera box2DCam;
     OrthographicCamera userInterfaceCam;
     Box2DDebugRenderer box2DRenderer;
+    RubeScene scene;
 
     /** Textures **/
     private TextureRegion currentPlayerFrame;
     private TextureRegion ground;
     public TextureAtlas atlas;
+
     /** Animations **/
     private Animation walkLeftAnimation;
     private Animation walkRightAnimation;
     private static final float RUNNING_FRAME_DURATION = 0.06f;
 
-
+    /** Actors **/
     Player player;
     GenericActor selectedEnemy; //we will use this to track which body the player has selected, so only one can be selected at a time
-    private float accelx;
 
-    /**Touchpad Stuff **/
-    private Touchpad touchpad;
-    private Touchpad.TouchpadStyle touchpadStyle;
-    private Skin touchpadSkin;
-    private Drawable touchBackground;
-    private Drawable touchKnob;
 
-    RubeScene scene;
     public GameScreen(MainGame pGame){
         game = pGame;
         batch = new SpriteBatch();
@@ -226,17 +221,17 @@ public class GameScreen implements Screen{
 
         //using the joystick
         if (useJoystick) {
-            //if the player is overextending the joystick, move the joystick to accomodate in either direction
-            if(userInterfaceStage.getTouchpad().getKnobPercentX()>0.9){
-                userInterfaceStage.getTouchpad().setPosition(userInterfaceStage.getTouchpad().getX() + 10f, userInterfaceStage.getTouchpad().getY());
-            }
-            else if(userInterfaceStage.getTouchpad().getKnobPercentX()< - 0.9){
-                userInterfaceStage.getTouchpad().setPosition(userInterfaceStage.getTouchpad().getX() - 10f, userInterfaceStage.getTouchpad().getY());
-            }
-            //reset if the player drops the touchpad... maybe we shouldn't? Need user tests.
-            if(userInterfaceStage.getTouchpad().isTouched()==false){
-                userInterfaceStage.getTouchpad().setPosition(15, 15);
-            }
+//            //if the player is overextending the joystick, move the joystick to accomodate in either direction
+//            if(userInterfaceStage.getTouchpad().getKnobPercentX()>0.9){
+//                userInterfaceStage.getTouchpad().setPosition(userInterfaceStage.getTouchpad().getX() + 10f, userInterfaceStage.getTouchpad().getY());
+//            }
+//            else if(userInterfaceStage.getTouchpad().getKnobPercentX()< - 0.9){
+//                userInterfaceStage.getTouchpad().setPosition(userInterfaceStage.getTouchpad().getX() - 10f, userInterfaceStage.getTouchpad().getY());
+//            }
+//            //reset if the player drops the touchpad... maybe we shouldn't? Need user tests.
+//            if(userInterfaceStage.getTouchpad().isTouched()==false){
+//                userInterfaceStage.getTouchpad().setPosition(15, 15);
+//            }
 
             //set acceleration in x direction to 10x the percent of the push (we are just using on/off anyways)
             accelx = userInterfaceStage.getTouchpad().getKnobPercentX() * 10;
@@ -248,13 +243,13 @@ public class GameScreen implements Screen{
 
 
         if(accelx >1){
-            if(player.getBody().getLinearVelocity().x < Player.PLAYER_MAX_SPEED) {
-                player.getBody().applyForceToCenter(Player.FORWARD_FORCE, 0, true);
+            if(player.getBody().getLinearVelocity().x < player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(player.FORWARD_FORCE, 0, true);
             }
         }
         else if (accelx < -1){
-            if(player.getBody().getLinearVelocity().x > -Player.PLAYER_MAX_SPEED) {
-                player.getBody().applyForceToCenter(-Player.FORWARD_FORCE, 0, true);
+            if(player.getBody().getLinearVelocity().x > -player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(-player.FORWARD_FORCE, 0, true);
             }
         }
 
@@ -284,16 +279,21 @@ public class GameScreen implements Screen{
 
 
 
-        //switch block color
+        //inflict damage and play animation of the spell
         if (MyInput.isPressed(MyInput.BUTTON2)) {
-            //System.out.println("hold X");
+            //TODO this is a bit hacky. We have an animation loaded into the player class, that runs then destroys the character
+            //we will probably want the character to respawn later, but for now this is what we are doing
+            if(selectedEnemy != null) {
+                selectedEnemy.incurDamage(3, player.spellAnimation, 1);
+            }
+
             MyInput.setKey(MyInput.BUTTON2, false);
 
         }
 
         if (MyInput.isDown(MyInput.BUTTON3)) {
-            if(player.getBody().getLinearVelocity().x < Player.PLAYER_MAX_SPEED) {
-                player.getBody().applyForceToCenter(Player.FORWARD_FORCE, 0, true);
+            if(player.getBody().getLinearVelocity().x < player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(player.FORWARD_FORCE, 0, true);
 //                player.getBody().setLinearVelocity(
 //                        player.getBody().getLinearVelocity().x +Player.FORWARD_FORCE *0.1f,
 //                        player.getBody().getLinearVelocity().y);
@@ -303,8 +303,8 @@ public class GameScreen implements Screen{
         }
 
         if (MyInput.isDown(MyInput.BUTTON4)) {
-            if(player.getBody().getLinearVelocity().x > -Player.PLAYER_MAX_SPEED) {
-                player.getBody().applyForceToCenter(-Player.FORWARD_FORCE, 0, true);
+            if(player.getBody().getLinearVelocity().x > -player.PLAYER_MAX_SPEED) {
+                player.getBody().applyForceToCenter(-player.FORWARD_FORCE, 0, true);
 //                player.getBody().setLinearVelocity(
 //                        player.getBody().getLinearVelocity().x -Player.FORWARD_FORCE *0.1f,
 //                        player.getBody().getLinearVelocity().y);
@@ -324,7 +324,8 @@ public class GameScreen implements Screen{
     }
 
     /**
-     * This function will be called from an enemy class to let this class know which enemy is selected
+     * This function will be called from an Actor to let this GameScreen class know which Actor is selected
+     * and toggle them accordingly
      * @param myEnemy
      */
     public void selectEnemy(GenericActor myEnemy){
@@ -352,13 +353,6 @@ public class GameScreen implements Screen{
         }
     }
     public void loadWorld(){
-
-        //TODO figure out exactly what it is that causes the error upon import. I had a clue at the end of the night
-        //I copy-pasted the main character into the level and scaled him to fit the new level. At certain sizes, he
-        //does not work. I would have to see how they are calculating area, but I suspect it is not correct.
-        //I know that a value of 0.0069 for the area of a square will break it, but 0.054 will not. The polygon,
-        //though larger, breaks it also. Not sure why, but maybe we can just scale everything always to accomodate?
-        //load the char body
 
         //load the scene file
         RubeSceneLoader loader = new RubeSceneLoader();
