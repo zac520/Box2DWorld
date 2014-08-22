@@ -6,12 +6,14 @@ import com.NZGames.Box2DWorld.handlers.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -27,7 +29,7 @@ import java.util.Map;
  */
 public class GameScreen implements Screen{
     /** debug options **/
-    private boolean debug = true;
+    private boolean debug = false;
     private boolean useJoystick = true;
 
     private float accelx;//used to determine forward acceleration
@@ -46,6 +48,8 @@ public class GameScreen implements Screen{
     OrthographicCamera userInterfaceCam;
     Box2DDebugRenderer box2DRenderer;
     RubeScene scene;
+    OrthographicCamera backgroundCamera;
+    Stage backgroundStage;
 
     /** Textures **/
     private TextureRegion currentPlayerFrame;
@@ -64,7 +68,7 @@ public class GameScreen implements Screen{
 
     /** Perhaps Should be in a "gamestate" class? **/
     public Array<Body> bodiesToRemove;
-
+    private Vector2 playerPreviousPosition;
 
     public GameScreen(MainGame pGame){
         game = pGame;
@@ -77,6 +81,11 @@ public class GameScreen implements Screen{
         stage=new Stage();
         stage.getViewport().setCamera(camera);
 
+        //set up the background camera
+        backgroundCamera=new OrthographicCamera();
+        backgroundCamera.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
+        backgroundStage=new Stage();
+        backgroundStage.getViewport().setCamera(backgroundCamera);
 
         //set up box2d renderer
         box2DRenderer = new Box2DDebugRenderer();
@@ -88,7 +97,12 @@ public class GameScreen implements Screen{
         //set up bodiesToRemove for later
         bodiesToRemove = new Array<Body>();
 
+        AssetManager manager=new AssetManager();
+        batch = new SpriteBatch();
 
+//        manager.load("assets/textures/Level1.txt", TextureAtlas.class);
+//        manager.finishLoading();
+//        atlas = manager.get("assets/textures/Level1.txt", TextureAtlas.class);
         atlas = new TextureAtlas(Gdx.files.internal("assets/textures/Level1.txt"));
 //        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
 //        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
@@ -96,6 +110,7 @@ public class GameScreen implements Screen{
         //set up the ground for later
         ground = new TextureRegion(atlas.findRegion("AlphascreenLevel1"));
         background = new TextureRegion(atlas.findRegion("BackgroundLevel1"));
+
 
         //set up the UI cam with its own separate stage
         userInterfaceCam=new OrthographicCamera();
@@ -133,10 +148,15 @@ public class GameScreen implements Screen{
         }
         bodiesToRemove.clear();
 
-        handleInput();
 
+        playerPreviousPosition = player.getBody().getPosition();
         //update the player
+        handleInput();
         player.update(delta);
+
+        //render the background
+        backgroundStage.act(delta);
+        backgroundStage.draw();
 
         //render the stage
         stage.act(delta);
@@ -180,6 +200,15 @@ public class GameScreen implements Screen{
                 0
         );
         camera.update();
+
+        //move the background on an offset from the player
+        backgroundCamera.position.set(
+                camera.position.x + ((camera.position.x - playerPreviousPosition.x) *0.1f) ,
+                camera.position.y + ((camera.position.y - playerPreviousPosition.y) *0.1f),
+                0
+        );
+        backgroundCamera.update();
+
 
         //draw user interface
         batch.setProjectionMatrix(userInterfaceCam.combined);
@@ -451,7 +480,7 @@ public class GameScreen implements Screen{
                         groundStageBackground.setPosition(
                                 myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
                                 (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
-                        stage.addActor(groundStageBackground);
+                        backgroundStage.addActor(groundStageBackground);
 
 
 

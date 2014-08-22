@@ -8,6 +8,851 @@
 		{
 			"angle" : 0,
 			"angularVelocity" : 0,
+			"awake" : true,
+			"fixedRotation" : true,
+			"fixture" : 
+			[
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								5.66955566406250,
+								4.686943054199219,
+								4.449981689453125,
+								3.576950073242188,
+								3.271751403808594,
+								3.868835449218750,
+								4.434783935546875
+							],
+							"y" : 
+							[
+								0.2121744155883789,
+								3.69479227066040,
+								4.428700923919678,
+								3.584028720855713,
+								-2.810440063476562,
+								-3.669788360595703,
+								-2.554789543151855
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								5.679992675781250,
+								5.558273315429688,
+								4.686943054199219,
+								5.66955566406250
+							],
+							"y" : 
+							[
+								3.339139938354492,
+								4.154788017272949,
+								3.69479227066040,
+								0.2121744155883789
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								8.784385681152344,
+								8.570457458496094,
+								6.955726623535156,
+								7.380889892578125,
+								8.111358642578125
+							],
+							"y" : 
+							[
+								0.5706777572631836,
+								1.739133834838867,
+								1.991101264953613,
+								0.7547826766967773,
+								-0.01042842864990234
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								7.380889892578125,
+								6.955726623535156,
+								5.679992675781250,
+								5.66955566406250
+							],
+							"y" : 
+							[
+								0.7547826766967773,
+								1.991101264953613,
+								3.339139938354492,
+								0.2121744155883789
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								7.440025329589844,
+								7.199203491210938,
+								6.420883178710938,
+								5.151786804199219,
+								6.848693847656250
+							],
+							"y" : 
+							[
+								-1.151309967041016,
+								-0.4991312026977539,
+								-0.6852273941040039,
+								-1.164347648620605,
+								-2.013044357299805
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								6.420883178710938,
+								5.66955566406250,
+								5.080767154693604,
+								5.151786804199219
+							],
+							"y" : 
+							[
+								-0.6852273941040039,
+								0.2121744155883789,
+								-1.107224941253662,
+								-1.164347648620605
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								6.177406311035156,
+								5.151786804199219,
+								5.080767154693604,
+								4.434783935546875,
+								5.111351013183594
+							],
+							"y" : 
+							[
+								-2.379125595092773,
+								-1.164347648620605,
+								-1.107224941253662,
+								-2.554789543151855,
+								-2.721740722656250
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ 6.177406311035156, 5.111351013183594, 5.678504943847656 ],
+							"y" : [ -2.379125595092773, -2.721740722656250, -3.565219879150391 ]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								3.576950073242188,
+								2.810264587402344,
+								-2.406967163085938,
+								-1.730453491210938,
+								1.979156494140625,
+								2.838279724121094,
+								3.271751403808594
+							],
+							"y" : 
+							[
+								3.584028720855713,
+								3.886496067047119,
+								-3.328696250915527,
+								-3.666093826293945,
+								-4.069246292114258,
+								-3.603482246398926,
+								-2.810440063476562
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								2.810264587402344,
+								-0.1822433471679688,
+								-0.9270553588867188,
+								-3.812156677246094,
+								-4.13830566406250,
+								-4.046951293945312,
+								-2.406967163085938
+							],
+							"y" : 
+							[
+								3.886496067047119,
+								4.702665328979492,
+								4.484790802001953,
+								2.100873947143555,
+								0.8173942565917969,
+								-0.5773992538452148,
+								-3.328696250915527
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ 3.576950073242188, 3.559318542480469, 2.810264587402344 ],
+							"y" : [ 3.584028720855713, 4.168486118316650, 3.886496067047119 ]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								1.979156494140625,
+								-1.730453491210938,
+								-2.079971313476562,
+								0.5878372192382812,
+								1.321746826171875,
+								1.808990478515625
+							],
+							"y" : 
+							[
+								-4.069246292114258,
+								-3.666093826293945,
+								-4.549571037292480,
+								-5.766095161437988,
+								-5.853932380676270,
+								-5.302777290344238
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								3.836517333984375,
+								3.311340332031250,
+								1.979156494140625,
+								1.808990478515625,
+								2.281730651855469
+							],
+							"y" : 
+							[
+								-5.481753349304199,
+								-4.6330566406250,
+								-4.069246292114258,
+								-5.302777290344238,
+								-5.673053741455078
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								-4.646965026855469,
+								-6.45910644531250,
+								-7.707809448242188,
+								-6.733917236328125
+							],
+							"y" : 
+							[
+								3.455662250518799,
+								3.360873222351074,
+								2.907836437225342,
+								2.128694534301758
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								-6.733917236328125,
+								-7.707809448242188,
+								-8.340911865234375,
+								-6.948745727539062
+							],
+							"y" : 
+							[
+								2.128694534301758,
+								2.907836437225342,
+								2.156525611877441,
+								1.408697128295898
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								-6.622596740722656,
+								-6.948745727539062,
+								-8.340911865234375,
+								-8.785232543945312,
+								-8.32
+							],
+							"y" : 
+							[
+								0.2365131378173828,
+								1.408697128295898,
+								2.156525611877441,
+								0.9287004470825195,
+								-1.099136352539062
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ -5.871307373046875, -6.622596740722656, -8.32, -7.234786987304688 ],
+							"y" : 
+							[
+								-1.015654563903809,
+								0.2365131378173828,
+								-1.099136352539062,
+								-2.935667037963867
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								-4.92871093750,
+								-5.871307373046875,
+								-7.234786987304688,
+								-5.815666198730469
+							],
+							"y" : 
+							[
+								-1.202610015869141,
+								-1.015654563903809,
+								-2.935667037963867,
+								-3.836533546447754
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								-2.406967163085938,
+								-4.046951293945312,
+								-4.92871093750,
+								-5.815666198730469,
+								-3.669540405273438
+							],
+							"y" : 
+							[
+								-3.328696250915527,
+								-0.5773992538452148,
+								-1.202610015869141,
+								-3.836533546447754,
+								-4.084348678588867
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ -0.9270553588867188, -1.600013732910156, -3.812156677246094 ],
+							"y" : [ 4.484790802001953, 4.963487625122070, 2.100873947143555 ]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 11.19655990600586,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 17.56961822509766,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy2",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ -0.1822433471679688, -0.9426040649414062, -0.9270553588867188 ],
+							"y" : [ 4.702665328979492, 5.342628002166748, 4.484790802001953 ]
+						}
+					}
+				}
+			],
+			"linearVelocity" : 0,
+			"massData-I" : 6.460374355316162,
+			"massData-center" : 
+			{
+				"x" : -0.009587488137185574,
+				"y" : -0.2440841794013977
+			},
+			"massData-mass" : 108.2701873779297,
+			"name" : "enemy2",
+			"position" : 
+			{
+				"x" : 56.47150421142578,
+				"y" : -5.893402099609375
+			},
+			"type" : 2
+		},
+		
+		{
+			"angle" : 0,
+			"angularVelocity" : 0,
 			"fixedRotation" : true,
 			"fixture" : 
 			[
@@ -1924,24 +2769,24 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "fixture0",
 					"polygon" : 
 					{
 						"vertices" : 
 						{
 							"x" : 
 							[
-								-87.06448364257812,
-								-87.06448364257812,
-								-87.27480316162109,
-								-87.27480316162109
+								-81.98549652099609,
+								-81.98549652099609,
+								-82.18550109863281,
+								-82.18550109863281
 							],
 							"y" : 
 							[
-								-16.79363822937012,
-								16.80817413330078,
-								16.80817413330078,
-								-17.10911178588867
+								-15.82699966430664,
+								16.12700080871582,
+								16.12700080871582,
+								-16.12700080871582
 							]
 						}
 					}
@@ -1963,24 +2808,24 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "fixture0",
 					"polygon" : 
 					{
 						"vertices" : 
 						{
 							"x" : 
 							[
-								85.57253265380859,
-								85.25705718994141,
-								-87.06448364257812,
-								-87.27480316162109
+								82.18550109863281,
+								81.8854980468750,
+								-81.98549652099609,
+								-82.18550109863281
 							],
 							"y" : 
 							[
-								-17.10911178588867,
-								-16.79363822937012,
-								-16.79363822937012,
-								-17.10911178588867
+								-16.12700080871582,
+								-15.82699966430664,
+								-15.82699966430664,
+								-16.12700080871582
 							]
 						}
 					}
@@ -2002,24 +2847,24 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "fixture0",
 					"polygon" : 
 					{
 						"vertices" : 
 						{
 							"x" : 
 							[
-								85.57253265380859,
-								85.57253265380859,
-								85.25705718994141,
-								85.25705718994141
+								82.18550109863281,
+								82.18550109863281,
+								81.8854980468750,
+								81.8854980468750
 							],
 							"y" : 
 							[
-								-17.10911178588867,
-								16.80817413330078,
-								16.49270248413086,
-								-16.79363822937012
+								-16.12700080871582,
+								16.12700080871582,
+								15.82699966430664,
+								-15.82699966430664
 							]
 						}
 					}
@@ -2041,24 +2886,24 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "fixture0",
 					"polygon" : 
 					{
 						"vertices" : 
 						{
 							"x" : 
 							[
-								85.57253265380859,
-								-86.95932769775391,
-								-86.95932769775391,
-								85.25705718994141
+								82.18550109863281,
+								-81.8854980468750,
+								-81.8854980468750,
+								81.8854980468750
 							],
 							"y" : 
 							[
-								16.80817413330078,
-								16.80817413330078,
-								16.49270248413086,
-								16.49270248413086
+								16.12700080871582,
+								16.12700080871582,
+								15.82699966430664,
+								15.82699966430664
 							]
 						}
 					}
@@ -2080,7 +2925,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2121,7 +2966,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2160,7 +3005,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2201,7 +3046,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2244,7 +3089,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2287,7 +3132,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2326,7 +3171,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2369,7 +3214,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2410,7 +3255,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2455,7 +3300,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2498,7 +3343,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2539,7 +3384,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2586,7 +3431,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2629,7 +3474,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2672,7 +3517,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2711,7 +3556,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2756,7 +3601,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2799,7 +3644,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2826,7 +3671,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2853,7 +3698,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2896,7 +3741,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2935,7 +3780,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2980,7 +3825,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3023,7 +3868,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3064,7 +3909,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3109,7 +3954,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3150,7 +3995,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3191,7 +4036,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3234,7 +4079,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3273,7 +4118,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3312,7 +4157,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3355,7 +4200,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3394,7 +4239,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3433,7 +4278,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3478,7 +4323,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3517,7 +4362,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3564,7 +4409,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3591,7 +4436,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3630,7 +4475,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3671,7 +4516,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3710,7 +4555,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3753,7 +4598,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3794,7 +4639,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3833,7 +4678,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3878,7 +4723,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3921,7 +4766,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level3",
+					"name" : "level",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -10141,25 +10986,6 @@
 		
 		{
 			"aspectScale" : 1,
-			"body" : 0,
-			"center" : 0,
-			"corners" : 
-			{
-				"x" : [ -0.75, 0.75, 0.75, -0.75 ],
-				"y" : [ -0.5, -0.5, 0.5, 0.5 ]
-			},
-			"file" : "../CharacterPNGs/Enemy2_RV_1_1.png",
-			"filter" : 1,
-			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
-			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
-			"glVertexPointer" : [ -0.75, -0.5, 0.75, -0.5, 0.75, 0.5, -0.75, 0.5 ],
-			"name" : "enemy2",
-			"opacity" : 1,
-			"scale" : 1
-		},
-		
-		{
-			"aspectScale" : 1,
 			"body" : 1,
 			"center" : 0,
 			"corners" : 
@@ -10179,7 +11005,7 @@
 		
 		{
 			"aspectScale" : 1,
-			"body" : 3,
+			"body" : 4,
 			"center" : 0,
 			"corners" : 
 			{
@@ -10216,6 +11042,70 @@
 			"name" : "image0",
 			"opacity" : 1,
 			"scale" : 32.25392150878906
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 0,
+			"center" : 
+			{
+				"x" : 1.144409179687500e-05,
+				"y" : 3.337860107421875e-06
+			},
+			"corners" : 
+			{
+				"x" : 
+				[
+					-8.765416145324707,
+					8.765439033508301,
+					8.765439033508301,
+					-8.765416145324707
+				],
+				"y" : 
+				[
+					-5.843615055084229,
+					-5.843615055084229,
+					5.843621730804443,
+					5.843621730804443
+				]
+			},
+			"file" : "../CharacterPNGs/Enemy2_RV_1_1.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : 
+			[
+				-8.765416145324707,
+				-5.843615055084229,
+				8.765439033508301,
+				-5.843615055084229,
+				8.765439033508301,
+				5.843621730804443,
+				-8.765416145324707,
+				5.843621730804443
+			],
+			"name" : "enemy2",
+			"opacity" : 1,
+			"scale" : 11.68723678588867
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : 2,
+			"center" : 0,
+			"corners" : 
+			{
+				"x" : [ -0.75, 0.75, 0.75, -0.75 ],
+				"y" : [ -0.5, -0.5, 0.5, 0.5 ]
+			},
+			"file" : "../CharacterPNGs/Enemy2_RV_1_1.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : [ -0.75, -0.5, 0.75, -0.5, 0.75, 0.5, -0.75, 0.5 ],
+			"name" : "enemy2",
+			"opacity" : 1,
+			"scale" : 1
 		}
 	],
 	"positionIterations" : 3,
