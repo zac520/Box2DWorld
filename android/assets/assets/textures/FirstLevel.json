@@ -8,7 +8,7 @@
 		{
 			"angle" : 0,
 			"angularVelocity" : 0,
-			"awake" : true,
+			"fixedRotation" : true,
 			"fixture" : 
 			[
 				
@@ -839,7 +839,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"massData-I" : 0.1307550966739655,
+			"massData-I" : 0.0003462749009486288,
 			"massData-center" : 
 			{
 				"x" : -0.0008209194056689739,
@@ -858,7 +858,7 @@
 		{
 			"angle" : 0,
 			"angularVelocity" : 0,
-			"awake" : true,
+			"fixedRotation" : true,
 			"fixture" : 
 			[
 				
@@ -1689,7 +1689,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"massData-I" : 0.1307550966739655,
+			"massData-I" : 0.0003462749009486288,
 			"massData-center" : 
 			{
 				"x" : -0.0008209194056689739,

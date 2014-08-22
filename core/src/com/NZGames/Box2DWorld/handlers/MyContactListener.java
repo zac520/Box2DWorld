@@ -1,6 +1,7 @@
 package com.NZGames.Box2DWorld.handlers;
 
 import com.NZGames.Box2DWorld.entities.GenericActor;
+import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
@@ -11,11 +12,11 @@ public class MyContactListener implements ContactListener {
 
     private boolean playerOnGround;
     private int numFootContacts =0;
-    private Array<Body> bodiesToRemove;
+    private GameScreen gameScreen;
     private boolean playerHitEnemy = false;
-    public MyContactListener(){
+    public MyContactListener(GameScreen myGameScreen){
         super();
-        bodiesToRemove = new Array<Body>();
+        gameScreen = myGameScreen;
     }
 
     Fixture fa;
@@ -49,8 +50,8 @@ public class MyContactListener implements ContactListener {
 
             //if we have an intersection, and the intersection is NOT the "awake world", then it must be the player
             if(fb.getUserData() != null && !fb.getUserData().equals("awake")) {
-                if (!bodiesToRemove.contains(fa.getBody(), true)) {
-                    bodiesToRemove.add(fa.getBody());
+                if (!gameScreen.bodiesToRemove.contains(fa.getBody(), true)) {
+                    gameScreen.bodiesToRemove.add(fa.getBody());
                 }
             }
             return;
@@ -61,8 +62,8 @@ public class MyContactListener implements ContactListener {
             //since world is updating, we are going to queue the crystals
             //and remove them after the update for each step
             if(fa.getUserData() != null && !fa.getUserData().equals("awake")) {
-                if (!bodiesToRemove.contains(fb.getBody(), true)) {
-                    bodiesToRemove.add(fb.getBody());
+                if (!gameScreen.bodiesToRemove.contains(fb.getBody(), true)) {
+                    gameScreen.bodiesToRemove.add(fb.getBody());
                 }
             }
             return;
@@ -163,7 +164,5 @@ public class MyContactListener implements ContactListener {
         //if there is at least one, then player is on ground. Not sure why that is better than the bool method
         return playerHitEnemy;
     }
-    public Array getBodiesToRemove(){
-        return bodiesToRemove;
-    }
+
 }

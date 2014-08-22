@@ -2,9 +2,11 @@ package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.handlers.MyInput;
+import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -27,18 +29,17 @@ public class UserInterface extends Stage {
     private Drawable touchKnob;
 
     /** UI buttons **/
-    private Texture rightSideBackground;
+    private TextureRegion rightSideBackground;
 
     Skin skin;
 
-    public UserInterface(MainGame myGame){
+    public UserInterface(MainGame myGame, GameScreen myGameScreen){
 
-        skin = new Skin(Gdx.files.internal("assets/ui/defaultskin.json"));
 
         //Create a touchpad skin
         touchpadSkin = new Skin();
         //Set background image
-        touchpadSkin.add("touchBackground", new Texture("assets/graphics/touchBackground.png"));
+        touchpadSkin.add("touchBackground", new TextureRegion(myGameScreen.atlas.findRegion("Controlpanelleftside")));
         //Set knob image
         touchpadSkin.add("touchKnob", new Texture("assets/graphics/touchKnob.png"));
         //Create TouchPad Style
@@ -56,21 +57,23 @@ public class UserInterface extends Stage {
         this.addActor(touchpad);
 
         //create the background for the right side buttons
-        rightSideBackground = new Texture(Gdx.files.internal("assets/graphics/touchKnob.png"));
+        rightSideBackground =  new TextureRegion(myGameScreen.atlas.findRegion("Controlpanelrightside"));
+
         Image rightSideBackgroundImage = new Image(rightSideBackground);
-        rightSideBackgroundImage.setSize(900,500);
+        rightSideBackgroundImage.setWidth(400);
+        rightSideBackgroundImage.setHeight(200);
         rightSideBackgroundImage.setPosition(
-                myGame.SCREEN_WIDTH - rightSideBackgroundImage.getWidth()/2 ,
-                -rightSideBackgroundImage.getHeight()/2);
+                myGame.SCREEN_WIDTH - rightSideBackgroundImage.getWidth() ,
+                rightSideBackgroundImage.getY());
         this.addActor(rightSideBackgroundImage);
 
 
         //create the jump button
-        Button jumpButton = new Button(skin, "default");
+        Button jumpButton = new Button(myGameScreen.skin, "default");
         //make it the right hand side of the screen
-        jumpButton.setSize(100, 75);
+        jumpButton.setSize(35, 35);
         jumpButton.setPosition(myGame.SCREEN_WIDTH - jumpButton.getWidth() - 300,
-                10);
+                35);
         jumpButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -81,11 +84,11 @@ public class UserInterface extends Stage {
         this.addActor(jumpButton);
 
         //create the magic button
-        Button magicButton = new Button(skin, "default");
+        Button magicButton = new Button(myGameScreen.skin, "default");
         //make it the right hand side of the screen
-        magicButton.setSize(100, 75);
-        magicButton.setPosition(myGame.SCREEN_WIDTH - magicButton.getWidth() - 175,
-                125);
+        magicButton.setSize(35, 35);
+        magicButton.setPosition((myGame.SCREEN_WIDTH - magicButton.getWidth()) - 225,
+                100);
         magicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -146,6 +146,10 @@ public class GenericActor extends Image  {
         //subtract the hp, and if player dies, then remove
         hitPoints -= hp;
         if(hitPoints <= 0){
+            //remove the box2d body
+            gameScreen.bodiesToRemove.add(this.getBody());
+
+            //remove the graphic
             graphicsGroup.addAction(
                     sequence(
                             fadeOut(1),

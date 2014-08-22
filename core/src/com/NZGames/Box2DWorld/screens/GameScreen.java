@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class GameScreen implements Screen{
     /** debug options **/
-    private boolean debug = false;
+    private boolean debug = true;
     private boolean useJoystick = true;
 
     private float accelx;//used to determine forward acceleration
@@ -50,6 +50,7 @@ public class GameScreen implements Screen{
     /** Textures **/
     private TextureRegion currentPlayerFrame;
     private TextureRegion ground;
+    private TextureRegion background;
     public TextureAtlas atlas;
 
     /** Animations **/
@@ -60,6 +61,9 @@ public class GameScreen implements Screen{
     /** Actors **/
     Player player;
     GenericActor selectedEnemy; //we will use this to track which body the player has selected, so only one can be selected at a time
+
+    /** Perhaps Should be in a "gamestate" class? **/
+    public Array<Body> bodiesToRemove;
 
 
     public GameScreen(MainGame pGame){
@@ -81,13 +85,8 @@ public class GameScreen implements Screen{
         box2DCam = new OrthographicCamera();
         box2DCam.setToOrtho(false, MainGame.SCREEN_WIDTH / Box2DVars.PPM, MainGame.SCREEN_HEIGHT / Box2DVars.PPM);
 
-        //set up the UI cam with its own separate stage
-        userInterfaceCam=new OrthographicCamera();
-        userInterfaceCam.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
-        userInterfaceStage=new UserInterface(game);
-        userInterfaceStage.getViewport().setCamera(userInterfaceCam);
-
-
+        //set up bodiesToRemove for later
+        bodiesToRemove = new Array<Body>();
 
 
         atlas = new TextureAtlas(Gdx.files.internal("assets/textures/Level1.txt"));
@@ -96,6 +95,13 @@ public class GameScreen implements Screen{
 
         //set up the ground for later
         ground = new TextureRegion(atlas.findRegion("AlphascreenLevel1"));
+        background = new TextureRegion(atlas.findRegion("BackgroundLevel1"));
+
+        //set up the UI cam with its own separate stage
+        userInterfaceCam=new OrthographicCamera();
+        userInterfaceCam.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
+        userInterfaceStage=new UserInterface(game, this);
+        userInterfaceStage.getViewport().setCamera(userInterfaceCam);
 
         //createPlatform();
         loadWorld();
@@ -118,6 +124,14 @@ public class GameScreen implements Screen{
         //of setting bodies after collision (2 recommended))
         //world.step(delta, 6, 2);
         scene.step();
+
+        //remove enemies if necessary
+        for(int i = 0; i< bodiesToRemove.size; i++){
+            Body b = bodiesToRemove.get(i);
+            scene.getWorld().destroyBody(b);
+            //player.collectCrystal(); this sort of thing will be used to give the player experience later
+        }
+        bodiesToRemove.clear();
 
         handleInput();
 
@@ -359,7 +373,7 @@ public class GameScreen implements Screen{
         scene = loader.addScene(Gdx.files.internal("assets/textures/FirstLevel.json"));
 
         //attach a contact listener
-        cl = new MyContactListener();
+        cl = new MyContactListener(this);
         scene.getWorld().setContactListener(cl);
 
         //get all of the bodies that we just loaded in (will have their names as UserData)
@@ -411,28 +425,43 @@ public class GameScreen implements Screen{
                 bodyFixtures = myBodies.get(x).getFixtureList();
                 for (y = 0; y< bodyFixtures.size; y++){
                     if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("level")==0){
+                        customInfo = scene.getCustomPropertiesForItem(myBodies.get(x).getFixtureList().first() ,true);
+
+                        //set up the ground
+                        Image groundStage = new Image(ground);
+                        groundStage.setSize(
+                                (Float) customInfo.get("width") *Box2DVars.PPM ,
+                                (Float) customInfo.get("height")*Box2DVars.PPM);
+
+                        //TODO figure out why we need an offset of 20 for this positioning.. We may need to better center the image
+                        //in RUBE
+                        groundStage.setPosition(
+                                myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
+                                (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
+                        stage.addActor(groundStage);
+                        stage.getActors().get(stage.getActors().size -1).toBack();
+
+
+                        //for now, just make the background move at the same speed (so just make a background under foreground)
+                        Image groundStageBackground = new Image(background);
+                        groundStageBackground.setSize(
+                                (Float) customInfo.get("width") *Box2DVars.PPM ,
+                                (Float) customInfo.get("height")*Box2DVars.PPM);
+
+                        groundStageBackground.setPosition(
+                                myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
+                                (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
+                        stage.addActor(groundStageBackground);
+
+
+
+                        //get the most recent addition to the actors and send it to the back of the stage.
+                        //can we think of any better way to do this? It has to be the actor, not the image sent to the back.
+                        stage.getActors().get(stage.getActors().size -1).toBack();
                         break;
                     }
                 }
-                customInfo = scene.getCustomPropertiesForItem(myBodies.get(x).getFixtureList().first() ,true);
 
-                //set up the ground
-                Image groundStage = new Image(ground);
-                groundStage.setSize(
-                        (Float) customInfo.get("width") *Box2DVars.PPM ,
-                        (Float) customInfo.get("height")*Box2DVars.PPM);
-
-                //TODO figure out why we need an offset of 20 for this positioning.. We may need to better center the image
-                //in RUBE
-                groundStage.setPosition(
-                        myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
-                        (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
-
-                stage.addActor(groundStage);
-
-                //get the most recent addition to the actors and send it to the back of the stage.
-                //can we think of any better way to do this? It has to be the actor, not the image sent to the back.
-                stage.getActors().get(stage.getActors().size -1).toBack();
             }
 
             else if(myString.compareTo("spike")==0){
@@ -456,27 +485,7 @@ public class GameScreen implements Screen{
                 stage.addActor(mySpike);
 
             }
-            else if(myString.compareTo("enemy")==0){
-//                //find the fixture with the same name as above
-//                bodyFixtures = myBodies.get(x).getFixtureList();
-//                for (y = 0; y< bodyFixtures.size; y++){
-//                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("enemy")==0){
-//                        break;
-//                    }
-//                }
-//                //get the custom info associated with that fixture (height and width)
-//                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
-//
-//
-//                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
-//                GenericEnemy myEnemy = new GenericEnemy(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
-//                myBodies.get(x).setUserData(myEnemy);//make it so we can find it by asking
-//
-//
-//                //add the spike to the stage (we are using groups, so that we can add an arrow later)
-//                stage.addActor(myEnemy.getGroup());
 
-            }
             else if(myString.compareTo("enemy1")==0){
                 //find the fixture with the same name as above
                 bodyFixtures = myBodies.get(x).getFixtureList();
