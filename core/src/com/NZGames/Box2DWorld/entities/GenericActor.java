@@ -152,6 +152,7 @@ public class GenericActor extends Image  {
                             new Action() {
                                 @Override
                                 public boolean act(float delta) {
+
                                     graphicsGroup.remove();
                                     return false;
                                 }

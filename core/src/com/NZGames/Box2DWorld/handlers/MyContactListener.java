@@ -89,13 +89,13 @@ public class MyContactListener implements ContactListener {
         //wake up the box2d body
         if(fa.getUserData() != null && fa.getUserData().equals("awake")){
 
-            //fb.getBody().setAwake(true);
+            fb.getBody().setAwake(true);
             //fb.getBody().setSleepingAllowed(false);
             return;
 
         }
         if(fb.getUserData() != null && fb.getUserData().equals("awake")){
-            //fa.getBody().setAwake(true);
+            fa.getBody().setAwake(true);
             //fa.getBody().setSleepingAllowed(false);
             return;
 

@@ -90,12 +90,12 @@ public class GameScreen implements Screen{
 
 
 
-        atlas = new TextureAtlas(Gdx.files.internal("assets/textures/TestLevel.txt"));
+        atlas = new TextureAtlas(Gdx.files.internal("assets/textures/Level1.txt"));
 //        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
 //        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
 
         //set up the ground for later
-        ground = new TextureRegion(atlas.findRegion("WhiteLevel"));
+        ground = new TextureRegion(atlas.findRegion("AlphascreenLevel1"));
 
         //createPlatform();
         loadWorld();
@@ -356,7 +356,7 @@ public class GameScreen implements Screen{
 
         //load the scene file
         RubeSceneLoader loader = new RubeSceneLoader();
-        scene = loader.addScene(Gdx.files.internal("assets/textures/TestLevelSpikes.json"));
+        scene = loader.addScene(Gdx.files.internal("assets/textures/FirstLevel.json"));
 
         //attach a contact listener
         cl = new MyContactListener();
@@ -419,12 +419,14 @@ public class GameScreen implements Screen{
                 //set up the ground
                 Image groundStage = new Image(ground);
                 groundStage.setSize(
-                        (Float) customInfo.get("width") *Box2DVars.PPM,
+                        (Float) customInfo.get("width") *Box2DVars.PPM ,
                         (Float) customInfo.get("height")*Box2DVars.PPM);
 
+                //TODO figure out why we need an offset of 20 for this positioning.. We may need to better center the image
+                //in RUBE
                 groundStage.setPosition(
                         myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
-                        myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2);
+                        (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
 
                 stage.addActor(groundStage);
 
@@ -494,6 +496,27 @@ public class GameScreen implements Screen{
 
                 //add the spike to the stage (we are using groups, so that we can add an arrow later)
                 stage.addActor(myEnemy1.getGroup());
+
+            }
+            else if(myString.compareTo("enemy2")==0){
+                //find the fixture with the same name as above
+                bodyFixtures = myBodies.get(x).getFixtureList();
+                for (y = 0; y< bodyFixtures.size; y++){
+                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("enemy2")==0){
+                        break;
+                    }
+                }
+                //get the custom info associated with that fixture (height and width)
+                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
+
+
+                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
+                Enemy2 myEnemy2 = new Enemy2(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
+                myBodies.get(x).setUserData(myEnemy2);//make it so we can find it by asking
+
+
+                //add the spike to the stage (we are using groups, so that we can add an arrow later)
+                stage.addActor(myEnemy2.getGroup());
 
             }
         }
