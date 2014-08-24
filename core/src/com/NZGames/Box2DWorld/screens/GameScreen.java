@@ -96,10 +96,7 @@ public class GameScreen implements Screen{
 
         //set up bodiesToRemove for later
         bodiesToRemove = new Array<Body>();
-
-        AssetManager manager=new AssetManager();
-        batch = new SpriteBatch();
-
+//        AssetManager manager=new AssetManager();
 //        manager.load("assets/textures/Level1.txt", TextureAtlas.class);
 //        manager.finishLoading();
 //        atlas = manager.get("assets/textures/Level1.txt", TextureAtlas.class);
