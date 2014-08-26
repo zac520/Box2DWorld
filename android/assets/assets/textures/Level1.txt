@@ -9,23 +9,16 @@ AlphascreenLevel1OLD
   orig: 795, 156
   offset: 0, 0
   index: 1
-AlphascreenLevel1
-  rotate: false
-  xy: 677, 889
-  size: 6879, 1343
-  orig: 6879, 1343
-  offset: 0, 0
-  index: 1
 Arrowdownblue
   rotate: false
-  xy: 1676, 2
+  xy: 1738, 2
   size: 60, 97
   orig: 60, 97
   offset: 0, 0
   index: -1
 Arrowdowngreen
   rotate: false
-  xy: 1738, 2
+  xy: 1676, 2
   size: 60, 97
   orig: 60, 97
   offset: 0, 0
@@ -144,63 +137,63 @@ Enemy1_Right1
   index: 5
 Enemy2_LV_1
   rotate: false
-  xy: 3899, 296
+  xy: 2, 301
   size: 633, 422
   orig: 633, 422
   offset: 0, 0
   index: 1
 Enemy2_LV_1
   rotate: false
-  xy: 4534, 296
+  xy: 3857, 301
   size: 645, 462
   orig: 645, 462
   offset: 0, 0
   index: 2
 Enemy2_LV_1
   rotate: false
-  xy: 3252, 296
+  xy: 1927, 301
   size: 645, 422
   orig: 645, 422
   offset: 0, 0
   index: 3
 Enemy2_LV_1
   rotate: false
-  xy: 1314, 296
+  xy: 1282, 301
   size: 643, 422
   orig: 643, 422
   offset: 0, 0
   index: 4
 Enemy2_RV_1
   rotate: false
-  xy: 679, 296
+  xy: 2574, 301
   size: 633, 422
   orig: 633, 422
   offset: 0, 0
   index: 1
 Enemy2_RV_1
   rotate: false
-  xy: 5181, 296
+  xy: 4504, 301
   size: 646, 462
   orig: 646, 462
   offset: 0, 0
   index: 2
 Enemy2_RV_1
   rotate: false
-  xy: 2604, 296
+  xy: 3209, 301
   size: 646, 422
   orig: 646, 422
   offset: 0, 0
   index: 3
 Enemy2_RV_1
   rotate: false
-  xy: 1959, 296
+  xy: 637, 301
   size: 643, 422
   orig: 643, 422
   offset: 0, 0
   index: 4
 EnemyHPBar
   rotate: false
-  xy: 910, 2
+  xy: 523, 2
   size: 385, 45
   orig: 385, 45
   offset: 0, 0
@@ -242,84 +235,84 @@ HeroHPFillBar
   index: -1
 HeroHPMPInterface
   rotate: false
-  xy: 2, 296
+  xy: 7116, 2
   size: 675, 297
   orig: 675, 299
   offset: 0, 1
   index: -1
 HeroMPFillBar
   rotate: false
-  xy: 523, 2
+  xy: 910, 2
   size: 385, 45
   orig: 385, 45
   offset: 0, 0
   index: -1
 HeroNoSword_LV1
   rotate: false
-  xy: 7345, 296
+  xy: 7343, 301
   size: 222, 591
   orig: 222, 591
   offset: 0, 0
   index: 1
 HeroNoSword_LV1
   rotate: false
-  xy: 5829, 296
+  xy: 5152, 301
   size: 246, 571
   orig: 246, 571
   offset: 0, 0
   index: 2
 HeroNoSword_LV1
   rotate: false
-  xy: 2, 889
+  xy: 6668, 301
   size: 225, 591
   orig: 225, 591
   offset: 0, 0
   index: 3
 HeroNoSword_LV1
   rotate: false
-  xy: 7108, 296
+  xy: 6194, 301
   size: 235, 590
   orig: 235, 590
   offset: 0, 0
   index: 4
 HeroNoSword_RV1
   rotate: false
-  xy: 453, 889
+  xy: 6895, 301
   size: 222, 591
   orig: 222, 591
   offset: 0, 0
   index: 1
 HeroNoSword_RV1
   rotate: false
-  xy: 6077, 296
+  xy: 5946, 301
   size: 246, 573
   orig: 246, 573
   offset: 0, 0
   index: 2
 HeroNoSword_RV1
   rotate: false
-  xy: 229, 889
+  xy: 7119, 301
   size: 222, 591
   orig: 222, 591
   offset: 0, 0
   index: 3
 HeroNoSword_RV1
   rotate: false
-  xy: 6871, 296
+  xy: 6431, 301
   size: 235, 590
   orig: 235, 590
   offset: 0, 0
   index: 4
 HeroNoSword_Stalled_1
   rotate: false
-  xy: 6598, 296
+  xy: 5673, 301
   size: 271, 573
   orig: 509, 573
   offset: 27, 0
   index: 1
 HeroNoSword_Stalled_1
   rotate: false
-  xy: 6325, 296
+  xy: 5400, 301
   size: 271, 573
   orig: 509, 573
   offset: 27, 0

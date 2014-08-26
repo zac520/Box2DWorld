@@ -40,6 +40,7 @@ public class UserInterface extends Stage {
         touchpadSkin = new Skin();
         //Set background image
         touchpadSkin.add("touchBackground", new TextureRegion(myGameScreen.atlas.findRegion("Controlpanelleftside")));
+        //touchpadSkin.add("touchBackground", new Texture("assets/graphics/touchBackground.png"));
         //Set knob image
         touchpadSkin.add("touchKnob", new Texture("assets/graphics/touchKnob.png"));
         //Create TouchPad Style

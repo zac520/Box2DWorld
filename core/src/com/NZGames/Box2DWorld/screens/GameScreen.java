@@ -9,10 +9,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,15 +24,21 @@ import com.badlogic.gdx.utils.Array;
 import com.gushikustudios.rube.RubeScene;
 import com.gushikustudios.rube.loader.RubeSceneLoader;
 
+import java.io.File;
 import java.util.Map;
 
 /**
  * Created by zac520 on 8/10/14.
  */
 public class GameScreen implements Screen{
+
+    /**background stuff**/
+    Texture [][] myLevel;
+
     /** debug options **/
-    private boolean debug = false;
+    private boolean debug = true;
     private boolean useJoystick = true;
+    private BitmapFont font;
 
     private float accelx;//used to determine forward acceleration
 
@@ -53,8 +61,8 @@ public class GameScreen implements Screen{
 
     /** Textures **/
     private TextureRegion currentPlayerFrame;
-    private TextureRegion ground;
-    private TextureRegion background;
+    private Texture ground;
+    private Texture background;
     public TextureAtlas atlas;
 
     /** Animations **/
@@ -65,6 +73,7 @@ public class GameScreen implements Screen{
     /** Actors **/
     Player player;
     GenericActor selectedEnemy; //we will use this to track which body the player has selected, so only one can be selected at a time
+    AssetManager manager;
 
     /** Perhaps Should be in a "gamestate" class? **/
     public Array<Body> bodiesToRemove;
@@ -96,20 +105,17 @@ public class GameScreen implements Screen{
 
         //set up bodiesToRemove for later
         bodiesToRemove = new Array<Body>();
-
-        AssetManager manager=new AssetManager();
-        batch = new SpriteBatch();
-
-//        manager.load("assets/textures/Level1.txt", TextureAtlas.class);
-//        manager.finishLoading();
-//        atlas = manager.get("assets/textures/Level1.txt", TextureAtlas.class);
-        atlas = new TextureAtlas(Gdx.files.internal("assets/textures/Level1.txt"));
+        atlas = game.assets.get("assets/textures/FirstLevel.txt", TextureAtlas.class);
+//        atlas = new TextureAtlas(Gdx.files.internal("assets/textures/FirstLevel.txt"));
 //        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
 //        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
 
         //set up the ground for later
-        ground = new TextureRegion(atlas.findRegion("AlphascreenLevel1"));
-        background = new TextureRegion(atlas.findRegion("BackgroundLevel1"));
+        ground = new Texture(Gdx.files.internal("assets/maps/AlphascreenLevel1_2.png"));
+        background = new Texture(Gdx.files.internal("assets/maps/BackgroundLevel1_1.png"));
+
+        //set up the font
+        font = new BitmapFont();
 
 
         //set up the UI cam with its own separate stage
@@ -154,13 +160,15 @@ public class GameScreen implements Screen{
         handleInput();
         player.update(delta);
 
+
         //render the background
         backgroundStage.act(delta);
-        backgroundStage.draw();
+        //backgroundStage.draw();
 
         //render the stage
         stage.act(delta);
         stage.draw();
+
 
         //render the UI stage
         userInterfaceStage.act(delta);
@@ -178,18 +186,7 @@ public class GameScreen implements Screen{
         //render the player
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-        //if player is not walking, we just give the first frame of facing right or left. Otherwise, we cycle through
-//        if(player.getIsWalking()) {
-//            currentPlayerFrame = player.isFacingLeft() ? walkLeftAnimation.getKeyFrame(player.getStateTime(), true) : walkRightAnimation.getKeyFrame(player.getStateTime(), true);
-//        }
-//        else{
-//            currentPlayerFrame = player.isFacingLeft() ? walkLeftAnimation.getKeyFrame(0,true) : walkRightAnimation.getKeyFrame(0,true);
-//        }
-//        batch.draw(currentPlayerFrame,
-//                player.getBody().getPosition().x * Box2DVars.PPM - player.worldWidth /2,
-//                player.getBody().getPosition().y * Box2DVars.PPM -player.worldHeight/2,
-//                player.worldWidth,
-//                player.worldHeight);
+
 
         batch.end();
 
@@ -200,6 +197,7 @@ public class GameScreen implements Screen{
                 0
         );
         camera.update();
+
 
         //move the background on an offset from the player
         backgroundCamera.position.set(
@@ -224,6 +222,9 @@ public class GameScreen implements Screen{
             box2DCam.update();
             box2DRenderer.render(scene.getWorld(), box2DCam.combined);
 
+            batch.begin();
+            font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 20, game.SCREEN_HEIGHT -30);
+            batch.end();
         }
     }
 
@@ -454,7 +455,112 @@ public class GameScreen implements Screen{
                 bodyFixtures = myBodies.get(x).getFixtureList();
                 for (y = 0; y< bodyFixtures.size; y++){
                     if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("level")==0){
-                        customInfo = scene.getCustomPropertiesForItem(myBodies.get(x).getFixtureList().first() ,true);
+                        customInfo = scene.getCustomPropertiesForItem(myBodies.get(x).getFixtureList().get(y) ,true);
+
+
+
+
+
+                        //test area
+                        final File folder = new File("assets/maps/test/");
+                        int rowCount=0;
+                        int columnCount=0;
+                        int rowNumber=0;
+                        int columnNumber=0;
+
+                        
+                        //get the row and column count in the directory (skip folders..)
+                        //TODO right now this works for single digit only... need to make one for double digit extensions
+                        for (final File fileEntry : folder.listFiles()) {
+                            if (fileEntry.isDirectory()) {
+                                continue;
+                            } else {
+                                //we have a filename. Now lets work with it
+                                String filename = fileEntry.getName();
+                                //for our current workflow, this will be the row number
+                                rowNumber = Character.getNumericValue(filename.charAt(filename.length()-5));
+                                columnNumber = Character.getNumericValue(filename.charAt(filename.length()-7));
+
+                                if(rowNumber>=rowCount){
+                                    rowCount ++;
+                                }
+                                if(columnNumber>=columnCount){
+                                    columnCount ++;
+                                }
+                            }
+                        }
+                        //create the 2d array to the size we learned from above
+                        myLevel = new Texture[rowCount][columnCount];
+
+                        //set the elements of the array, iterating through the same folder
+                        for (final File fileEntry : folder.listFiles()) {
+                            if (fileEntry.isDirectory()) {
+                                //listFilesForFolder(fileEntry);
+                                continue;
+                            } else {
+                                //System.out.println(fileEntry.getName());
+                                //we have a filename. Now lets work with it
+                                String filename = fileEntry.getName();
+                                //for our current workflow, this will be the row number
+                                rowNumber = Character.getNumericValue(filename.charAt(filename.length() - 5));
+                                columnNumber = Character.getNumericValue(filename.charAt(filename.length() - 7));
+
+                                myLevel[rowNumber][columnNumber] = new Texture(Gdx.files.internal(folder + "/" + filename));
+                            }
+                        }
+
+
+                        //get the total width of the stage to get pixel per width
+                        int pixelCount=0;
+                        Float width = (Float) customInfo.get("width") *Box2DVars.PPM;
+                        float widthPerPixel;
+                        int currentWidthPixel=0;
+                        for(columnNumber=0; columnNumber<columnCount;columnNumber++){
+                            pixelCount += myLevel[0][columnNumber].getWidth();
+
+                        }
+                        widthPerPixel = width/pixelCount;
+
+                        //get the total hieght of the stage to get per pixel height
+                        pixelCount=0;
+                        Float height = (Float) customInfo.get("height") *Box2DVars.PPM;
+                        float heightPerPixel;
+                        int currentHeightPixel=0;
+                        for(rowNumber=0; rowNumber<rowCount;rowNumber++){
+                            pixelCount += myLevel[rowNumber][0].getHeight();
+                        }
+                        heightPerPixel = height/pixelCount;
+
+                        //iterate through the array, adding the appropriate size and position to the stage
+                        for( rowNumber = rowCount-1; rowNumber>=0; rowNumber--) {//we will build from the bottom up
+
+                            //iterate through all of the columns in this row
+                            for (columnNumber = 0; columnNumber < columnCount; columnNumber++) {
+                                Image myImage = new Image(myLevel[rowNumber][columnNumber]);
+
+                                myImage.setSize(
+                                        widthPerPixel * myImage.getWidth(),
+                                        heightPerPixel * myImage.getHeight());
+
+                                myImage.setPosition(
+                                        currentWidthPixel,
+                                        currentHeightPixel);
+
+                                stage.addActor(myImage);
+                                stage.getActors().get(stage.getActors().size - 1).toBack();
+
+                                //add this width to the current width and same for height
+                                currentWidthPixel += myImage.getWidth();
+                            }
+                            currentWidthPixel = 0;
+                            currentHeightPixel += heightPerPixel * myLevel[rowNumber][0].getHeight();
+
+                        }
+
+                        //end test area
+
+
+
 
                         //set up the ground
                         Image groundStage = new Image(ground);
@@ -467,8 +573,8 @@ public class GameScreen implements Screen{
                         groundStage.setPosition(
                                 myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
                                 (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
-                        stage.addActor(groundStage);
-                        stage.getActors().get(stage.getActors().size -1).toBack();
+//                        stage.addActor(groundStage);
+//                        stage.getActors().get(stage.getActors().size -1).toBack();
 
 
                         //for now, just make the background move at the same speed (so just make a background under foreground)
@@ -480,13 +586,13 @@ public class GameScreen implements Screen{
                         groundStageBackground.setPosition(
                                 myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
                                 (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
-                        backgroundStage.addActor(groundStageBackground);
-
-
-
-                        //get the most recent addition to the actors and send it to the back of the stage.
-                        //can we think of any better way to do this? It has to be the actor, not the image sent to the back.
-                        stage.getActors().get(stage.getActors().size -1).toBack();
+//                        backgroundStage.addActor(groundStageBackground);
+//
+//
+//
+//                        //get the most recent addition to the actors and send it to the back of the stage.
+//                        //can we think of any better way to do this? It has to be the actor, not the image sent to the back.
+//                        stage.getActors().get(stage.getActors().size -1).toBack();
                         break;
                     }
                 }
@@ -557,9 +663,27 @@ public class GameScreen implements Screen{
                 stage.addActor(myEnemy2.getGroup());
 
             }
+
+
+
         }
 
 
     }
+    public void listFilesForFolder(final File folder) {
+        //http://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+                //System.out.println(fileEntry.getName());
+                //we have a filename. Now lets work with it
+                String filename = fileEntry.getName();
+                //for our current workflow, this will be the row number
+                int rowNumber = filename.charAt(filename.length()-5);
+                int columnNumber = filename.charAt(filename.length()-7);
 
+            }
+        }
+    }
 }
