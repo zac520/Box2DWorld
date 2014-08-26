@@ -9,6 +9,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gushikustudios.rube.loader.RubeSceneLoader;
 
 public class MainGame extends Game {
@@ -16,10 +17,11 @@ public class MainGame extends Game {
 	public static int SCREEN_WIDTH = 320*4;
     public static int SCREEN_HEIGHT = 240*4;
     public AssetManager assets;
+    public Stage gameStage;
     @Override
 	public void create () {
 
-        setScreen(new LoadScreen(this));
+        setScreen(new MenuScreen(this));
 	}
 
 }

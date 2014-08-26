@@ -53,7 +53,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //set screen
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new LoadScreen(game));
             }
         });
         table.add(startGame).width(200).height(50);

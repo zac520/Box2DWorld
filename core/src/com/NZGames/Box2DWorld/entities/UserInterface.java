@@ -72,7 +72,7 @@ public class UserInterface extends Stage {
         //create the jump button
         Button jumpButton = new Button(myGameScreen.skin, "default");
         //make it the right hand side of the screen
-        jumpButton.setSize(35, 35);
+        jumpButton.setSize(70, 70);
         jumpButton.setPosition(myGame.SCREEN_WIDTH - jumpButton.getWidth() - 300,
                 35);
         jumpButton.addListener(new ClickListener() {
@@ -87,7 +87,7 @@ public class UserInterface extends Stage {
         //create the magic button
         Button magicButton = new Button(myGameScreen.skin, "default");
         //make it the right hand side of the screen
-        magicButton.setSize(35, 35);
+        magicButton.setSize(70, 70);
         magicButton.setPosition((myGame.SCREEN_WIDTH - magicButton.getWidth()) - 225,
                 100);
         magicButton.addListener(new ClickListener() {
