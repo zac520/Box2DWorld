@@ -72,6 +72,7 @@ public class Enemy2 extends GenericActor {
     }
 
 
+
     public Group getGroup(){
         return graphicsGroup;
     }
