@@ -117,6 +117,7 @@ public class GameScreen implements Screen{
 //        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
 //        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
 
+
         //set up the ground for later
         ground = new Texture(Gdx.files.internal("assets/maps/AlphascreenLevel1_2.png"));
         background = new Texture(Gdx.files.internal("assets/maps/BackgroundLevel1_1.png"));
