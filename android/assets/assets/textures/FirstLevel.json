@@ -850,8 +850,8 @@
 			"name" : "enemy2",
 			"position" : 
 			{
-				"x" : 133.5790100097656,
-				"y" : 4.298244476318359
+				"x" : 128.9987945556641,
+				"y" : 5.293941497802734
 			},
 			"type" : 2
 		},
@@ -4271,7 +4271,7 @@
 					],
 					"density" : 12.47612953186035,
 					"filter-categoryBits" : 2,
-					"friction" : 0.2,
+					"friction" : 0.4,
 					"name" : "player",
 					"polygon" : 
 					{
@@ -4315,7 +4315,7 @@
 					],
 					"density" : 12.47612953186035,
 					"filter-categoryBits" : 2,
-					"friction" : 0.2,
+					"friction" : 0.4,
 					"name" : "player",
 					"polygon" : 
 					{
@@ -4355,7 +4355,7 @@
 					],
 					"density" : 12.47612953186035,
 					"filter-categoryBits" : 2,
-					"friction" : 0.2,
+					"friction" : 0.4,
 					"name" : "player",
 					"polygon" : 
 					{
