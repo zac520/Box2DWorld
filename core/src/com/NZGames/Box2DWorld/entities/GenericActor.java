@@ -116,68 +116,71 @@ public class GenericActor extends Image  {
     }
 
     public void incurDamage(int hp){
-        //make the hp label
-        final Label label = new Label(String.valueOf(hp), gameScreen.skin, "default-font", Color.CYAN);
-        label.setFontScale(3);
-        label.setPosition(
-                getX() - 25,
-                getY() + worldHeight
-        );
-        //make the hp float up and then disappear
-        label.addAction(
-                sequence(
-                        moveTo(
-                                getX(),
-                                getY() +worldHeight + 50,
-                                2
-                        ),
-                        fadeOut(1),
-                        new Action() {
-                            @Override
-                            public boolean act(float delta) {
-                                label.remove();
-                                return false;
-                            }
-                        }
-                )
-        );
-        graphicsGroup.addActor(label);
-
-        //subtract the hp, and if player dies, then remove
-        hitPoints -= hp;
-        if(hitPoints <= 0){
-            //remove the box2d body
-            gameScreen.bodiesToRemove.add(this.getBody());
-
-            //remove the graphic
-            graphicsGroup.addAction(
+        if(hitPoints>0) {
+            //make the hp label
+            final Label label = new Label(String.valueOf(hp), gameScreen.skin, "default-font", Color.CYAN);
+            label.setFontScale(3);
+            label.setPosition(
+                    getX() - 25,
+                    getY() + worldHeight
+            );
+            //make the hp float up and then disappear
+            label.addAction(
                     sequence(
+                            moveTo(
+                                    getX(),
+                                    getY() + worldHeight + 50,
+                                    2
+                            ),
                             fadeOut(1),
                             new Action() {
                                 @Override
                                 public boolean act(float delta) {
-
-                                    graphicsGroup.remove();
+                                    label.remove();
                                     return false;
                                 }
                             }
                     )
             );
-            System.out.println("Actor has died");
+            graphicsGroup.addActor(label);
+
+            //subtract the hp, and if player dies, then remove
+            hitPoints -= hp;
+            if (hitPoints <= 0) {
+                //remove the box2d body
+                gameScreen.bodiesToRemove.add(this.getBody());
+
+                //remove the graphic
+                graphicsGroup.addAction(
+                        sequence(
+                                fadeOut(1),
+                                new Action() {
+                                    @Override
+                                    public boolean act(float delta) {
+
+                                        graphicsGroup.remove();
+                                        return false;
+                                    }
+                                }
+                        )
+                );
+                System.out.println("Actor has died");
+            }
         }
     }
 
     public void incurDamage(int hp, Animation damageAnimation, float animationDuration){
 
-        //set up the animation if there is one
-        if(damageAnimation !=null) {
-            extraAnimation = damageAnimation;
-            extraAnimation.setPlayMode(Animation.PlayMode.LOOP);
-            animationDurationRemaining = animationDuration;
-            haveExtraAnimation = true;
+        if(hitPoints>0) {
+            //set up the animation if there is one
+            if (damageAnimation != null) {
+                extraAnimation = damageAnimation;
+                extraAnimation.setPlayMode(Animation.PlayMode.LOOP);
+                animationDurationRemaining = animationDuration;
+                haveExtraAnimation = true;
+            }
+            incurDamage(hp);
         }
-        incurDamage(hp);
-
     }
 
 

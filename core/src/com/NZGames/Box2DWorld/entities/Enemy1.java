@@ -21,7 +21,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
  */
 public class Enemy1  extends GenericActor {
     float FRAME_DURATION= 0.12f;
-    float MAX_SPEED = 8;
+    float MAX_SPEED = 1;
+    float FORWARD_FORCE = 1;
 
     public Enemy1(Body myBody, GameScreen myGameScreen, float width, float height) {
 
@@ -119,13 +120,19 @@ public class Enemy1  extends GenericActor {
 
             //if the monster is moving slower than the max speed, then add force
             if (body.getLinearVelocity().x < MAX_SPEED) {
-                body.applyForceToCenter(forwardForce, 0, false);
+                //body.applyForceToCenter(forwardForce, 0, false);
+                body.setLinearVelocity(
+                        body.getLinearVelocity().x + FORWARD_FORCE *0.01f,
+                        body.getLinearVelocity().y);
             }
         }
         else {
             facingRight = false;
             if (body.getLinearVelocity().x > -MAX_SPEED) {
-                body.applyForceToCenter(forwardForce, 0, false);
+                //body.applyForceToCenter(forwardForce, 0, false);
+                body.setLinearVelocity(
+                        body.getLinearVelocity().x - FORWARD_FORCE *0.01f,
+                        body.getLinearVelocity().y);
             }
         }
     }

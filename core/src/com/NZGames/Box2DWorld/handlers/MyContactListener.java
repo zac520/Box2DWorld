@@ -31,13 +31,11 @@ public class MyContactListener implements ContactListener {
         if(fa.getUserData() != null && fa.getUserData().equals("foot")){
             playerOnGround = true;
             numFootContacts ++;
-            return;
         }
 
         if(fb.getUserData() != null && fb.getUserData().equals("foot")){
             playerOnGround = true;
             numFootContacts ++;
-            return;
         }
 
 
@@ -54,7 +52,6 @@ public class MyContactListener implements ContactListener {
                     gameScreen.bodiesToRemove.add(fa.getBody());
                 }
             }
-            return;
         }
 
         if(fb.getUserData() != null && fb.getUserData().equals("crystal")){
@@ -66,7 +63,6 @@ public class MyContactListener implements ContactListener {
                     gameScreen.bodiesToRemove.add(fb.getBody());
                 }
             }
-            return;
 
         }
 
@@ -89,16 +85,14 @@ public class MyContactListener implements ContactListener {
 
         //wake up the box2d body
         if(fa.getUserData() != null && fa.getUserData().equals("awake")){
-
             fb.getBody().setAwake(true);
-            //fb.getBody().setSleepingAllowed(false);
-            return;
+            fb.getBody().setSleepingAllowed(false);
+
 
         }
         if(fb.getUserData() != null && fb.getUserData().equals("awake")){
             fa.getBody().setAwake(true);
-            //fa.getBody().setSleepingAllowed(false);
-            return;
+            fa.getBody().setSleepingAllowed(false);
 
         }
 
@@ -114,35 +108,28 @@ public class MyContactListener implements ContactListener {
             //System.out.println("fa is foot");
             playerOnGround = false;
             numFootContacts --;
-            return;
         }
         if(fb.getUserData() != null && fb.getUserData().equals("foot")){
             //System.out.println("fb is foot");
             playerOnGround = false;
             numFootContacts --;
-            return;
         }
 
         //sleep objects
         if(fa.getUserData() != null && fa.getUserData().equals("awake")){
 
-            fb.getBody().setAwake(false);
-            return;
         }
         if(fb.getUserData() != null && fb.getUserData().equals("awake")){
-
+            fa.getBody().setSleepingAllowed(true);
             fa.getBody().setAwake(false);
-            return;
         }
 
 
         //spikes
         if(fa.getUserData() != null && fa.getUserData().equals("spike")){
-            return;
 
         }
         if(fb.getUserData() != null && fb.getUserData().equals("spike")){
-            return;
 
         }
 

@@ -22,9 +22,9 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 public class Player extends GenericActor{
     public boolean  isWalking = false;
     int             crystalCount = 0;
-    public static  int PLAYER_MAX_SPEED = 5;
-    public int FORWARD_FORCE = 20;//will be reset based on player weight
-    public float JUMPING_FORCE = 0.2f;//will be reset based on player weight
+    public static  int PLAYER_MAX_SPEED = 3;
+    public int FORWARD_FORCE = 1;//will be reset based on player weight
+    public float JUMPING_FORCE = 0.225f;//will be reset based on player weight
     public static  float RUNNING_FRAME_DURATION = 0.2f;
 
 

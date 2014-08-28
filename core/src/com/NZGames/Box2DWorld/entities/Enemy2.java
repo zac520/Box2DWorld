@@ -19,8 +19,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
  */
 public class Enemy2 extends GenericActor {
     float FRAME_DURATION= 0.12f;
-    float MAX_SPEED = 8;
-
+    float MAX_SPEED = 3;
+    float FORWARD_FORCE = 1;
     public Enemy2(Body myBody, GameScreen myGameScreen, float width, float height) {
 
         //set the hp and mp and contact damage
@@ -111,19 +111,24 @@ public class Enemy2 extends GenericActor {
         }
 
 
-
         if(forwardForce >0) {
             facingRight = true;
 
             //if the monster is moving slower than the max speed, then add force
             if (body.getLinearVelocity().x < MAX_SPEED) {
-                body.applyForceToCenter(forwardForce, 0, false);
+                //body.applyForceToCenter(forwardForce, 0, false);
+                body.setLinearVelocity(
+                        body.getLinearVelocity().x + FORWARD_FORCE *0.1f,
+                        body.getLinearVelocity().y);
             }
         }
         else {
             facingRight = false;
             if (body.getLinearVelocity().x > -MAX_SPEED) {
-                body.applyForceToCenter(forwardForce, 0, false);
+                //body.applyForceToCenter(forwardForce, 0, false);
+                body.setLinearVelocity(
+                        body.getLinearVelocity().x - FORWARD_FORCE *0.1f,
+                        body.getLinearVelocity().y);
             }
         }
     }
@@ -132,7 +137,6 @@ public class Enemy2 extends GenericActor {
     public void act(float delta) {
 
         if (body.isAwake()) {
-
             //allow the movement, etc that is set on creation elsewhere to run
             super.act(delta);
 
@@ -145,6 +149,10 @@ public class Enemy2 extends GenericActor {
                             sequence(
                                     fadeOut(0.2f)
                             )
+                    );
+                    extraAnimationCurrentFrame.setPosition(
+                            body.getPosition().x +worldWidth/2 -extraAnimationCurrentFrame.getWidth()/2,
+                            body.getPosition().y + worldHeight/2 - extraAnimationCurrentFrame.getHeight()/2
                     );
                     graphicsGroup.addActor(extraAnimationCurrentFrame);
                 }

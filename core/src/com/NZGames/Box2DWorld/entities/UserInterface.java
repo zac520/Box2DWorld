@@ -77,10 +77,17 @@ public class UserInterface extends Stage {
                 35);
         jumpButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //set screen
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
+                //jump
                 MyInput.setKey(MyInput.BUTTON1, true);
+                return true;
             }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
+                //if we could not jump, cancel the attempt
+                MyInput.setKey(MyInput.BUTTON1, false);
+            }
+
         });
         this.addActor(jumpButton);
 
@@ -92,9 +99,15 @@ public class UserInterface extends Stage {
                 100);
         magicButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //set screen
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
+                //cast spell
                 MyInput.setKey(MyInput.BUTTON2, true);
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
+                //if we could not cast it before, then cancel the attempt
+                MyInput.setKey(MyInput.BUTTON2, false);
             }
         });
         this.addActor(magicButton);
