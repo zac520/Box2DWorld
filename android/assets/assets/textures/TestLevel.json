@@ -6,11 +6,334 @@
 	[
 		
 		{
+			"allowSleep" : false,
+			"angle" : 0,
+			"angularVelocity" : 0,
+			"fixedRotation" : true,
+			"fixture" : 
+			[
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 0.9862945079803467,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 0.8561131358146667,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy1",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								0.3986205458641052,
+								0.3877269327640533,
+								0.2057670652866364,
+								-0.1407678127288818,
+								-0.3585145473480225,
+								-0.4574925899505615,
+								-0.1679106950759888
+							],
+							"y" : 
+							[
+								-0.2999647259712219,
+								0.08139264583587646,
+								0.2232562899589539,
+								0.3326113224029541,
+								0.07750731706619263,
+								-0.2887113094329834,
+								-0.3864483833312988
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 0.9862945079803467,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 0.8561131358146667,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy1",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								0.2057670652866364,
+								0.1143380999565125,
+								-0.01890349388122559,
+								-0.1407678127288818
+							],
+							"y" : 
+							[
+								0.2232562899589539,
+								0.4315836429595947,
+								0.4711763858795166,
+								0.3326113224029541
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 0.9862945079803467,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 0.8561131358146667,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy1",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ 0.1143380999565125, 0.03058266639709473, -0.01890349388122559 ],
+							"y" : [ 0.4315836429595947, 0.5998461246490479, 0.4711763858795166 ]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 0.9862945079803467,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 0.8561131358146667,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"filter-categoryBits" : 4,
+					"friction" : 0.2,
+					"name" : "enemy1",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : [ 0.2628042101860046, 0.1143380999565125, 0.2057670652866364 ],
+							"y" : [ 0.5426943302154541, 0.4315836429595947, 0.2232562899589539 ]
+						}
+					}
+				}
+			],
+			"linearVelocity" : 0,
+			"massData-I" : 4.468689951409033e-08,
+			"massData-center" : 
+			{
+				"x" : 0.0002464244025759399,
+				"y" : 0.0001577041985001415
+			},
+			"massData-mass" : 0.5220700502395630,
+			"name" : "enemy1",
+			"position" : 
+			{
+				"x" : -16.81054306030273,
+				"y" : 44.09481430053711
+			},
+			"type" : 2
+		},
+		
+		{
 			"angle" : 0,
 			"angularVelocity" : 0,
 			"awake" : true,
 			"fixture" : 
 			[
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 48.80426025390625,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 65.07240295410156,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "level",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								-32.46120071411133,
+								-32.46120071411133,
+								-32.66120147705078,
+								-32.66120147705078
+							],
+							"y" : 
+							[
+								-24.28409957885742,
+								24.22016334533691,
+								24.22016334533691,
+								-24.58409881591797
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 48.80426025390625,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 65.07240295410156,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "level",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								32.41120147705078,
+								32.11119842529297,
+								-32.46120071411133,
+								-32.66120147705078
+							],
+							"y" : 
+							[
+								-24.58409881591797,
+								-24.28409957885742,
+								-24.28409957885742,
+								-24.58409881591797
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 48.80426025390625,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 65.07240295410156,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "level",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								32.41120147705078,
+								32.41120147705078,
+								32.11119842529297,
+								32.11119842529297
+							],
+							"y" : 
+							[
+								-24.58409881591797,
+								24.22016334533691,
+								23.92016410827637,
+								-24.28409957885742
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 48.80426025390625,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 65.07240295410156,
+							"name" : "width"
+						}
+					],
+					"density" : 1,
+					"friction" : 0.2,
+					"name" : "level",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								32.41120147705078,
+								-32.36119842529297,
+								-32.36119842529297,
+								32.11119842529297
+							],
+							"y" : 
+							[
+								24.22016334533691,
+								24.22016334533691,
+								23.92016410827637,
+								23.92016410827637
+							]
+						}
+					}
+				},
 				
 				{
 					"customProperties" : 
@@ -28,7 +351,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -75,7 +398,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -114,7 +437,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -141,7 +464,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -180,7 +503,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -225,7 +548,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -252,7 +575,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -279,7 +602,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -318,7 +641,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -357,7 +680,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -398,7 +721,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -425,7 +748,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -464,7 +787,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -505,7 +828,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -544,7 +867,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -585,7 +908,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -612,7 +935,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -651,7 +974,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -690,7 +1013,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -731,7 +1054,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -758,7 +1081,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -799,7 +1122,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -838,7 +1161,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -865,7 +1188,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -892,7 +1215,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -933,7 +1256,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -974,7 +1297,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1001,7 +1324,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1028,7 +1351,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1073,7 +1396,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1116,7 +1439,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1159,7 +1482,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1200,7 +1523,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1227,7 +1550,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1254,7 +1577,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1281,7 +1604,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1328,7 +1651,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1355,7 +1678,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1396,7 +1719,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1423,7 +1746,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1450,7 +1773,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1495,7 +1818,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1536,7 +1859,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1575,7 +1898,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1614,7 +1937,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1641,7 +1964,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1668,7 +1991,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1707,7 +2030,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1748,7 +2071,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1787,7 +2110,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1814,7 +2137,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1855,7 +2178,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1894,7 +2217,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1935,7 +2258,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1962,7 +2285,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -1989,7 +2312,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2028,7 +2351,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2055,7 +2378,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2082,7 +2405,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2121,7 +2444,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2148,7 +2471,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2175,7 +2498,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2214,7 +2537,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2255,7 +2578,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2294,7 +2617,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2333,7 +2656,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2374,7 +2697,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2415,7 +2738,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2454,7 +2777,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2493,7 +2816,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2532,7 +2855,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2575,7 +2898,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2614,7 +2937,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2653,7 +2976,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2692,7 +3015,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2719,7 +3042,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2746,7 +3069,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2773,7 +3096,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2800,7 +3123,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2839,7 +3162,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2866,7 +3189,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2893,7 +3216,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2936,7 +3259,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -2963,7 +3286,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3008,7 +3331,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3053,7 +3376,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3080,7 +3403,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3119,7 +3442,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3146,7 +3469,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3185,7 +3508,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3232,7 +3555,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3259,7 +3582,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3286,7 +3609,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3313,7 +3636,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3352,7 +3675,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3399,7 +3722,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3440,7 +3763,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3467,7 +3790,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3510,7 +3833,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3537,7 +3860,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3580,7 +3903,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3607,7 +3930,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3634,7 +3957,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3673,7 +3996,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3712,7 +4035,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3751,7 +4074,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3790,7 +4113,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3817,7 +4140,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3856,7 +4179,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3883,7 +4206,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3910,7 +4233,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3949,7 +4272,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -3976,7 +4299,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4003,7 +4326,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4044,7 +4367,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4071,7 +4394,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4098,7 +4421,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4125,7 +4448,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4166,7 +4489,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4193,7 +4516,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4220,7 +4543,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4247,7 +4570,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4292,7 +4615,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4319,7 +4642,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4358,7 +4681,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4397,7 +4720,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4438,7 +4761,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4465,7 +4788,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4492,7 +4815,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4519,7 +4842,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4558,7 +4881,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4585,7 +4908,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4612,7 +4935,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4651,7 +4974,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4690,7 +5013,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4717,7 +5040,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4744,7 +5067,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4783,7 +5106,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4810,7 +5133,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4837,7 +5160,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4876,7 +5199,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4915,7 +5238,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4958,7 +5281,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -4997,7 +5320,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5036,7 +5359,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5075,7 +5398,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5116,7 +5439,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5155,7 +5478,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5182,7 +5505,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5227,7 +5550,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5266,7 +5589,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5311,7 +5634,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5354,7 +5677,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5397,7 +5720,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5424,7 +5747,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5451,7 +5774,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5490,7 +5813,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5531,7 +5854,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5576,7 +5899,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5617,7 +5940,7 @@
 					],
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "level",
+					"name" : "level1",
 					"polygon" : 
 					{
 						"vertices" : 
@@ -5677,28 +6000,164 @@
 						}
 					],
 					"density" : 1,
+					"filter-categoryBits" : 4,
 					"friction" : 0.2,
 					"name" : "spike"
 				}
 			],
 			"gravityScale" : 0,
-			"linearVelocity" : 0,
+			"linearVelocity" : 
+			{
+				"x" : 1,
+				"y" : 0
+			},
 			"name" : "spike",
 			"position" : 
 			{
 				"x" : -22.79423522949219,
 				"y" : 44.08741760253906
 			},
-			"type" : 0
+			"type" : 1
 		},
 		
 		{
+			"allowSleep" : false,
 			"angle" : 0,
 			"angularVelocity" : 0,
 			"awake" : true,
 			"fixedRotation" : true,
 			"fixture" : 
 			[
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 2.889080047607422,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 1.111558914184570,
+							"name" : "width"
+						}
+					],
+					"density" : 12.47612953186035,
+					"filter-categoryBits" : 2,
+					"friction" : 0.2,
+					"name" : "player",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								0.2242969274520874,
+								0.1927394270896912,
+								-0.3049430847167969,
+								-0.4032750129699707,
+								-0.2804584503173828,
+								0.1210727691650391
+							],
+							"y" : 
+							[
+								-0.4452100098133087,
+								0.4514425098896027,
+								0.5659866333007812,
+								-0.1901209950447083,
+								-1.333950042724609,
+								-1.059730529785156
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 2.889080047607422,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 1.111558914184570,
+							"name" : "width"
+						}
+					],
+					"density" : 12.47612953186035,
+					"filter-categoryBits" : 2,
+					"friction" : 0.2,
+					"name" : "player",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								0.2875633239746094,
+								0.1210727691650391,
+								-0.2804584503173828,
+								0.2679748535156250
+							],
+							"y" : 
+							[
+								-1.236015319824219,
+								-1.059730529785156,
+								-1.333950042724609,
+								-1.329051971435547
+							]
+						}
+					}
+				},
+				
+				{
+					"customProperties" : 
+					[
+						
+						{
+							"float" : 2.889080047607422,
+							"name" : "height"
+						},
+						
+						{
+							"float" : 1.111558914184570,
+							"name" : "width"
+						}
+					],
+					"density" : 12.47612953186035,
+					"filter-categoryBits" : 2,
+					"friction" : 0.2,
+					"name" : "player",
+					"polygon" : 
+					{
+						"vertices" : 
+						{
+							"x" : 
+							[
+								0.5617790222167969,
+								0.1798343658447266,
+								-0.4028778076171875,
+								-0.5497798919677734,
+								-0.3049430847167969,
+								0.1927394270896912,
+								0.4491558074951172
+							],
+							"y" : 
+							[
+								1.089939117431641,
+								1.555130004882812,
+								1.44250488281250,
+								1.065456390380859,
+								0.5659866333007812,
+								0.4514425098896027,
+								0.5464019775390625
+							]
+						}
+					}
+				},
 				
 				{
 					"customProperties" : 
@@ -5714,7 +6173,7 @@
 							"name" : "width"
 						}
 					],
-					"density" : 1.000015377998352,
+					"density" : 386.9312438964844,
 					"friction" : 0.2,
 					"name" : "foot",
 					"polygon" : 
@@ -5723,300 +6182,31 @@
 						{
 							"x" : 
 							[
-								0.2892783880233765,
-								0.2892783880233765,
-								-0.05676081031560898,
-								-0.05676081031560898
+								0.1389449834823608,
+								0.1389449834823608,
+								-0.2070942223072052,
+								-0.2070942223072052
 							],
 							"y" : 
 							[
-								-1.258236289024353,
-								-0.9121962785720825,
-								-0.9121962785720825,
-								-1.258236289024353
+								-1.55054509639740,
+								-1.204505085945129,
+								-1.204505085945129,
+								-1.55054509639740
 							]
 						}
 					},
 					"sensor" : true
-				},
-				
-				{
-					"customProperties" : 
-					[
-						
-						{
-							"float" : 2.145013809204102,
-							"name" : "height"
-						},
-						
-						{
-							"float" : 1.471184968948364,
-							"name" : "width"
-						}
-					],
-					"density" : 1.000015377998352,
-					"friction" : 0.2,
-					"name" : "player",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : 
-							[
-								0.5096684694290161,
-								0.5072714686393738,
-								0.3457894921302795,
-								-0.4964824914932251,
-								0.09608804434537888,
-								0.4737087488174438
-							],
-							"y" : 
-							[
-								-0.9975525140762329,
-								-0.3345105051994324,
-								-0.07365947961807251,
-								-0.04037547111511230,
-								-1.201673626899719,
-								-1.085908412933350
-							]
-						}
-					}
-				},
-				
-				{
-					"customProperties" : 
-					[
-						
-						{
-							"float" : 2.145013809204102,
-							"name" : "height"
-						},
-						
-						{
-							"float" : 1.471184968948364,
-							"name" : "width"
-						}
-					],
-					"density" : 1.000015377998352,
-					"friction" : 0.2,
-					"name" : "player",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : 
-							[
-								0.4737087488174438,
-								0.09608804434537888,
-								0.2316267788410187,
-								0.3331860005855560,
-								0.4221859872341156
-							],
-							"y" : 
-							[
-								-1.085908412933350,
-								-1.201673626899719,
-								-1.202570319175720,
-								-1.178474903106689,
-								-1.141920208930969
-							]
-						}
-					}
-				},
-				
-				{
-					"customProperties" : 
-					[
-						
-						{
-							"float" : 2.145013809204102,
-							"name" : "height"
-						},
-						
-						{
-							"float" : 1.471184968948364,
-							"name" : "width"
-						}
-					],
-					"density" : 1.000015377998352,
-					"friction" : 0.2,
-					"name" : "player",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : 
-							[
-								0.09608804434537888,
-								-0.4964824914932251,
-								-0.4964824914932251,
-								-0.4547255039215088,
-								-0.3274064958095551,
-								-0.2232944816350937,
-								-0.09502887725830078,
-								0.004178263247013092
-							],
-							"y" : 
-							[
-								-1.201673626899719,
-								-0.04037547111511230,
-								-0.2961924672126770,
-								-0.6100294589996338,
-								-1.015612483024597,
-								-1.131021142005920,
-								-1.171261668205261,
-								-1.194008946418762
-							]
-						}
-					}
-				},
-				
-				{
-					"customProperties" : 
-					[
-						
-						{
-							"float" : 2.145013809204102,
-							"name" : "height"
-						},
-						
-						{
-							"float" : 1.471184968948364,
-							"name" : "width"
-						}
-					],
-					"density" : 1.000015377998352,
-					"friction" : 0.2,
-					"name" : "player",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : 
-							[
-								0.7194215059280396,
-								0.2366034984588623,
-								-0.1629735082387924,
-								-0.4964824914932251,
-								-0.7517635226249695,
-								0.5423625111579895
-							],
-							"y" : 
-							[
-								0.8425485491752625,
-								0.9368935227394104,
-								0.9424434900283813,
-								0.7038075327873230,
-								0.4646415114402771,
-								0.4041287302970886
-							]
-						}
-					}
-				},
-				
-				{
-					"customProperties" : 
-					[
-						
-						{
-							"float" : 2.145013809204102,
-							"name" : "height"
-						},
-						
-						{
-							"float" : 1.471184968948364,
-							"name" : "width"
-						}
-					],
-					"density" : 1.000015377998352,
-					"friction" : 0.2,
-					"name" : "player",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : 
-							[
-								0.5423625111579895,
-								-0.7517635226249695,
-								-0.7240195274353027,
-								-0.4964824914932251,
-								0.3457894921302795
-							],
-							"y" : 
-							[
-								0.4041287302970886,
-								0.4646415114402771,
-								0.3425480723381042,
-								-0.04037547111511230,
-								-0.07365947961807251
-							]
-						}
-					}
-				},
-				
-				{
-					"customProperties" : 
-					[
-						
-						{
-							"float" : 2.145013809204102,
-							"name" : "height"
-						},
-						
-						{
-							"float" : 1.471184968948364,
-							"name" : "width"
-						}
-					],
-					"density" : 1.000015377998352,
-					"friction" : 0.2,
-					"name" : "player",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : [ -0.4964824914932251, -0.7406654953956604, -0.7517635226249695 ],
-							"y" : [ 0.7038075327873230, 0.5534325242042542, 0.4646415114402771 ]
-						}
-					}
-				},
-				
-				{
-					"customProperties" : 
-					[
-						
-						{
-							"float" : 2.145013809204102,
-							"name" : "height"
-						},
-						
-						{
-							"float" : 1.471184968948364,
-							"name" : "width"
-						}
-					],
-					"density" : 1.000015377998352,
-					"friction" : 0.2,
-					"name" : "player",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : [ 0.5423625111579895, 0.3457894921302795, 0.5118985176086426 ],
-							"y" : [ 0.4041287302970886, -0.07365947961807251, 0.02067852020263672 ]
-						}
-					}
 				}
 			],
 			"linearVelocity" : 0,
-			"massData-I" : 0.02723298035562038,
+			"massData-I" : 47.59321594238281,
 			"massData-center" : 
 			{
-				"x" : 0.01263078860938549,
-				"y" : -0.1091143339872360
+				"x" : -0.03348842263221741,
+				"y" : -0.8238820433616638
 			},
-			"massData-mass" : 2.257099866867065,
+			"massData-mass" : 70.0,
 			"name" : "player",
 			"position" : 
 			{
@@ -6030,9 +6220,9 @@
 	{
 		"names" : 
 		[
-			"bitplane1",
-			"bitplane2",
-			"bitplane3",
+			"BIT_GROUND",
+			"BIT_PLAYER",
+			"BIT_ENEMY",
 			"bitplane4",
 			"bitplane5",
 			"bitplane6",
@@ -6075,72 +6265,27 @@
 		
 		{
 			"aspectScale" : 1,
-			"body" : 2,
+			"body" : 1,
 			"center" : 
 			{
-				"x" : -0.009625434875488281,
-				"y" : 0.04259872436523438
+				"x" : -0.1249715313315392,
+				"y" : -0.2952594757080078
 			},
 			"corners" : 
 			{
 				"x" : 
 				[
-					-1.082441329956055,
-					1.063190460205078,
-					1.063190460205078,
-					-1.082441329956055
+					-32.66116333007812,
+					32.41121673583984,
+					32.41121673583984,
+					-32.66116333007812
 				],
 				"y" : 
 				[
-					-1.450014710426331,
-					-1.450014710426331,
-					1.535212159156799,
-					1.535212159156799
-				]
-			},
-			"file" : "MainCharRight_1.png",
-			"filter" : 0,
-			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
-			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
-			"glVertexPointer" : 
-			[
-				-1.082441329956055,
-				-1.450014710426331,
-				1.063190460205078,
-				-1.450014710426331,
-				1.063190460205078,
-				1.535212159156799,
-				-1.082441329956055,
-				1.535212159156799
-			],
-			"name" : "player",
-			"opacity" : 1,
-			"scale" : 2.985226869583130
-		},
-		
-		{
-			"aspectScale" : 1,
-			"body" : -1,
-			"center" : 
-			{
-				"x" : 0,
-				"y" : 24.72665405273438
-			},
-			"corners" : 
-			{
-				"x" : 
-				[
-					-32.67548370361328,
-					32.67548370361328,
-					32.67548370361328,
-					-32.67548370361328
-				],
-				"y" : 
-				[
-					0.2200431823730469,
-					0.2200431823730469,
-					49.23326492309570,
-					49.23326492309570
+					-24.69740104675293,
+					-24.69740104675293,
+					24.10688209533691,
+					24.10688209533691
 				]
 			},
 			"file" : "../WhiteLevel.png",
@@ -6149,18 +6294,108 @@
 			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
 			"glVertexPointer" : 
 			[
-				-32.67548370361328,
-				0.2200431823730469,
-				32.67548370361328,
-				0.2200431823730469,
-				32.67548370361328,
-				49.23326492309570,
-				-32.67548370361328,
-				49.23326492309570
+				-32.66116333007812,
+				-24.69740104675293,
+				32.41121673583984,
+				-24.69740104675293,
+				32.41121673583984,
+				24.10688209533691,
+				-32.66116333007812,
+				24.10688209533691
+			],
+			"name" : "image2",
+			"opacity" : 1,
+			"scale" : 48.80428314208984
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : -1,
+			"center" : 
+			{
+				"x" : -16.83033752441406,
+				"y" : 44.26307296752930
+			},
+			"corners" : 
+			{
+				"x" : 
+				[
+					-17.27478218078613,
+					-16.38589286804199,
+					-16.38589286804199,
+					-17.27478218078613
+				],
+				"y" : 
+				[
+					43.76307296752930,
+					43.76307296752930,
+					44.76307296752930,
+					44.76307296752930
+				]
+			},
+			"file" : "../CharacterPNGs/Enemy1_Right1_1.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : 
+			[
+				-17.27478218078613,
+				43.76307296752930,
+				-16.38589286804199,
+				43.76307296752930,
+				-16.38589286804199,
+				44.76307296752930,
+				-17.27478218078613,
+				44.76307296752930
+			],
+			"name" : "image3",
+			"opacity" : 1,
+			"scale" : 1
+		},
+		
+		{
+			"aspectScale" : 1,
+			"body" : -1,
+			"center" : 
+			{
+				"x" : -31.44445800781250,
+				"y" : 46.01301574707031
+			},
+			"corners" : 
+			{
+				"x" : 
+				[
+					-31.99768829345703,
+					-30.89122772216797,
+					-30.89122772216797,
+					-31.99768829345703
+				],
+				"y" : 
+				[
+					44.54022598266602,
+					44.54022598266602,
+					47.48580551147461,
+					47.48580551147461
+				]
+			},
+			"file" : "../CharacterPNGs/HeroNoSword_RV1_1.png",
+			"filter" : 1,
+			"glDrawElements" : [ 0, 1, 2, 2, 3, 0 ],
+			"glTexCoordPointer" : [ 0.0, 0.0, 1, 0.0, 1, 1, 0.0, 1 ],
+			"glVertexPointer" : 
+			[
+				-31.99768829345703,
+				44.54022598266602,
+				-30.89122772216797,
+				44.54022598266602,
+				-30.89122772216797,
+				47.48580551147461,
+				-31.99768829345703,
+				47.48580551147461
 			],
 			"name" : "image0",
 			"opacity" : 1,
-			"scale" : 49.01322174072266
+			"scale" : 2.945578336715698
 		},
 		
 		{

@@ -42,6 +42,7 @@ public class MenuScreen implements Screen {
         stage.getViewport().setCamera(camera);
 
         skin = new Skin(Gdx.files.internal("assets/ui/defaultskin.json"));
+        font = new BitmapFont();
 
         //Make the table
         Table table = new Table();
@@ -71,6 +72,10 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        //show frames per second
+        batch.begin();
+        font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 20, game.SCREEN_HEIGHT -30);
+        batch.end();
 
         stage.act();
         stage.draw();

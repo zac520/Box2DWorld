@@ -81,6 +81,13 @@ public class GameScreen implements Screen{
     public Array<Body> bodiesToRemove;
     private Vector2 playerPreviousPosition;
 
+
+    /**box2d variables**/
+    private float accum = 0f;
+    private final float step = 1f / 60f;
+    private final float maxAccum = 1f / 20f;
+
+
     public GameScreen(MainGame pGame){
         game = pGame;
         batch = new SpriteBatch();
@@ -150,15 +157,21 @@ public class GameScreen implements Screen{
 
     }
 
-    public void updateBox2dWorld(){
-        scene.getWorld().step(0.02f,6,2);
-    }
+
     public void update(float delta){
         //(step, accuracy of collisions (6 or 8 steps recommended), accuracy
         //of setting bodies after collision (2 recommended))
         //world.step(delta, 6, 2);
-        //scene.getWorld().step(0.02f,6,2);
-        updateBox2dWorld();
+//        scene.getWorld().step(delta,6,2);
+
+        accum += delta;
+        accum = Math.min(accum, maxAccum);
+        while (accum > step) {
+            scene.getWorld().step(step,6,2);
+            accum -= step;
+        }
+        scene.getWorld().step(accum,6,2);
+        accum = 0;
 
         //remove enemies if necessary
         for(int i = 0; i< bodiesToRemove.size; i++){
@@ -185,13 +198,15 @@ public class GameScreen implements Screen{
 
 
         //render the UI stage
-        //userInterfaceStage.act(delta);
+        userInterfaceStage.act(delta);
         userInterfaceStage.draw();
     }
 
     @Override
     public void render(float delta) {
+
         // clear screen
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //update the world
@@ -670,7 +685,13 @@ public class GameScreen implements Screen{
 
         }
 
+        //sleep all of the bodies except for the player
+        for(int x = 0; x< myBodies.size; x++){
+            if(String.valueOf(myBodies.get(x).getUserData()).compareTo("Player")!=0) {
+                myBodies.get(x).setAwake(false);
+            }
 
+        }
     }
     public void listFilesForFolder(final File folder) {
         //http://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
