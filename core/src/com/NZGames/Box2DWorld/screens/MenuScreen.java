@@ -1,6 +1,7 @@
 package com.NZGames.Box2DWorld.screens;
 
 import com.NZGames.Box2DWorld.MainGame;
+import com.NZGames.Box2DWorld.handlers.LoadLevel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -54,7 +54,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //set screen
-                game.setScreen(new LoadScreen(game));
+                game.setScreen(new LoadLevel(game));
             }
         });
         table.add(startGame).width(200).height(50);

@@ -1,5 +1,6 @@
 package com.NZGames.Box2DWorld.handlers;
 
+import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.GenericActor;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.physics.box2d.*;
@@ -14,9 +15,10 @@ public class MyContactListener implements ContactListener {
     private int numFootContacts =0;
     private GameScreen gameScreen;
     private boolean playerHitEnemy = false;
-    public MyContactListener(GameScreen myGameScreen){
+    private MainGame game;
+    public MyContactListener(MainGame myGame){
         super();
-        gameScreen = myGameScreen;
+        game = myGame;
     }
 
     Fixture fa;
@@ -48,8 +50,8 @@ public class MyContactListener implements ContactListener {
 
             //if we have an intersection, and the intersection is NOT the "awake world", then it must be the player
             if(fb.getUserData() != null && !fb.getUserData().equals("awake")) {
-                if (!gameScreen.bodiesToRemove.contains(fa.getBody(), true)) {
-                    gameScreen.bodiesToRemove.add(fa.getBody());
+                if (!game.bodiesToRemove.contains(fa.getBody(), true)) {
+                    game.bodiesToRemove.add(fa.getBody());
                 }
             }
         }
@@ -59,8 +61,8 @@ public class MyContactListener implements ContactListener {
             //since world is updating, we are going to queue the crystals
             //and remove them after the update for each step
             if(fa.getUserData() != null && !fa.getUserData().equals("awake")) {
-                if (!gameScreen.bodiesToRemove.contains(fb.getBody(), true)) {
-                    gameScreen.bodiesToRemove.add(fb.getBody());
+                if (!game.bodiesToRemove.contains(fb.getBody(), true)) {
+                    game.bodiesToRemove.add(fb.getBody());
                 }
             }
 

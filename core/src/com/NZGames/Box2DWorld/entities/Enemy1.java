@@ -1,5 +1,6 @@
 package com.NZGames.Box2DWorld.entities;
 
+import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -24,7 +25,7 @@ public class Enemy1  extends GenericActor {
     float MAX_SPEED = 1;
     float FORWARD_FORCE = 1;
 
-    public Enemy1(Body myBody, GameScreen myGameScreen, float width, float height) {
+    public Enemy1(Body myBody, MainGame myGame, float width, float height) {
 
         //set the hp and mp and contact damage
         hitPoints = 10;
@@ -34,12 +35,12 @@ public class Enemy1  extends GenericActor {
         //set the box2d body and the world it lives in
         this.body = myBody;
         this.body.setAwake(false);//start all enemies asleep. they will be wakened by the player when on screen
-        this.gameScreen = myGameScreen;
+        this.game = myGame;
 
         //set the animation
-        rightAnimation = new Animation(FRAME_DURATION, myGameScreen.atlas.findRegions("Enemy1_Right1"));
-        leftAnimation = new Animation(FRAME_DURATION, myGameScreen.atlas.findRegions("Enemy1_Left1"));
-        downFacingFrame = new TextureRegion(myGameScreen.atlas.findRegion("Enemy1_Right1"));
+        rightAnimation = new Animation(FRAME_DURATION, game.atlas.findRegions("Enemy1_Right1"));
+        leftAnimation = new Animation(FRAME_DURATION, game.atlas.findRegions("Enemy1_Left1"));
+        downFacingFrame = new TextureRegion(game.atlas.findRegion("Enemy1_Right1"));
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(rightAnimation.getKeyFrame(this.getStateTime(), true));
@@ -66,8 +67,8 @@ public class Enemy1  extends GenericActor {
         genericActor = this;
         this.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                downArrow = new TextureRegion(gameScreen.atlas.findRegion("Arrowdowngreen"));
-                gameScreen.selectEnemy(genericActor);
+                downArrow = new TextureRegion(game.atlas.findRegion("Arrowdowngreen"));
+                game.selectEnemy(genericActor);
 
                 return true;
             }

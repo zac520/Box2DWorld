@@ -1,5 +1,6 @@
 package com.NZGames.Box2DWorld.entities;
 
+import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.NZGames.Box2DWorld.screens.MenuScreen;
@@ -31,7 +32,7 @@ public class Player extends GenericActor{
 
     public Animation spellAnimation; //I think we will put these in their own class later.
 
-    public Player(GameScreen myGameScreen, Body body, float myWidth, float myHeight){
+    public Player(MainGame myGame, Body body, float myWidth, float myHeight){
 
         //super(new TextureRegion(myGameScreen.atlas.findRegion("MainCharLeft")));
 
@@ -39,7 +40,7 @@ public class Player extends GenericActor{
         this.worldHeight = myHeight * Box2DVars.PPM;
         this.worldWidth = myWidth * Box2DVars.PPM;
 
-        this.gameScreen = myGameScreen;
+        this.game = myGame;
 
         //set the forward force to be multipled by player mass for consistency
         this.FORWARD_FORCE =  FORWARD_FORCE * (int) this.body.getMass();
@@ -50,9 +51,9 @@ public class Player extends GenericActor{
         magicPoints = 0;
 
         //load the animations
-        leftAnimation = new Animation(RUNNING_FRAME_DURATION, gameScreen.atlas.findRegions("HeroNoSword_LV1"));
-        rightAnimation = new Animation(RUNNING_FRAME_DURATION, gameScreen.atlas.findRegions("HeroNoSword_RV1"));
-        spellAnimation = new Animation(RUNNING_FRAME_DURATION, gameScreen.atlas.findRegions("Fireball1"));
+        leftAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HeroNoSword_LV1"));
+        rightAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HeroNoSword_RV1"));
+        spellAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("Fireball1"));
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(rightAnimation.getKeyFrame(this.getStateTime(), true));
@@ -71,8 +72,8 @@ public class Player extends GenericActor{
         genericActor = this;
         this.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                downArrow = new TextureRegion(gameScreen.atlas.findRegion("Arrowdownblue"));
-                gameScreen.selectEnemy(genericActor);
+                downArrow = new TextureRegion(game.atlas.findRegion("Arrowdownblue"));
+                game.selectEnemy(genericActor);
                 return true;
             }
         });
@@ -94,7 +95,7 @@ public class Player extends GenericActor{
         //if player runs out of hp, we st
         if(hitPoints <=0){
             //TODO we need a death animation, and a game over screen. For now, we just go back to menu
-            gameScreen.game.setScreen(new MenuScreen(gameScreen.game));
+            game.setScreen(new MenuScreen(game));
         }
 
         if(isWalking) {

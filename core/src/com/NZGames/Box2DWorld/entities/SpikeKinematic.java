@@ -1,5 +1,6 @@
 package com.NZGames.Box2DWorld.entities;
 
+import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.Gdx;
@@ -26,6 +27,7 @@ public class SpikeKinematic extends Image{
     private Animation spikeAnimation;
     private Texture tex;
     private GameScreen gameScreen;
+    private MainGame game;
     TextureRegionDrawable myDrawable;
     protected Body body;
     private boolean facingRight = true;
@@ -37,17 +39,17 @@ public class SpikeKinematic extends Image{
     float dist = 0;
     float maxDist = 0;
 
-    public SpikeKinematic(Body myBody, GameScreen myGameScreen, float width, float height) {
+    public SpikeKinematic(Body myBody, MainGame myGame, float width, float height) {
 
         //set the extended Image class to match the spike that GameScreen already made
-        super(new TextureRegion(myGameScreen.atlas.findRegion("Spikes")));
+        super(new TextureRegion(myGame.atlas.findRegion("Spikes")));
 
         //set the box2d body and the world it lives in
         this.body = myBody;
-        this.gameScreen = myGameScreen;
+        this.game = myGame;
 
         //set the animation
-        spikeAnimation = new Animation(SPIKE_FRAME_DURATION, myGameScreen.atlas.findRegions("Spikes"));
+        spikeAnimation = new Animation(SPIKE_FRAME_DURATION, game.atlas.findRegions("Spikes"));
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(spikeAnimation.getKeyFrame(this.getStateTime(), true));

@@ -60,26 +60,22 @@ public class GameScreen implements Screen{
     RubeScene scene;
     OrthographicCamera backgroundCamera;
     Stage backgroundStage;
+    TextureAtlas atlas;
 
     /** Textures **/
     private TextureRegion currentPlayerFrame;
     private Texture ground;
     private Texture background;
-    public TextureAtlas atlas;
 
     /** Animations **/
     private Animation walkLeftAnimation;
     private Animation walkRightAnimation;
     private static final float RUNNING_FRAME_DURATION = 0.06f;
 
-    /** Actors **/
-    Player player;
-    GenericActor selectedEnemy; //we will use this to track which body the player has selected, so only one can be selected at a time
     AssetManager manager;
-
-    /** Perhaps Should be in a "gamestate" class? **/
-    public Array<Body> bodiesToRemove;
     private Vector2 playerPreviousPosition;
+    private Player player;
+
 
 
     /**box2d variables**/
@@ -91,18 +87,23 @@ public class GameScreen implements Screen{
     public GameScreen(MainGame pGame){
         game = pGame;
         batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("assets/ui/defaultskin.json"));
+        player = game.player;
+        scene = game.scene;
 
         //set up the main camera
         camera=new OrthographicCamera();
         camera.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
-        stage=new Stage();
+
+        //set the stage to the stage loaded in AssetManagement and put into game
+        stage= game.stage;
         stage.getViewport().setCamera(camera);
+        cl = new MyContactListener(game);
+        scene.getWorld().setContactListener(cl);
 
         //set up the background camera
         backgroundCamera=new OrthographicCamera();
         backgroundCamera.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
-        backgroundStage=new Stage();
+        backgroundStage= game.backgroundStage;
         backgroundStage.getViewport().setCamera(backgroundCamera);
 
         //set up box2d renderer
@@ -112,22 +113,16 @@ public class GameScreen implements Screen{
         box2DCam = new OrthographicCamera();
         box2DCam.setToOrtho(false, MainGame.SCREEN_WIDTH / Box2DVars.PPM, MainGame.SCREEN_HEIGHT / Box2DVars.PPM);
 
-        //set up bodiesToRemove for later
-        bodiesToRemove = new Array<Body>();
+//        //set up bodiesToRemove for later
+//        bodiesToRemove = new Array<Body>();
+
+        //get the atlas that was loaded by AssetManagement and placed into game
         atlas = game.assets.get("assets/textures/FirstLevel.txt", TextureAtlas.class);
-//        atlas = new TextureAtlas(Gdx.files.internal("assets/textures/FirstLevel.txt"));
-//        AssetManager manager=new AssetManager();
-//        manager.load("assets/textures/Level1.txt", TextureAtlas.class);
-//        manager.finishLoading();
-//        atlas = manager.get("assets/textures/Level1.txt", TextureAtlas.class);
-        //atlas = new TextureAtlas(Gdx.files.internal("assets/textures/Level1.txt"));
-//        walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharLeft"));
-//        walkRightAnimation = new Animation(RUNNING_FRAME_DURATION,atlas.findRegions("MainCharRight"));
 
 
-        //set up the ground for later
-        ground = new Texture(Gdx.files.internal("assets/maps/AlphascreenLevel1_2.png"));
-        background = new Texture(Gdx.files.internal("assets/maps/BackgroundLevel1_1.png"));
+//        //set up the ground for later
+//        ground = new Texture(Gdx.files.internal("assets/maps/AlphascreenLevel1_2.png"));
+//        background = new Texture(Gdx.files.internal("assets/maps/BackgroundLevel1_1.png"));
 
         //set up the font
         font = new BitmapFont();
@@ -140,7 +135,7 @@ public class GameScreen implements Screen{
         userInterfaceStage.getViewport().setCamera(userInterfaceCam);
 
         //createPlatform();
-        loadWorld();
+        //loadWorld();
 
         //add in the input processing
         MyInput.resetKeys();
@@ -152,7 +147,6 @@ public class GameScreen implements Screen{
 
         //start updating the box2dworld
         //updateBox2dWorld();
-
 
 
     }
@@ -174,12 +168,12 @@ public class GameScreen implements Screen{
         accum = 0;
 
         //remove enemies if necessary
-        for(int i = 0; i< bodiesToRemove.size; i++){
-            Body b = bodiesToRemove.get(i);
+        for(int i = 0; i< game.bodiesToRemove.size; i++){
+            Body b = game.bodiesToRemove.get(i);
             scene.getWorld().destroyBody(b);
             //player.collectCrystal(); this sort of thing will be used to give the player experience later
         }
-        bodiesToRemove.clear();
+        game.bodiesToRemove.clear();
 
 
         playerPreviousPosition = player.getBody().getPosition();
@@ -360,8 +354,8 @@ public class GameScreen implements Screen{
         if (MyInput.isPressed(MyInput.BUTTON2)) {
             //TODO this is a bit hacky. We have an animation loaded into the player class, that runs then destroys the character
             //we will probably want the character to respawn later, but for now this is what we are doing
-            if(selectedEnemy != null) {
-                selectedEnemy.incurDamage(3, player.spellAnimation, 1);
+            if(game.selectedEnemy != null) {
+                game.selectedEnemy.incurDamage(3, player.spellAnimation, 1);
             }
 
             MyInput.setKey(MyInput.BUTTON2, false);
@@ -381,332 +375,6 @@ public class GameScreen implements Screen{
 
     }
 
-    /**
-     * This function will be called from an Actor to let this GameScreen class know which Actor is selected
-     * and toggle them accordingly
-     * @param myEnemy
-     */
-    public void selectEnemy(GenericActor myEnemy){
 
-        if(selectedEnemy!=null) {
-            if (selectedEnemy == myEnemy) {//if the body is already selected, then we unselect.
-                selectedEnemy.toggleSelected();
-                selectedEnemy = null;
-                return;
-            } else {
-                //let the old body know we are unselecting it
-                selectedEnemy.toggleSelected();
 
-                //set it to the new enemy
-                selectedEnemy = myEnemy;
-
-                //toggle the new enemy
-                selectedEnemy.toggleSelected();
-            }
-
-        }
-        else{
-            selectedEnemy = myEnemy;
-            selectedEnemy.toggleSelected();
-        }
-    }
-    public void loadWorld(){
-
-        //load the scene file
-        RubeSceneLoader loader = new RubeSceneLoader();
-        scene = loader.addScene(Gdx.files.internal("assets/textures/FirstLevel.json"));
-
-        //attach a contact listener
-        cl = new MyContactListener(this);
-        scene.getWorld().setContactListener(cl);
-
-        //get all of the bodies that we just loaded in (will have their names as UserData)
-        Array<Body> myBodies = scene.getBodies();
-        String myString;
-        Map customInfo;
-        Array<Fixture> bodyFixtures;
-        int y = 0;
-        //iterate through, and assign each body to its appropriate class
-        for(int x = 0; x< myBodies.size; x++){
-            myString = (String) myBodies.get(x).getUserData();
-
-            //create the player
-            if(myString.compareTo("player")==0){
-
-                //find the fixture with the same name as above
-                bodyFixtures = myBodies.get(x).getFixtureList();
-                for (y = 0; y< bodyFixtures.size; y++){
-                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("player")==0){
-                        break;
-                    }
-                }
-                //get the custom info associated with that fixture (height and width)
-                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
-
-
-                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
-                player = new Player(this, myBodies.get(x), (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
-                myBodies.get(x).setUserData(player);//make it so we can find it by asking for player
-
-                //create a box around the player to wake sleeping box2d objects
-                PolygonShape shape = new PolygonShape();
-                FixtureDef fdef = new FixtureDef();
-                shape.setAsBox(MainGame.SCREEN_WIDTH/Box2DVars.PPM, MainGame.SCREEN_HEIGHT /Box2DVars.PPM);
-                fdef.shape = shape;
-                fdef.filter.categoryBits = Box2DVars.BIT_ENEMY;//right now this box shares enemy bit and can only awaken enemies
-                fdef.filter.maskBits = Box2DVars.BIT_ENEMY;
-                fdef.isSensor = true;
-                myBodies.get(x).createFixture(fdef).setUserData("awake");
-                shape.dispose();
-
-                stage.addActor(player.getGroup());
-            }
-
-            //create the world (all we are doing here is getting the size and adding the picture to the stage
-            else if (myString.compareTo("level")==0){
-
-                //find the fixture with the same User data as above
-                bodyFixtures = myBodies.get(x).getFixtureList();
-                for (y = 0; y< bodyFixtures.size; y++){
-                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("level")==0){
-                        customInfo = scene.getCustomPropertiesForItem(myBodies.get(x).getFixtureList().get(y) ,true);
-
-
-
-
-
-                        //test area
-                        FileHandle [] filehandles;
-                        String folder = "assets/maps/test";
-                        filehandles = Gdx.files.internal(folder).list();
-                        int rowCount=0;
-                        int columnCount=0;
-                        int rowNumber=0;
-                        int columnNumber=0;
-
-
-                        //get the row and column count in the directory (skip folders..)
-                        //TODO right now this works for single digit only... need to make one for double digit extensions
-                        //also, will need to move this to the loading screen, as it takes awhile.
-                        for (int k = 0; k< filehandles.length; k++) {
-                            if (filehandles[k].isDirectory()) {
-                                continue;
-                            } else {
-                                //we have a filename. Now lets work with it
-                                String filename = filehandles[k].name();
-                                //for our current workflow, this will be the row number
-                                rowNumber = Character.getNumericValue(filename.charAt(filename.length()-5));
-                                columnNumber = Character.getNumericValue(filename.charAt(filename.length()-7));
-
-                                if(rowNumber>=rowCount){
-                                    rowCount ++;
-                                }
-                                if(columnNumber>=columnCount){
-                                    columnCount ++;
-                                }
-                            }
-                        }
-                        //create the 2d array to the size we learned from above
-                        myLevel = new Texture[rowCount][columnCount];
-
-                        //set the elements of the array, iterating through the same folder
-                        for (int k = 0; k< filehandles.length; k++) {
-                            if (filehandles[k].isDirectory()) {
-                                //listFilesForFolder(fileEntry);
-                                continue;
-                            } else {
-                                //System.out.println(fileEntry.getName());
-                                //we have a filename. Now lets work with it
-                                String filename = filehandles[k].name();
-                                //for our current workflow, this will be the row number
-                                rowNumber = Character.getNumericValue(filename.charAt(filename.length() - 5));
-                                columnNumber = Character.getNumericValue(filename.charAt(filename.length() - 7));
-
-                                myLevel[rowNumber][columnNumber] = new Texture(Gdx.files.internal(folder + "/" + filename));
-                            }
-                        }
-
-
-                        //get the total width of the stage to get pixel per width
-                        int pixelCount=0;
-                        Float width = (Float) customInfo.get("width") *Box2DVars.PPM;
-                        float widthPerPixel;
-                        int currentWidthPixel=0;
-                        for(columnNumber=0; columnNumber<columnCount;columnNumber++){
-                            pixelCount += myLevel[0][columnNumber].getWidth();
-
-                        }
-                        widthPerPixel = width/pixelCount;
-
-                        //get the total hieght of the stage to get per pixel height
-                        pixelCount=0;
-                        Float height = (Float) customInfo.get("height") *Box2DVars.PPM;
-                        float heightPerPixel;
-                        int currentHeightPixel=0;
-                        for(rowNumber=0; rowNumber<rowCount;rowNumber++){
-                            pixelCount += myLevel[rowNumber][0].getHeight();
-                        }
-                        heightPerPixel = height/pixelCount;
-
-                        //iterate through the array, adding the appropriate size and position to the stage
-                        for( rowNumber = rowCount-1; rowNumber>=0; rowNumber--) {//we will build from the bottom up
-
-                            //iterate through all of the columns in this row
-                            for (columnNumber = 0; columnNumber < columnCount; columnNumber++) {
-                                Image myImage = new Image(myLevel[rowNumber][columnNumber]);
-
-                                myImage.setSize(
-                                        widthPerPixel * myImage.getWidth(),
-                                        heightPerPixel * myImage.getHeight());
-
-                                myImage.setPosition(
-                                        currentWidthPixel,
-                                        currentHeightPixel +20);//not sure we why need to subtract 20...
-
-                                stage.addActor(myImage);
-                                stage.getActors().get(stage.getActors().size - 1).toBack();
-
-                                //add this width to the current width and same for height
-                                currentWidthPixel += myImage.getWidth();
-                            }
-                            currentWidthPixel = 0;
-                            currentHeightPixel += heightPerPixel * myLevel[rowNumber][0].getHeight();
-
-                        }
-
-                        //end test area
-
-
-
-
-//                        //set up the ground
-//                        Image groundStage = new Image(ground);
-//                        groundStage.setSize(
-//                                (Float) customInfo.get("width") *Box2DVars.PPM ,
-//                                (Float) customInfo.get("height")*Box2DVars.PPM);
-//
-//                        //TODO figure out why we need an offset of 20 for this positioning.. We may need to better center the image
-//                        //in RUBE
-//                        groundStage.setPosition(
-//                                myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStage.getWidth() /2,
-//                                (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStage.getHeight() /2) +20);
-//                        stage.addActor(groundStage);
-//                        stage.getActors().get(stage.getActors().size -1).toBack();
-
-
-                        //for now, just make the background move at the same speed (so just make a background under foreground)
-                        Image groundStageBackground = new Image(background);
-                        groundStageBackground.setSize(
-                                (Float) customInfo.get("width") *Box2DVars.PPM ,
-                                (Float) customInfo.get("height")*Box2DVars.PPM);
-
-                        groundStageBackground.setPosition(
-                                myBodies.get(x).getPosition().x * Box2DVars.PPM - groundStageBackground.getWidth() /2,
-                                (myBodies.get(x).getPosition().y * Box2DVars.PPM -groundStageBackground.getHeight() /2) +20);
-                        backgroundStage.addActor(groundStageBackground);
-//
-//
-//
-//                        //get the most recent addition to the actors and send it to the back of the stage.
-//                        //can we think of any better way to do this? It has to be the actor, not the image sent to the back.
-                        backgroundStage.getActors().get(backgroundStage.getActors().size -1).toBack();
-                        break;
-                    }
-                }
-
-            }
-
-            else if(myString.compareTo("spike")==0){
-                //find the fixture with the same name as above
-                bodyFixtures = myBodies.get(x).getFixtureList();
-                for (y = 0; y< bodyFixtures.size; y++){
-                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("spike")==0){
-                        break;
-                    }
-                }
-                //get the custom info associated with that fixture (height and width)
-                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
-
-
-                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
-                SpikeKinematic mySpike = new SpikeKinematic(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
-                myBodies.get(x).setUserData(mySpike);//make it so we can find it by asking
-
-
-                //add the spike to the stage
-                stage.addActor(mySpike);
-
-            }
-
-            else if(myString.compareTo("enemy1")==0){
-                //find the fixture with the same name as above
-                bodyFixtures = myBodies.get(x).getFixtureList();
-                for (y = 0; y< bodyFixtures.size; y++){
-                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("enemy1")==0){
-                        break;
-                    }
-                }
-                //get the custom info associated with that fixture (height and width)
-                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
-
-
-                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
-                Enemy1 myEnemy1 = new Enemy1(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
-                myBodies.get(x).setUserData(myEnemy1);//make it so we can find it by asking
-
-
-                //add the spike to the stage (we are using groups, so that we can add an arrow later)
-                stage.addActor(myEnemy1.getGroup());
-
-            }
-            else if(myString.compareTo("enemy2")==0){
-                //find the fixture with the same name as above
-                bodyFixtures = myBodies.get(x).getFixtureList();
-                for (y = 0; y< bodyFixtures.size; y++){
-                    if(String.valueOf(bodyFixtures.get(y).getUserData()).compareTo("enemy2")==0){
-                        break;
-                    }
-                }
-                //get the custom info associated with that fixture (height and width)
-                customInfo = scene.getCustomPropertiesForItem(bodyFixtures.get(y), true);
-
-
-                //Oddly, we cannot cast to (float), we must cast to (Float). Java silliness.
-                Enemy2 myEnemy2 = new Enemy2(myBodies.get(x),this, (Float) customInfo.get("width"), (Float) customInfo.get("height")); //make a player with it
-                myBodies.get(x).setUserData(myEnemy2);//make it so we can find it by asking
-
-
-                //add the spike to the stage (we are using groups, so that we can add an arrow later)
-                stage.addActor(myEnemy2.getGroup());
-
-            }
-
-
-
-        }
-
-        //sleep all of the bodies except for the player
-        for(int x = 0; x< myBodies.size; x++){
-            if(String.valueOf(myBodies.get(x).getUserData()).compareTo("Player")!=0) {
-                myBodies.get(x).setAwake(false);
-            }
-
-        }
-    }
-    public void listFilesForFolder(final File folder) {
-        //http://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
-            } else {
-                //System.out.println(fileEntry.getName());
-                //we have a filename. Now lets work with it
-                String filename = fileEntry.getName();
-                //for our current workflow, this will be the row number
-                int rowNumber = filename.charAt(filename.length()-5);
-                int columnNumber = filename.charAt(filename.length()-7);
-
-            }
-        }
-    }
 }

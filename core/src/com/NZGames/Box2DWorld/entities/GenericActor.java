@@ -1,5 +1,6 @@
 package com.NZGames.Box2DWorld.entities;
 
+import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.handlers.MyInput;
 import com.NZGames.Box2DWorld.screens.GameScreen;
@@ -36,10 +37,10 @@ public class GenericActor extends Image  {
     /** How GenericEnemy relates to world**/
     protected float worldWidth;
     protected float worldHeight;
-    protected GameScreen gameScreen;
     protected float stateTime;
     protected Body body;
     public boolean facingRight = false;
+    protected MainGame game;
 
     /** Animation**/
     protected Animation rightAnimation;
@@ -118,7 +119,7 @@ public class GenericActor extends Image  {
     public void incurDamage(int hp){
         if(hitPoints>0) {
             //make the hp label
-            final Label label = new Label(String.valueOf(hp), gameScreen.skin, "default-font", Color.CYAN);
+            final Label label = new Label(String.valueOf(hp), game.skin, "default-font", Color.CYAN);
             label.setFontScale(3);
             label.setPosition(
                     getX() - 25,
@@ -148,7 +149,7 @@ public class GenericActor extends Image  {
             hitPoints -= hp;
             if (hitPoints <= 0) {
                 //remove the box2d body
-                gameScreen.bodiesToRemove.add(this.getBody());
+                game.bodiesToRemove.add(this.getBody());
 
                 //remove the graphic
                 graphicsGroup.addAction(
