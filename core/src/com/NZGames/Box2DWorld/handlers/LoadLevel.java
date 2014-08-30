@@ -52,7 +52,8 @@ public class LoadLevel implements Screen {
     OrthographicCamera camera;
     TextureAtlas atlas;
     SpriteBatch batch;
-
+    String filepath;
+    String filename;
 
     GameScreen gameScreen;
 
@@ -69,8 +70,12 @@ public class LoadLevel implements Screen {
 
 
 
-    public LoadLevel(MainGame myGame, String levelPath){
+    public LoadLevel(MainGame myGame, String filePath, String fileName){
         game = myGame;
+
+        filepath = filePath;
+        filename = fileName;
+
         gameIsLoaded = false;
         batch = new SpriteBatch();
 
@@ -85,8 +90,8 @@ public class LoadLevel implements Screen {
         }
 
         //have the asset manager get the rest of the graphics
-        game.assets.load("assets/textures/FirstLevel.txt", TextureAtlas.class);
-
+        game.assets.load(filepath +"Atlas/"+ filename + ".txt", TextureAtlas.class);
+        game.assets.load(filepath + "Background/" + filename + ".png", Texture.class);
 
 
         //the rest of this is just the loading image
@@ -100,9 +105,7 @@ public class LoadLevel implements Screen {
 
 
 
-        //set up the ground for later
-        ground = new Texture(Gdx.files.internal("assets/maps/AlphascreenLevel1_2.png"));
-        background = new Texture(Gdx.files.internal("assets/maps/BackgroundLevel1_1.png"));
+
 
         //create font
         font = new BitmapFont();
@@ -175,7 +178,7 @@ public class LoadLevel implements Screen {
         if(game.assets.update()){
             // all the assets are loaded, time to load the screen!
             //create the world for the gamescreen
-            game.atlas = game.assets.get("assets/textures/FirstLevel.txt", TextureAtlas.class);
+            game.atlas = game.assets.get(filepath +"Atlas/"+ filename +".txt", TextureAtlas.class);
 
             //load the world (we repeat a bit of code from the steps above... could be more efficient, but only a little
             loadWorld();
@@ -284,7 +287,7 @@ public class LoadLevel implements Screen {
 
                             //test area
                             FileHandle[] filehandles;
-                            String folder = "assets/maps/test";
+                            String folder = filepath + "LevelPieces/";
                             filehandles = Gdx.files.internal(folder).list();
                             int rowCount = 0;
                             int columnCount = 0;
@@ -329,7 +332,7 @@ public class LoadLevel implements Screen {
                                     rowNumber = Character.getNumericValue(filename.charAt(filename.length() - 5));
                                     columnNumber = Character.getNumericValue(filename.charAt(filename.length() - 7));
 
-                                    myLevel[rowNumber][columnNumber] = game.assets.get(folder + "/" + filename);
+                                    myLevel[rowNumber][columnNumber] = game.assets.get(folder + filename);
                                 }
                             }
 
@@ -400,6 +403,7 @@ public class LoadLevel implements Screen {
 
 
                             //for now, just make the background move at the same speed (so just make a background under foreground)
+                            background = game.assets.get(filepath + "Background/" + filename + ".png");
                             Image groundStageBackground = new Image(background);
                             groundStageBackground.setSize(
                                     (Float) customInfo.get("width") * Box2DVars.PPM,
@@ -527,7 +531,7 @@ public class LoadLevel implements Screen {
     //load up all of the filenames
     private void filenameLoad() {
         FileHandle[] filehandles;
-        String folder = "assets/maps/test";
+        String folder = filepath + "LevelPieces";
         filehandles = Gdx.files.internal(folder).list();
         filenames = new Array<String>();
         //get the row and column count in the directory (skip folders..)

@@ -54,7 +54,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //set screen
-                game.setScreen(new LoadLevel(game));
+                game.setScreen(new LoadLevel(game,"assets/maps/FirstLevel/","FirstLevel"));
             }
         });
         table.add(startGame).width(200).height(50);

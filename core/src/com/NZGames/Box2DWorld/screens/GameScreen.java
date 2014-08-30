@@ -117,7 +117,7 @@ public class GameScreen implements Screen{
 //        bodiesToRemove = new Array<Body>();
 
         //get the atlas that was loaded by AssetManagement and placed into game
-        atlas = game.assets.get("assets/textures/FirstLevel.txt", TextureAtlas.class);
+        atlas = game.atlas;
 
 
 //        //set up the ground for later
