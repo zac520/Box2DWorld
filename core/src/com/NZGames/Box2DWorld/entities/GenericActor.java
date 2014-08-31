@@ -1,6 +1,7 @@
 package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.MainGame;
+import com.NZGames.Box2DWorld.handlers.AnimatedImage;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.handlers.MyInput;
 import com.NZGames.Box2DWorld.screens.GameScreen;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -39,6 +43,7 @@ public class GenericActor extends Image  {
     protected float worldHeight;
     protected float stateTime;
     protected Body body;
+    protected Array<Fixture> actorFixtures;
     public boolean facingRight = false;
     protected MainGame game;
 
@@ -48,9 +53,11 @@ public class GenericActor extends Image  {
     protected TextureRegionDrawable myDrawable;
     protected TextureRegion downFacingFrame; //used for turning animation
     protected TextureRegion damage;
+    public Image currentHPImage;
+    public Image hpBarImage;
 
     /**Extra Animation (such as spell damage)**/
-    protected Animation extraAnimation;
+    protected AnimatedImage extraAnimation;
     protected Image extraAnimationCurrentFrame; //used for spell animations
     protected boolean haveExtraAnimation = false;
     protected float animationDurationRemaining = 0;
@@ -70,8 +77,12 @@ public class GenericActor extends Image  {
 
     /** Character Attributes **/
     protected int hitPoints;
+    protected int maxHitPoints;
     protected int magicPoints;
+    protected int maxMagicPoints;
     protected int contactDamage; //damage player gets when he contacts enemy
+    public float percentHitPointsRemaining;
+    protected float maxHPImageWidth;
 
     public GenericActor(){
 
@@ -80,6 +91,13 @@ public class GenericActor extends Image  {
 
         //toggle the selected enemy
         if(!selected) {
+
+            //put on the health bar
+            graphicsGroup.addActor(currentHPImage);
+            graphicsGroup.addActor(hpBarImage);
+
+
+            //make the bouncing arrow
             downArrowImage = new Image(downArrow);
             downArrowImage.setSize(75, 75);
             downArrowImage.setPosition(getX(), getY() + worldHeight);
@@ -106,6 +124,9 @@ public class GenericActor extends Image  {
         }
         else{
             graphicsGroup.removeActor(downArrowImage);
+            graphicsGroup.removeActor(currentHPImage);
+            graphicsGroup.removeActor(hpBarImage);
+
             selected = false;
         }
     }
@@ -147,6 +168,40 @@ public class GenericActor extends Image  {
 
             //subtract the hp, and if player dies, then remove
             hitPoints -= hp;
+
+            //update the percentage of hit and magic points left
+            percentHitPointsRemaining =(float) hitPoints / maxHitPoints;
+
+            //if player, update the userInterface with this new hp percent
+            if(String.valueOf(body.getUserData()).compareTo("Player")==0) {
+                //make the player contact invincible
+                actorFixtures = body.getFixtureList();
+                for(int x = 0; x< actorFixtures.size; x++){
+                    Filter myFilter = actorFixtures.get(x).getFilterData();
+                    short bits = myFilter.maskBits;
+                    bits &= ~Box2DVars.BIT_ENEMY;
+                    myFilter.maskBits=bits;
+                    actorFixtures.get(x).setFilterData(
+                            myFilter
+                    );
+                }
+
+                game.userInterfaceStage.currentHP.setWidth(game.userInterfaceStage.maxPlayerVitalsWidth * percentHitPointsRemaining);
+            }
+
+            //or it's a monster
+            else{
+                float newWidth =  maxHPImageWidth * percentHitPointsRemaining;
+                if(newWidth<0){
+                    newWidth = 0 ;
+                }
+
+                currentHPImage.setWidth(
+                        newWidth
+                );
+            }
+
+
             if (hitPoints <= 0) {
                 //remove the box2d body
                 game.bodiesToRemove.add(this.getBody());
@@ -167,19 +222,83 @@ public class GenericActor extends Image  {
                 );
                 System.out.println("Actor has died");
             }
+
+            //player didn't die, so animate the hit, then once it is done make the player no longer contact invincible
+            else {
+                if (String.valueOf(body.getUserData()).compareTo("Player")==0) {
+
+                    //reverse the momentum for the hit
+                    body.setLinearVelocity(
+                            body.getLinearVelocity().x *-1,
+                            body.getLinearVelocity().y * -0.2f
+                    );
+
+                    //now add a flashing graphic
+                    graphicsGroup.addAction(
+                            sequence(
+                                    repeat(5,
+                                            sequence(
+                                                    fadeOut(0.1f),
+                                                    fadeIn(0.1f)
+                                            )
+
+                                    ),
+
+
+                                    new Action() {
+                                        @Override
+                                        public boolean act(float delta) {
+
+                                            //make the player able to be hit again
+                                            actorFixtures = body.getFixtureList();
+                                            for (int x = 0; x < actorFixtures.size; x++) {
+                                                Filter myFilter = actorFixtures.get(x).getFilterData();
+                                                short bits = myFilter.maskBits;
+                                                bits |= Box2DVars.BIT_ENEMY;
+                                                myFilter.maskBits = bits;
+                                                actorFixtures.get(x).setFilterData(
+                                                        myFilter
+                                                );
+                                            }
+                                            System.out.println("Player can be harmed again!");
+
+                                            return true;
+                                        }
+                                    }
+                            )
+
+
+                    );
+                }
+            }
         }
     }
 
     public void incurDamage(int hp, Animation damageAnimation, float animationDuration){
 
         if(hitPoints>0) {
-            //set up the animation if there is one
-            if (damageAnimation != null) {
-                extraAnimation = damageAnimation;
-                extraAnimation.setPlayMode(Animation.PlayMode.LOOP);
-                animationDurationRemaining = animationDuration;
-                haveExtraAnimation = true;
-            }
+
+            //set up the animation our new way
+            final AnimatedImage extraAnimation = new AnimatedImage(damageAnimation);
+            extraAnimation.setSize(50,50);
+            extraAnimation.setCenterPosition(
+                    this.getCenterX(),
+                    this.getCenterY()
+            );
+            extraAnimation.addAction(
+                    sequence(
+                            delay(1),
+                            fadeOut(1),
+                            new Action() {
+                                @Override
+                                public boolean act(float delta) {
+                                    extraAnimation.remove();
+                                    return false;
+                                }
+                            }));
+
+            graphicsGroup.addActor(extraAnimation);
+
             incurDamage(hp);
         }
     }

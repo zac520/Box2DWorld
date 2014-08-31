@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -31,10 +32,19 @@ public class UserInterface extends Stage {
     /** UI buttons **/
     private TextureRegion rightSideBackground;
 
+    /** graphics stuff**/
+    public Image playerHPMP;
+    private TextureRegion playerHpBar;
+    public Image currentHP;
+    private TextureRegion currentHPTexture;
+    public Group graphicsGroup;
+    public float maxPlayerVitalsWidth=0;
+
     Skin skin;
 
     public UserInterface(MainGame myGame, GameScreen myGameScreen){
 
+        graphicsGroup = new Group();
 
         //Create a touchpad skin
         touchpadSkin = new Skin();
@@ -55,7 +65,7 @@ public class UserInterface extends Stage {
         touchpad = new Touchpad(10, touchpadStyle);
         //setBounds(x,y,width,height)
         touchpad.setBounds(15, 15, 200, 200);
-        this.addActor(touchpad);
+        graphicsGroup.addActor(touchpad);
 
         //create the background for the right side buttons
         rightSideBackground =  new TextureRegion(myGame.atlas.findRegion("Controlpanelrightside"));
@@ -66,7 +76,7 @@ public class UserInterface extends Stage {
         rightSideBackgroundImage.setPosition(
                 myGame.SCREEN_WIDTH - rightSideBackgroundImage.getWidth() ,
                 rightSideBackgroundImage.getY());
-        this.addActor(rightSideBackgroundImage);
+        graphicsGroup.addActor(rightSideBackgroundImage);
 
 
         //create the jump button
@@ -89,7 +99,7 @@ public class UserInterface extends Stage {
             }
 
         });
-        this.addActor(jumpButton);
+        graphicsGroup.addActor(jumpButton);
 
         //create the magic button
         Button magicButton = new Button(myGame.skin, "default");
@@ -110,7 +120,36 @@ public class UserInterface extends Stage {
                 MyInput.setKey(MyInput.BUTTON2, false);
             }
         });
-        this.addActor(magicButton);
+        graphicsGroup.addActor(magicButton);
+
+
+        //add the hp bar
+        playerHpBar =  new TextureRegion(myGame.atlas.findRegion("HeroHPMPInterface"));
+        playerHPMP = new Image(playerHpBar);
+        playerHPMP.setSize(300,125);
+        playerHPMP.setPosition(myGame.SCREEN_WIDTH/4,10);
+        maxPlayerVitalsWidth = playerHPMP.getWidth()/1.8f;//found this manually. ugh.
+        graphicsGroup.addActor(playerHPMP);
+
+            //add the fill for the hp bar
+        currentHPTexture =  new TextureRegion(myGame.atlas.findRegion("HeroHPFillBar"));
+        currentHP = new Image (currentHPTexture);
+        currentHP.setSize(
+                maxPlayerVitalsWidth,
+                playerHPMP.getHeight()/7
+        );
+//        currentHP.setPosition(//this is perfect for mp
+//                playerHPMP.getX() + playerHPMP.getWidth()/2.9f,
+//                playerHPMP.getY() + playerHPMP.getHeight()/2.9f
+//        );
+        currentHP.setPosition(
+                playerHPMP.getX() + playerHPMP.getWidth()/2.85f,
+                playerHPMP.getY() + playerHPMP.getHeight()/2f
+        );
+        graphicsGroup.addActor(currentHP);
+
+        //add the graphics group to the stage
+        this.addActor(graphicsGroup);
 
     }
     public Touchpad getTouchpad(){

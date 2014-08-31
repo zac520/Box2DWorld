@@ -47,8 +47,10 @@ public class Player extends GenericActor{
         this.JUMPING_FORCE =  JUMPING_FORCE * (int) this.body.getMass();
 
         //set the hitPoints and magicPoints
-        hitPoints = 100;
-        magicPoints = 0;
+        maxHitPoints = 1000;
+        hitPoints = 1000;
+        magicPoints = 10;
+        maxMagicPoints = 10;
 
         //load the animations
         leftAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HeroNoSword_LV1"));
@@ -77,6 +79,30 @@ public class Player extends GenericActor{
                 return true;
             }
         });
+
+        //add the hp bar
+        TextureRegion playerHpBar =  new TextureRegion(myGame.atlas.findRegion("HeroHPMPInterface"));
+        hpBarImage = new Image(playerHpBar);
+        hpBarImage.setSize(125,75);
+        hpBarImage.setCenterPosition(
+                getCenterX(),
+                getY() - hpBarImage.getHeight()
+        );
+        maxHPImageWidth = hpBarImage.getWidth()/1.8f;//found this manually. ugh.
+
+        //add the fill for the hp bar
+        TextureRegion currentHPTexture =  new TextureRegion(myGame.atlas.findRegion("HeroHPFillBar"));
+        currentHPImage = new Image (currentHPTexture);
+        currentHPImage.setSize(
+                maxHPImageWidth,
+                hpBarImage.getHeight()/7
+        );
+
+        currentHPImage.setPosition(
+                hpBarImage.getX() + hpBarImage.getWidth()/2.85f,
+                hpBarImage.getY() + hpBarImage.getHeight()/2f
+        );
+
 
     }
     public void update(float delta) {

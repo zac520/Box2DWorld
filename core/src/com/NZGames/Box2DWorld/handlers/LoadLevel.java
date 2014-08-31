@@ -1,10 +1,7 @@
 package com.NZGames.Box2DWorld.handlers;
 
 import com.NZGames.Box2DWorld.MainGame;
-import com.NZGames.Box2DWorld.entities.Enemy1;
-import com.NZGames.Box2DWorld.entities.Enemy2;
-import com.NZGames.Box2DWorld.entities.Player;
-import com.NZGames.Box2DWorld.entities.SpikeKinematic;
+import com.NZGames.Box2DWorld.entities.*;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.NZGames.Box2DWorld.screens.MenuScreen;
 import com.badlogic.gdx.Gdx;
@@ -227,7 +224,8 @@ public class LoadLevel implements Screen {
     public void loadWorld() {
             //load the scene file
             RubeSceneLoader loader = new RubeSceneLoader();
-            scene = loader.addScene(Gdx.files.internal("assets/textures/FirstLevel.json"));
+            FileHandle jsonLocation = Gdx.files.internal(filepath + "Box2d/" + filename + ".json");
+            scene = loader.addScene(jsonLocation);
             game.scene = scene;
 //        //attach a contact listener
 //        cl = new MyContactListener(this);

@@ -90,6 +90,9 @@ public class GameScreen implements Screen{
         player = game.player;
         scene = game.scene;
 
+        //get the atlas that was loaded by AssetManagement and placed into game
+        atlas = game.atlas;
+
         //set up the main camera
         camera=new OrthographicCamera();
         camera.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
@@ -113,29 +116,16 @@ public class GameScreen implements Screen{
         box2DCam = new OrthographicCamera();
         box2DCam.setToOrtho(false, MainGame.SCREEN_WIDTH / Box2DVars.PPM, MainGame.SCREEN_HEIGHT / Box2DVars.PPM);
 
-//        //set up bodiesToRemove for later
-//        bodiesToRemove = new Array<Body>();
-
-        //get the atlas that was loaded by AssetManagement and placed into game
-        atlas = game.atlas;
-
-
-//        //set up the ground for later
-//        ground = new Texture(Gdx.files.internal("assets/maps/AlphascreenLevel1_2.png"));
-//        background = new Texture(Gdx.files.internal("assets/maps/BackgroundLevel1_1.png"));
-
         //set up the font
         font = new BitmapFont();
-
 
         //set up the UI cam with its own separate stage
         userInterfaceCam=new OrthographicCamera();
         userInterfaceCam.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
         userInterfaceStage=new UserInterface(game, this);
+        game.userInterfaceStage = userInterfaceStage;//we have to set it here because it needs a copy of this gamescreen
         userInterfaceStage.getViewport().setCamera(userInterfaceCam);
 
-        //createPlatform();
-        //loadWorld();
 
         //add in the input processing
         MyInput.resetKeys();
@@ -144,9 +134,6 @@ public class GameScreen implements Screen{
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(userInterfaceStage);
         Gdx.input.setInputProcessor(multiplexer);
-
-        //start updating the box2dworld
-        //updateBox2dWorld();
 
 
     }
@@ -158,6 +145,8 @@ public class GameScreen implements Screen{
         //world.step(delta, 6, 2);
 //        scene.getWorld().step(delta,6,2);
 
+        //use this accumulator to make sure if there is graphics lag we don't get a giant physics movement, just several
+        //small ones
         accum += delta;
         accum = Math.min(accum, maxAccum);
         while (accum > step) {
@@ -167,6 +156,7 @@ public class GameScreen implements Screen{
         scene.getWorld().step(accum,6,2);
         accum = 0;
 
+
         //remove enemies if necessary
         for(int i = 0; i< game.bodiesToRemove.size; i++){
             Body b = game.bodiesToRemove.get(i);
@@ -175,12 +165,10 @@ public class GameScreen implements Screen{
         }
         game.bodiesToRemove.clear();
 
-
-        playerPreviousPosition = player.getBody().getPosition();
         //update the player
+        playerPreviousPosition = player.getBody().getPosition();
         handleInput();
         player.update(delta);
-
 
         //render the background
         backgroundStage.act(delta);
@@ -189,7 +177,6 @@ public class GameScreen implements Screen{
         //render the stage
         stage.act(delta);
         stage.draw();
-
 
         //render the UI stage
         userInterfaceStage.act(delta);
@@ -209,8 +196,6 @@ public class GameScreen implements Screen{
         //render the player
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-
-
         batch.end();
 
         //set camera to follow player
@@ -221,7 +206,6 @@ public class GameScreen implements Screen{
         );
         camera.update();
 
-
         //move the background on an offset from the player
         backgroundCamera.position.set(
                 camera.position.x + ((camera.position.x - playerPreviousPosition.x) *0.1f) ,
@@ -230,15 +214,13 @@ public class GameScreen implements Screen{
         );
         backgroundCamera.update();
 
-
         //draw user interface
         batch.setProjectionMatrix(userInterfaceCam.combined);
 
-
         //show frames per second
-        batch.begin();
-        font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 20, game.SCREEN_HEIGHT -30);
-        batch.end();
+//        batch.begin();
+//        font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), 20, game.SCREEN_HEIGHT -30);
+//        batch.end();
 
         //draw box2d world
         if(debug) {
@@ -335,7 +317,6 @@ public class GameScreen implements Screen{
             }
         }
 
-
         //playerJump
         if (MyInput.isPressed(MyInput.BUTTON1)) {
             //System.out.println("pressed Z");
@@ -348,8 +329,6 @@ public class GameScreen implements Screen{
             }
         }
 
-
-
         //inflict damage and play animation of the spell
         if (MyInput.isPressed(MyInput.BUTTON2)) {
             //TODO this is a bit hacky. We have an animation loaded into the player class, that runs then destroys the character
@@ -359,10 +338,7 @@ public class GameScreen implements Screen{
             }
 
             MyInput.setKey(MyInput.BUTTON2, false);
-
         }
-
-
 
         //if player is on the ground and moving left or right, then set walking to true
         if((cl.isPlayerOnGround()) && Math.abs(player.getBody().getLinearVelocity().x)>0.1){
@@ -371,7 +347,6 @@ public class GameScreen implements Screen{
         else{
             player.isWalking = false;
         }
-
 
     }
 

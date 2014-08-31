@@ -25,9 +25,10 @@ public class Enemy2 extends GenericActor {
     public Enemy2(Body myBody, MainGame myGame, float width, float height) {
 
         //set the hp and mp and contact damage
+        maxHitPoints = 10;
         hitPoints = 10;
-        magicPoints = 0;
-        contactDamage = 20;
+        magicPoints = 10;
+        maxMagicPoints = 10;
 
         //set the box2d body and the world it lives in
         this.body = myBody;
@@ -70,6 +71,34 @@ public class Enemy2 extends GenericActor {
                 return true;
             }
         });
+
+
+        //add the hp bar
+        TextureRegion hpBar =  new TextureRegion(myGame.atlas.findRegion("Enemy1HPBar"));
+        hpBarImage = new Image(hpBar);
+        hpBarImage.setSize(125,75);
+        hpBarImage.setPosition(
+                getX(),
+                getY() - hpBarImage.getHeight()
+        );
+
+        maxHPImageWidth = hpBarImage.getWidth()/1.8f;//found this manually. ugh.
+
+        //add the fill for the hp bar
+        TextureRegion currentHPTexture =  new TextureRegion(myGame.atlas.findRegion("EnemyHPBar"));
+        currentHPImage  = new Image (currentHPTexture);
+        currentHPImage.setSize(
+                maxHPImageWidth,
+                hpBarImage.getHeight()/7
+        );
+
+        currentHPImage.setPosition(
+                hpBarImage.getX() + hpBarImage.getWidth()/2.85f,
+                hpBarImage.getY() + hpBarImage.getHeight()/2.85f
+        );
+
+
+
     }
 
 
@@ -141,28 +170,6 @@ public class Enemy2 extends GenericActor {
         if (body.isAwake()) {
             //allow the movement, etc that is set on creation elsewhere to run
             super.act(delta);
-
-            if(haveExtraAnimation){
-
-                animationDurationRemaining -= delta;
-                if(animationDurationRemaining >0) {
-                    extraAnimationCurrentFrame = new Image(extraAnimation.getKeyFrame(this.getStateTime(), true));
-                    extraAnimationCurrentFrame.addAction(
-                            sequence(
-                                    fadeOut(0.2f)
-                            )
-                    );
-                    extraAnimationCurrentFrame.setPosition(
-                            body.getPosition().x +worldWidth/2 -extraAnimationCurrentFrame.getWidth()/2,
-                            body.getPosition().y + worldHeight/2 - extraAnimationCurrentFrame.getHeight()/2
-                    );
-                    graphicsGroup.addActor(extraAnimationCurrentFrame);
-                }
-                else{
-                    haveExtraAnimation = false;
-                }
-            }
-
 
             //update the time for this class
             this.update(delta);
