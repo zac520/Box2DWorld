@@ -47,8 +47,8 @@ public class Player extends GenericActor{
         this.JUMPING_FORCE =  JUMPING_FORCE * (int) this.body.getMass();
 
         //set the hitPoints and magicPoints
-        maxHitPoints = 1000;
-        hitPoints = 1000;
+        maxHitPoints = 300;
+        hitPoints = 300;
         magicPoints = 10;
         maxMagicPoints = 10;
 

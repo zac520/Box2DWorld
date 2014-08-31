@@ -224,12 +224,9 @@ public class LoadLevel implements Screen {
     public void loadWorld() {
             //load the scene file
             RubeSceneLoader loader = new RubeSceneLoader();
-            FileHandle jsonLocation = Gdx.files.internal(filepath + "Box2d/" + filename + ".json");
-            scene = loader.addScene(jsonLocation);
+            scene = loader.addScene(Gdx.files.internal(filepath + "Box2d/" + filename + ".json"));
             game.scene = scene;
-//        //attach a contact listener
-//        cl = new MyContactListener(this);
-//        scene.getWorld().setContactListener(cl);
+
 
             //get all of the bodies that we just loaded in (will have their names as UserData)
             Array<Body> myBodies = scene.getBodies();

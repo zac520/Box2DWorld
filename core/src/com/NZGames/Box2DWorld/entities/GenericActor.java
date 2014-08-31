@@ -229,8 +229,8 @@ public class GenericActor extends Image  {
 
                     //reverse the momentum for the hit
                     body.setLinearVelocity(
-                            body.getLinearVelocity().x *-1,
-                            body.getLinearVelocity().y * -0.2f
+                            (body.getLinearVelocity().x > 0) ? -4 : 4,
+                            (body.getLinearVelocity().y >0) ? -4 : 4
                     );
 
                     //now add a flashing graphic
