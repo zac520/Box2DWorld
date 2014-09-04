@@ -17,10 +17,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.gushikustudios.rube.RubeScene;
 
+import java.util.Random;
+
 public class MainGame extends Game {
 
 	public static int SCREEN_WIDTH = 320*4;
     public static int SCREEN_HEIGHT = 240*4;
+
+    public Random rand;
+
 
     /** GameScreen Assets **/
     public AssetManager assets;
@@ -50,6 +55,7 @@ public class MainGame extends Game {
         //create the skin that will be used throughout the game
         skin = new Skin(Gdx.files.internal("assets/ui/defaultskin.json"));
         bodiesToRemove = new Array<Body>();
+        rand = new Random();//seed this for any variable thing to use later
         setScreen(new MenuScreen(this));
 	}
 

@@ -60,17 +60,8 @@ public class Enemy2 extends GenericActor {
                 body.getPosition().x * Box2DVars.PPM - (worldWidth / 2),
                 body.getPosition().y * Box2DVars.PPM - (worldHeight / 2));
 
-
-        //make the player a button for the user to select for targeting
-        genericActor = this;
-        this.addListener(new ClickListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                downArrow = new TextureRegion(game.atlas.findRegion("Arrowdowngreen"));
-                game.selectEnemy(genericActor);
-
-                return true;
-            }
-        });
+//        //set the color of the down arrow
+//        downArrow = new TextureRegion(game.atlas.findRegion("Arrowdowngreen"));
 
 
         //add the hp bar

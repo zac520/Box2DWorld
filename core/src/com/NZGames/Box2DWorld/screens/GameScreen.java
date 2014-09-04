@@ -2,6 +2,7 @@ package com.NZGames.Box2DWorld.screens;
 
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.*;
+import com.NZGames.Box2DWorld.entities.spells.Fireflower;
 import com.NZGames.Box2DWorld.handlers.*;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -334,7 +335,7 @@ public class GameScreen implements Screen{
             //TODO this is a bit hacky. We have an animation loaded into the player class, that runs then destroys the character
             //we will probably want the character to respawn later, but for now this is what we are doing
             if(game.selectedEnemy != null) {
-                game.selectedEnemy.incurDamage(3, player.spellAnimation, 1);
+                game.selectedEnemy.incurDamage(player.currentSpell.getSpellDamage(), player.currentSpell.getSpellAnimation());
             }
 
             MyInput.setKey(MyInput.BUTTON2, false);

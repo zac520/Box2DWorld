@@ -1,6 +1,7 @@
 package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.MainGame;
+import com.NZGames.Box2DWorld.entities.spells.GenericSpell;
 import com.NZGames.Box2DWorld.handlers.AnimatedImage;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.handlers.MyInput;
@@ -34,7 +35,7 @@ public class GenericActor extends Image  {
 
     /** Select enemy variables**/
     public boolean selected = false;
-    Group graphicsGroup;//used to link in the arrow later
+    public Group graphicsGroup;//used to link in the arrow later
     TextureRegion downArrow;
     Image downArrowImage;
 
@@ -57,7 +58,7 @@ public class GenericActor extends Image  {
     public Image hpBarImage;
 
     /**Extra Animation (such as spell damage)**/
-    protected AnimatedImage extraAnimation;
+    public GenericSpell currentSpell;
     protected Image extraAnimationCurrentFrame; //used for spell animations
     protected boolean haveExtraAnimation = false;
     protected float animationDurationRemaining = 0;
@@ -85,6 +86,17 @@ public class GenericActor extends Image  {
     protected float maxHPImageWidth;
 
     public GenericActor(){
+        //make the actor a button for the user to select for targeting
+        genericActor = this;
+        this.addListener(new ClickListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(downArrow ==null){
+                    downArrow = new TextureRegion(game.atlas.findRegion("Arrowdowngreen"));
+                }
+                game.selectEnemy(genericActor);
+                return true;
+            }
+        });
 
     }
     public void toggleSelected(){
@@ -274,30 +286,29 @@ public class GenericActor extends Image  {
         }
     }
 
-    public void incurDamage(int hp, Animation damageAnimation, float animationDuration){
+    public void incurDamage(int hp, AnimatedImage damageAnimation){
 
         if(hitPoints>0) {
 
-            //set up the animation our new way
-            final AnimatedImage extraAnimation = new AnimatedImage(damageAnimation);
-            extraAnimation.setSize(50,50);
-            extraAnimation.setCenterPosition(
-                    this.getCenterX(),
-                    this.getCenterY()
-            );
-            extraAnimation.addAction(
-                    sequence(
-                            delay(1),
-                            fadeOut(1),
-                            new Action() {
-                                @Override
-                                public boolean act(float delta) {
-                                    extraAnimation.remove();
-                                    return false;
-                                }
-                            }));
-
-            graphicsGroup.addActor(extraAnimation);
+//            //set up the animation our new way
+//            final AnimatedImage extraAnimation = new AnimatedImage(damageAnimation);
+//            extraAnimation.setSize(50,50);
+//            extraAnimation.setCenterPosition(
+//                    this.getCenterX(),
+//                    this.getCenterY()
+//            );
+//            extraAnimation.addAction(
+//                    sequence(
+//                            delay(1),
+//                            fadeOut(1),
+//                            new Action() {
+//                                @Override
+//                                public boolean act(float delta) {
+//                                    extraAnimation.remove();
+//                                    return false;
+//                                }
+//                            }));
+            graphicsGroup.addActor(damageAnimation);
 
             incurDamage(hp);
         }

@@ -64,18 +64,6 @@ public class Enemy1  extends GenericActor {
                 body.getPosition().y * Box2DVars.PPM - (worldHeight / 2));
 
 
-        //make the player a button for the user to select for targeting
-        genericActor = this;
-        this.addListener(new ClickListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                downArrow = new TextureRegion(game.atlas.findRegion("Arrowdowngreen"));
-                game.selectEnemy(genericActor);
-
-                return true;
-            }
-        });
-
-
         //add the hp bar
         TextureRegion hpBar =  new TextureRegion(myGame.atlas.findRegion("Enemy1HPBar"));
         hpBarImage = new Image(hpBar);
@@ -150,7 +138,7 @@ public class Enemy1  extends GenericActor {
             if (body.getLinearVelocity().x < MAX_SPEED) {
                 //body.applyForceToCenter(forwardForce, 0, false);
                 body.setLinearVelocity(
-                        body.getLinearVelocity().x + FORWARD_FORCE *0.01f,
+                        body.getLinearVelocity().x + FORWARD_FORCE *0.1f,
                         body.getLinearVelocity().y);
             }
         }
@@ -159,7 +147,7 @@ public class Enemy1  extends GenericActor {
             if (body.getLinearVelocity().x > -MAX_SPEED) {
                 //body.applyForceToCenter(forwardForce, 0, false);
                 body.setLinearVelocity(
-                        body.getLinearVelocity().x - FORWARD_FORCE *0.01f,
+                        body.getLinearVelocity().x - FORWARD_FORCE *0.1f,
                         body.getLinearVelocity().y);
             }
         }

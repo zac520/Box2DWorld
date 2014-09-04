@@ -1,6 +1,7 @@
 package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.MainGame;
+import com.NZGames.Box2DWorld.entities.spells.Fireflower;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.NZGames.Box2DWorld.screens.MenuScreen;
@@ -55,7 +56,6 @@ public class Player extends GenericActor{
         //load the animations
         leftAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HeroNoSword_LV1"));
         rightAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HeroNoSword_RV1"));
-        spellAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("Fireball1"));
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(rightAnimation.getKeyFrame(this.getStateTime(), true));
@@ -70,20 +70,14 @@ public class Player extends GenericActor{
                 body.getPosition().x * Box2DVars.PPM - (worldWidth / 2),
                 body.getPosition().y * Box2DVars.PPM - (worldHeight / 2));
 
-        //make the player a button for the user to select for targeting
-        genericActor = this;
-        this.addListener(new ClickListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                downArrow = new TextureRegion(game.atlas.findRegion("Arrowdownblue"));
-                game.selectEnemy(genericActor);
-                return true;
-            }
-        });
+        //set the color of the down arrow
+        downArrow = new TextureRegion(game.atlas.findRegion("Arrowdownblue"));
+
 
         //add the hp bar
         TextureRegion playerHpBar =  new TextureRegion(myGame.atlas.findRegion("HeroHPMPInterface"));
         hpBarImage = new Image(playerHpBar);
-        hpBarImage.setSize(125,75);
+        hpBarImage.setSize(125, 75);
         hpBarImage.setCenterPosition(
                 getCenterX(),
                 getY() - hpBarImage.getHeight()
@@ -95,14 +89,16 @@ public class Player extends GenericActor{
         currentHPImage = new Image (currentHPTexture);
         currentHPImage.setSize(
                 maxHPImageWidth,
-                hpBarImage.getHeight()/7
+                hpBarImage.getHeight() / 7
         );
 
         currentHPImage.setPosition(
-                hpBarImage.getX() + hpBarImage.getWidth()/2.85f,
-                hpBarImage.getY() + hpBarImage.getHeight()/2f
+                hpBarImage.getX() + hpBarImage.getWidth() / 2.85f,
+                hpBarImage.getY() + hpBarImage.getHeight() / 2f
         );
 
+        //set the current spell (will be switchable when we add that to UI
+        currentSpell = new Fireflower(game);
 
     }
     public void update(float delta) {
