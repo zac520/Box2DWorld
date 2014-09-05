@@ -12,5 +12,7 @@ public class Box2DVars {
     public static final int BIT_GROUND = 1;
     public static final int BIT_PLAYER = 2;
     public static final int BIT_ENEMY = 4;
+    public static final int BIT_SWORD = 8;
+
 
 }

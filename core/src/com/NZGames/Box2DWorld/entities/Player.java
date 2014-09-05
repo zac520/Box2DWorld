@@ -2,20 +2,24 @@ package com.NZGames.Box2DWorld.entities;
 
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.spells.Fireflower;
+import com.NZGames.Box2DWorld.handlers.AnimatedImage;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.NZGames.Box2DWorld.screens.MenuScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.forever;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 /**
@@ -26,10 +30,16 @@ public class Player extends GenericActor{
     int             crystalCount = 0;
     public static  int PLAYER_MAX_SPEED = 3;
     public int FORWARD_FORCE = 1;//will be reset based on player weight
-    public float JUMPING_FORCE = 0.225f;//will be reset based on player weight
+    public float JUMPING_FORCE = 9;//will be reset based on player weight
     public static  float RUNNING_FRAME_DURATION = 0.2f;
 
-
+    private Animation swordSlashAnimationRight;
+    private Animation swordSlashAnimationLeft;
+    boolean isSlashingSword = false;
+    Fixture swordSlashRight;
+    Fixture swordSlashLeft;
+    Filter enemiesHitable;
+    Filter enemiesNotHitable;
 
     public Animation spellAnimation; //I think we will put these in their own class later.
 
@@ -45,7 +55,7 @@ public class Player extends GenericActor{
 
         //set the forward force to be multipled by player mass for consistency
         this.FORWARD_FORCE =  FORWARD_FORCE * (int) this.body.getMass();
-        this.JUMPING_FORCE =  JUMPING_FORCE * (int) this.body.getMass();
+        //this.JUMPING_FORCE =  JUMPING_FORCE * (int) this.body.getMass();
 
         //set the hitPoints and magicPoints
         maxHitPoints = 300;
@@ -54,8 +64,11 @@ public class Player extends GenericActor{
         maxMagicPoints = 10;
 
         //load the animations
-        leftAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HeroNoSword_LV1"));
-        rightAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HeroNoSword_RV1"));
+        leftAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HerowSword_LV1"));
+        rightAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HerowSword_RV1"));
+        swordSlashAnimationLeft = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("hero_slashing_left"));
+        swordSlashAnimationRight = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("hero_slashing_right"));
+
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(rightAnimation.getKeyFrame(this.getStateTime(), true));
@@ -100,6 +113,16 @@ public class Player extends GenericActor{
         //set the current spell (will be switchable when we add that to UI
         currentSpell = new Fireflower(game);
 
+        //set the filter for future use
+        short myBits = Box2DVars.BIT_ENEMY;
+        enemiesHitable = new Filter();
+        enemiesHitable.categoryBits= Box2DVars.BIT_SWORD;
+        enemiesHitable.maskBits = myBits;
+
+        enemiesNotHitable = new Filter();
+        short myBits2 =0;
+        enemiesNotHitable.maskBits = myBits2;
+        enemiesNotHitable.categoryBits= Box2DVars.BIT_SWORD;
     }
     public void update(float delta) {
         stateTime += delta;
@@ -120,11 +143,16 @@ public class Player extends GenericActor{
             game.setScreen(new MenuScreen(game));
         }
 
-        if(isWalking) {
-            myDrawable.setRegion(facingRight ? rightAnimation.getKeyFrame(getStateTime(), true) : leftAnimation.getKeyFrame(getStateTime(), true));
+        //walking left or right normally
+        if(!isSlashingSword) {
+            if (isWalking) {
+                myDrawable.setRegion(facingRight ? rightAnimation.getKeyFrame(getStateTime(), true) : leftAnimation.getKeyFrame(getStateTime(), true));
+            } else {
+                myDrawable.setRegion(facingRight ? rightAnimation.getKeyFrame(0, true) : leftAnimation.getKeyFrame(0, true));
+            }
         }
-        else{
-            myDrawable.setRegion(facingRight ? rightAnimation.getKeyFrame(0, true) : leftAnimation.getKeyFrame(0, true));
+        else{//the player is slashing sword, so use that animation instead
+            myDrawable.setRegion(facingRight ? swordSlashAnimationRight.getKeyFrame(getStateTime(), true) : swordSlashAnimationLeft.getKeyFrame(getStateTime(), true));
         }
 
 
@@ -137,6 +165,60 @@ public class Player extends GenericActor{
 
 
 
+    }
+
+    public void slashSword(){
+
+
+        //iterate through the fixtures, turning them on
+        Array<Fixture> myFixtures = body.getFixtureList();
+        for (int x = 0; x < myFixtures.size; x++){
+            if(myFixtures.get(x).getUserData().equals("swordSlashRight")){
+                myFixtures.get(x).setFilterData(enemiesHitable);
+            }
+            else if(myFixtures.get(x).getUserData().equals("swordSlashLeft")){
+                myFixtures.get(x).setFilterData(enemiesHitable);
+            }
+        }
+
+
+
+        //start the animation
+        swordSlashAnimationRight.setPlayMode(Animation.PlayMode.NORMAL);
+        final AnimatedImage swordslash = (facingRight) ? new AnimatedImage(swordSlashAnimationRight) : new AnimatedImage(swordSlashAnimationLeft);
+        swordslash.setSize(
+                getWidth()*4,
+                getHeight()
+        );
+        swordslash.setCenterPosition(
+                getCenterX(),
+                getCenterY()
+        );
+        swordslash.addAction(
+                sequence(
+                        delay(0.2f),
+
+                        new Action() {
+                            @Override
+                            public boolean act(float delta) {
+                                swordslash.remove();
+                                isSlashingSword=false;
+                                //iterate through the fixtures, turning them off
+                                Array<Fixture> myFixtures = body.getFixtureList();
+                                for (int x = 0; x < myFixtures.size; x++){
+                                    if(myFixtures.get(x).getUserData().equals("swordSlashRight")){
+                                        myFixtures.get(x).setFilterData(enemiesNotHitable);
+                                    }
+                                    else if(myFixtures.get(x).getUserData().equals("swordSlashLeft")){
+                                        myFixtures.get(x).setFilterData(enemiesNotHitable);
+                                    }
+                                }
+
+                                return false;
+                            }
+                        }));
+        graphicsGroup.addActor(swordslash);
+        isSlashingSword = true;
     }
 
     public Group getGroup(){

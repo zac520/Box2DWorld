@@ -3,17 +3,13 @@ package com.NZGames.Box2DWorld.entities;
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.handlers.MyInput;
 import com.NZGames.Box2DWorld.screens.GameScreen;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -39,12 +35,18 @@ public class UserInterface extends Stage {
     private TextureRegion currentHPTexture;
     public Group graphicsGroup;
     public float maxPlayerVitalsWidth=0;
+    private Group rightButtonsGroup;
 
     Skin skin;
 
     public UserInterface(MainGame myGame, GameScreen myGameScreen){
 
+        skin = new Skin();//new skin for us to set up
+        skin.addRegions(myGame.atlas);
+
+
         graphicsGroup = new Group();
+        rightButtonsGroup = new Group();
 
         //Create a touchpad skin
         touchpadSkin = new Skin();
@@ -66,6 +68,95 @@ public class UserInterface extends Stage {
         //setBounds(x,y,width,height)
         touchpad.setBounds(15, 15, 200, 200);
         graphicsGroup.addActor(touchpad);
+
+        //create the sword button
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.getDrawable("swordattackbutton");//up and down are the same for this image
+        textButtonStyle.down = skin.getDrawable("Selectedswordattackbutton");
+        //create the sword button
+        Button swordButton = new Button(textButtonStyle);
+        //make it the right hand side of the screen
+        swordButton.setPosition(0,0);//start at the left and we will build off of this
+        swordButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
+                //cast spell
+                MyInput.setKey(MyInput.SWORD, true);
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
+                //if we could not cast it before, then cancel the attempt
+                MyInput.setKey(MyInput.SWORD, false);
+            }
+        });
+        rightButtonsGroup.addActor(swordButton);
+
+
+        //create the magic button
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.getDrawable("magicattackbutton");//up and down are the same for this image
+        textButtonStyle.down = skin.getDrawable("selectedmagicattackbutton");
+        Button magicButton = new Button(textButtonStyle);
+        //make it the right hand side of the screen
+        magicButton.setPosition(swordButton.getWidth(),0);//start just after the sword button
+        magicButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
+                //cast spell
+                MyInput.setKey(MyInput.MAGIC, true);
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
+                //if we could not cast it before, then cancel the attempt
+                MyInput.setKey(MyInput.MAGIC, false);
+            }
+        });
+        rightButtonsGroup.addActor(magicButton);
+        //create the jump button
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.getDrawable("Jumpbutton");//up and down are the same for this image
+        textButtonStyle.down = skin.getDrawable("SelectedJumpbutton");
+        Button jumpButton = new Button(textButtonStyle);
+
+        //we will place the center of it halfway between the two other buttons, and lift it halfway up to line up with 0
+        jumpButton.setCenterPosition(
+                (swordButton.getWidth() + magicButton.getWidth()) /2,
+                jumpButton.getHeight()/2);
+        jumpButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
+                //jump
+                MyInput.setKey(MyInput.JUMP, true);
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
+                //if we could not jump, cancel the attempt
+                MyInput.setKey(MyInput.JUMP, false);
+            }
+
+        });
+        rightButtonsGroup.addActor(jumpButton);
+
+        //position the buttons
+        rightButtonsGroup.setScale(
+                0.75f,
+                0.75f
+        );
+        rightButtonsGroup.setPosition(
+                myGame.SCREEN_WIDTH/2+150,
+                0
+        );
+
+
+
+
+
+        graphicsGroup.addActor(rightButtonsGroup);
+/*
+
 
         //create the background for the right side buttons
         rightSideBackground =  new TextureRegion(myGame.atlas.findRegion("Controlpanelrightside"));
@@ -89,13 +180,13 @@ public class UserInterface extends Stage {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
                 //jump
-                MyInput.setKey(MyInput.BUTTON1, true);
+                MyInput.setKey(MyInput.JUMP, true);
                 return true;
             }
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
                 //if we could not jump, cancel the attempt
-                MyInput.setKey(MyInput.BUTTON1, false);
+                MyInput.setKey(MyInput.JUMP, false);
             }
 
         });
@@ -111,23 +202,46 @@ public class UserInterface extends Stage {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
                 //cast spell
-                MyInput.setKey(MyInput.BUTTON2, true);
+                MyInput.setKey(MyInput.MAGIC, true);
                 return true;
             }
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
                 //if we could not cast it before, then cancel the attempt
-                MyInput.setKey(MyInput.BUTTON2, false);
+                MyInput.setKey(MyInput.MAGIC, false);
             }
         });
         graphicsGroup.addActor(magicButton);
+
+        //create the sword button
+        Button swordButton = new Button(myGame.skin, "default");
+        //make it the right hand side of the screen
+        swordButton.setSize(70, 70);
+        swordButton.setPosition((myGame.SCREEN_WIDTH - magicButton.getWidth()) - 75,
+                75);
+        swordButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ) {
+                //cast spell
+                MyInput.setKey(MyInput.SWORD, true);
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button ) {
+                //if we could not cast it before, then cancel the attempt
+                MyInput.setKey(MyInput.SWORD, false);
+            }
+        });
+        graphicsGroup.addActor(swordButton);
+*/
+
 
 
         //add the hp bar
         playerHpBar =  new TextureRegion(myGame.atlas.findRegion("HeroHPMPInterface"));
         playerHPMP = new Image(playerHpBar);
         playerHPMP.setSize(300,125);
-        playerHPMP.setPosition(myGame.SCREEN_WIDTH/4,10);
+        playerHPMP.setPosition(myGame.SCREEN_WIDTH / 4, 10);
         maxPlayerVitalsWidth = playerHPMP.getWidth()/1.8f;//found this manually. ugh.
         graphicsGroup.addActor(playerHPMP);
 
@@ -159,20 +273,23 @@ public class UserInterface extends Stage {
 
     public boolean keyDown(int k){
         if(k == Input.Keys.Z){
-            MyInput.setKey(MyInput.BUTTON1, true);
+            MyInput.setKey(MyInput.JUMP, true);
         }
 
         if(k == Input.Keys.X){
-            MyInput.setKey(MyInput.BUTTON2, true);
+            MyInput.setKey(MyInput.MAGIC, true);
 
         }
+        if(k == Input.Keys.C){
+            MyInput.setKey(MyInput.SWORD, true);
 
+        }
         if(k == Input.Keys.RIGHT){
-            MyInput.setKey(MyInput.BUTTON3, true);
+            MyInput.setKey(MyInput.MOVE_RIGHT, true);
 
         }
         if(k == Input.Keys.LEFT){
-            MyInput.setKey(MyInput.BUTTON4, true);
+            MyInput.setKey(MyInput.MOVE_LEFT, true);
 
         }
         return true;
@@ -180,19 +297,23 @@ public class UserInterface extends Stage {
 
     public boolean keyUp(int k){
         if(k == Input.Keys.Z){
-            MyInput.setKey(MyInput.BUTTON1, false);
+            MyInput.setKey(MyInput.JUMP, false);
         }
 
         if(k == Input.Keys.X){
-            MyInput.setKey(MyInput.BUTTON2, false);
+            MyInput.setKey(MyInput.MAGIC, false);
+
+        }
+        if(k == Input.Keys.C){
+            MyInput.setKey(MyInput.SWORD, false);
 
         }
         if(k == Input.Keys.RIGHT){
-            MyInput.setKey(MyInput.BUTTON3, false);
+            MyInput.setKey(MyInput.MOVE_RIGHT, false);
 
         }
         if(k == Input.Keys.LEFT){
-            MyInput.setKey(MyInput.BUTTON4, false);
+            MyInput.setKey(MyInput.MOVE_LEFT, false);
 
         }
         return true;

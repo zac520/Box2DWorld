@@ -41,23 +41,23 @@ public class GenericSpell {
     public AnimatedImage getSpellAnimation(){
 
         //turn it into something we can add to the stage directly
-        spellAnimatedImage = new AnimatedImage(spellAnimation);
-        spellAnimatedImage.setSize(50,50);
-        spellAnimatedImage.setCenterPosition(
+        final AnimatedImage mySpellAnimation = new AnimatedImage(spellAnimation);
+        mySpellAnimation.setSize(50,50);
+        mySpellAnimation.setCenterPosition(
                 game.selectedEnemy.getCenterX(),
                 game.selectedEnemy.getCenterY()
         );
-        spellAnimatedImage.addAction(
+        mySpellAnimation.addAction(
                 sequence(
                         delay(1),
                         fadeOut(1),
                         new Action() {
                             @Override
                             public boolean act(float delta) {
-                                spellAnimatedImage.remove();
+                                mySpellAnimation.remove();
                                 return false;
                             }
                         }));
-        return spellAnimatedImage;
+        return mySpellAnimation;
     }
 }

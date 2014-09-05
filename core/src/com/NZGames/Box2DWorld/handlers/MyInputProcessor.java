@@ -1,8 +1,6 @@
 package com.NZGames.Box2DWorld.handlers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
@@ -12,20 +10,20 @@ public class MyInputProcessor extends Stage {
 
     public boolean keyDown(int k){
         if(k == Input.Keys.Z){
-            MyInput.setKey(MyInput.BUTTON1, true);
+            MyInput.setKey(MyInput.JUMP, true);
         }
 
         if(k == Input.Keys.X){
-            MyInput.setKey(MyInput.BUTTON2, true);
+            MyInput.setKey(MyInput.MAGIC, true);
 
         }
 
         if(k == Input.Keys.RIGHT){
-            MyInput.setKey(MyInput.BUTTON3, true);
+            MyInput.setKey(MyInput.MOVE_RIGHT, true);
 
         }
         if(k == Input.Keys.LEFT){
-            MyInput.setKey(MyInput.BUTTON4, true);
+            MyInput.setKey(MyInput.MOVE_LEFT, true);
 
         }
         return true;
@@ -33,19 +31,19 @@ public class MyInputProcessor extends Stage {
 
     public boolean keyUp(int k){
         if(k == Input.Keys.Z){
-            MyInput.setKey(MyInput.BUTTON1, false);
+            MyInput.setKey(MyInput.JUMP, false);
         }
 
         if(k == Input.Keys.X){
-            MyInput.setKey(MyInput.BUTTON2, false);
+            MyInput.setKey(MyInput.MAGIC, false);
 
         }
         if(k == Input.Keys.RIGHT){
-            MyInput.setKey(MyInput.BUTTON3, false);
+            MyInput.setKey(MyInput.MOVE_RIGHT, false);
 
         }
         if(k == Input.Keys.LEFT){
-            MyInput.setKey(MyInput.BUTTON4, false);
+            MyInput.setKey(MyInput.MOVE_LEFT, false);
 
         }
         return true;
@@ -54,10 +52,10 @@ public class MyInputProcessor extends Stage {
          public boolean touchDown(int x, int y, int pointer, int button) {
 
 //        if(x< Gdx.graphics.getWidth()/2) {
-//            MyInput.setKey(MyInput.BUTTON2, true);
+//            MyInput.setKey(MyInput.MAGIC, true);
 //        }
 //        else{
-//            MyInput.setKey(MyInput.BUTTON1, true);
+//            MyInput.setKey(MyInput.JUMP, true);
 //
 //        }
 
@@ -66,8 +64,8 @@ public class MyInputProcessor extends Stage {
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
-//        MyInput.setKey(MyInput.BUTTON1, false);
-//        MyInput.setKey(MyInput.BUTTON2, false);
+//        MyInput.setKey(MyInput.JUMP, false);
+//        MyInput.setKey(MyInput.MAGIC, false);
 
 
         return true;

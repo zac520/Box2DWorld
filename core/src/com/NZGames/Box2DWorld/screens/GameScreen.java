@@ -2,33 +2,20 @@ package com.NZGames.Box2DWorld.screens;
 
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.*;
-import com.NZGames.Box2DWorld.entities.spells.Fireflower;
 import com.NZGames.Box2DWorld.handlers.*;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.gushikustudios.rube.RubeScene;
-import com.gushikustudios.rube.loader.RubeSceneLoader;
-
-import java.io.File;
-import java.util.Map;
 
 /**
  * Created by zac520 on 8/10/14.
@@ -296,7 +283,7 @@ public class GameScreen implements Screen{
         }
 
 
-        if((accelx >1) || (MyInput.isDown(MyInput.BUTTON3))) {
+        if((accelx >1) || (MyInput.isDown(MyInput.MOVE_RIGHT))) {
             if(player.getBody().getLinearVelocity().x < player.PLAYER_MAX_SPEED) {
                player.getBody().setLinearVelocity(
                         player.getBody().getLinearVelocity().x + player.FORWARD_FORCE *0.01f,
@@ -306,7 +293,7 @@ public class GameScreen implements Screen{
 
             }
         }
-        else if ((accelx <-1) || (MyInput.isDown(MyInput.BUTTON4))) {
+        else if ((accelx <-1) || (MyInput.isDown(MyInput.MOVE_LEFT))) {
             if(player.getBody().getLinearVelocity().x > -player.PLAYER_MAX_SPEED) {
                 //player.getBody().applyForceToCenter(-player.FORWARD_FORCE, 0, true);
                 player.getBody().setLinearVelocity(
@@ -319,27 +306,37 @@ public class GameScreen implements Screen{
         }
 
         //playerJump
-        if (MyInput.isPressed(MyInput.BUTTON1)) {
+        if (MyInput.isPressed(MyInput.JUMP)) {
             //System.out.println("pressed Z");
             if (cl.isPlayerOnGround()) {
                 //force is in newtons
                 player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, player.JUMPING_FORCE);
                 //player.getBody().applyForceToCenter(0, 175, true);
-                MyInput.setKey(MyInput.BUTTON1, false);
+                MyInput.setKey(MyInput.JUMP, false);
 
             }
         }
 
         //inflict damage and play animation of the spell
-        if (MyInput.isPressed(MyInput.BUTTON2)) {
-            //TODO this is a bit hacky. We have an animation loaded into the player class, that runs then destroys the character
-            //we will probably want the character to respawn later, but for now this is what we are doing
+        if (MyInput.isPressed(MyInput.MAGIC)) {
             if(game.selectedEnemy != null) {
                 game.selectedEnemy.incurDamage(player.currentSpell.getSpellDamage(), player.currentSpell.getSpellAnimation());
             }
 
-            MyInput.setKey(MyInput.BUTTON2, false);
+            MyInput.setKey(MyInput.MAGIC, false);
         }
+
+        //inflict damage and play animation of the spell
+        if (MyInput.isPressed(MyInput.SWORD)) {
+
+            //change graphics to show slash
+            player.slashSword();
+
+            //change box2d to allow contact
+
+            MyInput.setKey(MyInput.SWORD, false);
+        }
+
 
         //if player is on the ground and moving left or right, then set walking to true
         if((cl.isPlayerOnGround()) && Math.abs(player.getBody().getLinearVelocity().x)>0.1){

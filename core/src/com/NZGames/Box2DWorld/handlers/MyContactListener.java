@@ -30,6 +30,7 @@ public class MyContactListener implements ContactListener {
         fb = c.getFixtureB();
 
 
+        //player jump
         if(fa.getUserData() != null && fa.getUserData().equals("foot")){
             playerOnGround = true;
             numFootContacts ++;
@@ -40,8 +41,20 @@ public class MyContactListener implements ContactListener {
             numFootContacts ++;
         }
 
+        //sword slash
+        if(fa.getFilterData().categoryBits == Box2DVars.BIT_SWORD){
+            GenericActor myActor = (GenericActor) fb.getBody().getUserData();
+            //myActor.incurDamage(2);
+            myActor.getHitByPhysicalAttack(4);
+        }
 
+        if(fb.getFilterData().categoryBits == Box2DVars.BIT_SWORD){
+            GenericActor myActor = (GenericActor) fa.getBody().getUserData();
+            //myActor.incurDamage(2);
+            myActor.getHitByPhysicalAttack(4);
+        }
 
+        //crystal collecting
         if(fa.getUserData() != null && fa.getUserData().equals("crystal")){
             //remove crystal
             //since world is updating, we are going to queue the crystals
@@ -73,14 +86,16 @@ public class MyContactListener implements ContactListener {
         if(fa.getFilterData().categoryBits == Box2DVars.BIT_ENEMY){
             if(fb.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
                 GenericActor myActor = (GenericActor) fb.getBody().getUserData();
-                myActor.incurDamage(25);
+                //myActor.incurDamage(25);
+                myActor.getHitByPhysicalAttack(25);
             }
         }
 
         if(fb.getFilterData().categoryBits == Box2DVars.BIT_ENEMY){
             if(fa.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
                 GenericActor myActor = (GenericActor) fa.getBody().getUserData();
-                myActor.incurDamage(25);
+                //myActor.incurDamage(25);
+                myActor.getHitByPhysicalAttack(25);
             }
         }
 
@@ -95,7 +110,6 @@ public class MyContactListener implements ContactListener {
         if(fb.getUserData() != null && fb.getUserData().equals("awake")){
             fa.getBody().setAwake(true);
             fa.getBody().setSleepingAllowed(false);
-
         }
 
     }

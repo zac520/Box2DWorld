@@ -199,6 +199,7 @@ public class GenericActor extends Image  {
                 }
 
                 game.userInterfaceStage.currentHP.setWidth(game.userInterfaceStage.maxPlayerVitalsWidth * percentHitPointsRemaining);
+
             }
 
             //or it's a monster
@@ -234,55 +235,6 @@ public class GenericActor extends Image  {
                 );
                 System.out.println("Actor has died");
             }
-
-            //player didn't die, so animate the hit, then once it is done make the player no longer contact invincible
-            else {
-                if (String.valueOf(body.getUserData()).compareTo("Player")==0) {
-
-                    //reverse the momentum for the hit
-                    body.setLinearVelocity(
-                            (body.getLinearVelocity().x > 0) ? -4 : 4,
-                            (body.getLinearVelocity().y >0) ? -4 : 4
-                    );
-
-                    //now add a flashing graphic
-                    graphicsGroup.addAction(
-                            sequence(
-                                    repeat(5,
-                                            sequence(
-                                                    fadeOut(0.1f),
-                                                    fadeIn(0.1f)
-                                            )
-
-                                    ),
-
-
-                                    new Action() {
-                                        @Override
-                                        public boolean act(float delta) {
-
-                                            //make the player able to be hit again
-                                            actorFixtures = body.getFixtureList();
-                                            for (int x = 0; x < actorFixtures.size; x++) {
-                                                Filter myFilter = actorFixtures.get(x).getFilterData();
-                                                short bits = myFilter.maskBits;
-                                                bits |= Box2DVars.BIT_ENEMY;
-                                                myFilter.maskBits = bits;
-                                                actorFixtures.get(x).setFilterData(
-                                                        myFilter
-                                                );
-                                            }
-                                            System.out.println("Player can be harmed again!");
-
-                                            return true;
-                                        }
-                                    }
-                            )
-
-
-                    );
-                }
-            }
         }
     }
 
@@ -290,29 +242,196 @@ public class GenericActor extends Image  {
 
         if(hitPoints>0) {
 
-//            //set up the animation our new way
-//            final AnimatedImage extraAnimation = new AnimatedImage(damageAnimation);
-//            extraAnimation.setSize(50,50);
-//            extraAnimation.setCenterPosition(
-//                    this.getCenterX(),
-//                    this.getCenterY()
-//            );
-//            extraAnimation.addAction(
-//                    sequence(
-//                            delay(1),
-//                            fadeOut(1),
-//                            new Action() {
-//                                @Override
-//                                public boolean act(float delta) {
-//                                    extraAnimation.remove();
-//                                    return false;
-//                                }
-//                            }));
             graphicsGroup.addActor(damageAnimation);
 
             incurDamage(hp);
+
         }
     }
 
+    public void getHitByPhysicalAttack(int hp){
+
+        if(hitPoints>0){
+
+            makeDamageLabel(hp);
+
+            //subtract the hp, and if actor dies, then remove
+            hitPoints -= hp;
+
+            updateHPLabels();
+
+            //check to see if actor died
+            if (hitPoints <= 0) {
+                //remove the box2d body
+                game.bodiesToRemove.add(this.getBody());
+
+                //remove the graphic
+                graphicsGroup.addAction(
+                        sequence(
+                                fadeOut(1),
+                                new Action() {
+                                    @Override
+                                    public boolean act(float delta) {
+
+                                        graphicsGroup.remove();
+                                        return false;
+                                    }
+                                }
+                        )
+                );
+                System.out.println("Actor has died");
+            }
+
+            else{
+
+                makeContactInvincible();
+
+                handleInvincibleAnimation();
+
+            }
+
+
+        }
+
+    }
+
+
+    private void makeDamageLabel(int hp){
+        //make the hp label
+        final Label label = new Label(String.valueOf(hp), game.skin, "default-font", Color.CYAN);
+        label.setFontScale(3);
+        label.setPosition(
+                getX() - 25,
+                getY() + worldHeight
+        );
+        //make the hp float up and then disappear
+        label.addAction(
+                sequence(
+                        moveTo(
+                                getX(),
+                                getY() + worldHeight + 50,
+                                2
+                        ),
+                        fadeOut(1),
+                        new Action() {
+                            @Override
+                            public boolean act(float delta) {
+                                label.remove();
+                                return false;
+                            }
+                        }
+                )
+        );
+        graphicsGroup.addActor(label);
+
+    }
+
+    private void updateHPLabels(){
+        //update the percentage of hit and magic points left
+        percentHitPointsRemaining =(float) hitPoints / maxHitPoints;
+
+        //if it's the player, update the HP bar at the bottom of the screen
+        if(String.valueOf(body.getUserData()).compareTo("Player")==0) {
+            game.userInterfaceStage.currentHP.setWidth(game.userInterfaceStage.maxPlayerVitalsWidth * percentHitPointsRemaining);
+        }
+
+        //update the selected actor hp bar
+        float newWidth =  maxHPImageWidth * percentHitPointsRemaining;
+        if(newWidth<0){
+            newWidth = 0 ;
+        }
+        currentHPImage.setWidth(
+                newWidth
+        );
+
+    }
+
+    public void makeContactInvincible(){
+        //make the actor contact invincible
+        actorFixtures = body.getFixtureList();
+        for (int x = 0; x < actorFixtures.size; x++) {
+            Filter myFilter = actorFixtures.get(x).getFilterData();
+            short bits = myFilter.maskBits;
+            short categoryBits = myFilter.categoryBits;
+            if(String.valueOf(body.getUserData()).compareTo("Player")==0) {
+                if(categoryBits!=Box2DVars.BIT_SWORD) {
+                    bits &= ~Box2DVars.BIT_ENEMY;
+                }
+            }
+            else{
+                bits &= ~Box2DVars.BIT_SWORD;
+            }
+            myFilter.maskBits = bits;
+            actorFixtures.get(x).setFilterData(
+                    myFilter
+            );
+        }
+    }
+    private void removeContactInvincibility(){
+        //make the player able to be hit again
+        actorFixtures = body.getFixtureList();
+        for (int x = 0; x < actorFixtures.size; x++) {
+            Filter myFilter = actorFixtures.get(x).getFilterData();
+            short bits = myFilter.maskBits;//get the mask bits
+            short categoryBits=myFilter.categoryBits;
+            //if it's a player, we add back the enemy bit
+            if(String.valueOf(body.getUserData()).compareTo("Player")==0) {
+                if(categoryBits!=Box2DVars.BIT_SWORD) {
+                    bits |= Box2DVars.BIT_ENEMY;//add back in the enemy, for all except for the sword
+                }
+            }
+            else{
+                bits |= Box2DVars.BIT_SWORD;//add back in the sword
+            }
+
+            myFilter.maskBits = bits;
+            actorFixtures.get(x).setFilterData(
+                    myFilter
+            );
+        }
+    }
+    private void handleInvincibleAnimation(){
+        //reverse the momentum for the hit if it's the player
+        if(String.valueOf(body.getUserData()).compareTo("Player")==0) {
+            body.setLinearVelocity(
+                    (body.getLinearVelocity().x > 0) ? -4 : 4,
+                    (body.getLinearVelocity().y > 0) ? -4 : 4
+            );
+        }
+
+        //if it's a monster, that may throw him into the player after a sword slash. Always propel away
+        else{
+            body.setLinearVelocity(
+                    //compare the x position of the enemy to the player
+                    (game.player.getBody().getPosition().x < body.getPosition().x) ? 5 : -5,
+                    body.getLinearVelocity().y
+            );
+        }
+
+
+        //now add a flashing graphic
+        graphicsGroup.addAction(
+                sequence(
+                        repeat(5,
+                                sequence(
+                                        fadeOut(0.1f),
+                                        fadeIn(0.1f)
+                                )
+
+                        ),
+                        new Action() {
+                            @Override
+                            public boolean act(float delta) {
+
+                                removeContactInvincibility();
+
+                                return true;
+                            }
+                        }
+                )
+
+
+        );
+    }
 
 }
