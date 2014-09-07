@@ -1,28 +1,27 @@
-package com.NZGames.Box2DWorld.entities;
+package com.NZGames.Box2DWorld.entities.actors;
 
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
-import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 /**
- * Created by zac520 on 8/22/14.
+ * Created by zac520 on 8/19/14.
  */
-public class Enemy2 extends GenericActor {
+public class Enemy1  extends GenericActor {
     float FRAME_DURATION= 0.12f;
-    float MAX_SPEED = 3;
+    float MAX_SPEED = 1;
     float FORWARD_FORCE = 1;
-    public Enemy2(Body myBody, MainGame myGame, float width, float height) {
+
+    public Enemy1(Body myBody, MainGame myGame, float width, float height) {
 
         //set the hp and mp and contact damage
         maxHitPoints = 10;
@@ -36,9 +35,9 @@ public class Enemy2 extends GenericActor {
         this.game = myGame;
 
         //set the animation
-        rightAnimation = new Animation(FRAME_DURATION, game.atlas.findRegions("Enemy2_RV_1"));
-        leftAnimation = new Animation(FRAME_DURATION, game.atlas.findRegions("Enemy2_LV_1"));
-        downFacingFrame = new TextureRegion(game.atlas.findRegion("Enemy2_LV_1"));
+        rightAnimation = new Animation(FRAME_DURATION, game.atlas.findRegions("Enemy1_Right1"));
+        leftAnimation = new Animation(FRAME_DURATION, game.atlas.findRegions("Enemy1_Left1"));
+        downFacingFrame = new TextureRegion(game.atlas.findRegion("Enemy1_Right1"));
 
         //set the current drawable to the animation
         myDrawable = new TextureRegionDrawable(rightAnimation.getKeyFrame(this.getStateTime(), true));
@@ -60,14 +59,12 @@ public class Enemy2 extends GenericActor {
                 body.getPosition().x * Box2DVars.PPM - (worldWidth / 2),
                 body.getPosition().y * Box2DVars.PPM - (worldHeight / 2));
 
-//        //set the color of the down arrow
-//        downArrow = new TextureRegion(game.atlas.findRegion("Arrowdowngreen"));
-
 
         //add the hp bar
         TextureRegion hpBar =  new TextureRegion(myGame.atlas.findRegion("Enemy1HPBar"));
         hpBarImage = new Image(hpBar);
         hpBarImage.setSize(125,75);
+
         hpBarImage.setPosition(
                 getX(),
                 getY() - hpBarImage.getHeight()
@@ -87,11 +84,7 @@ public class Enemy2 extends GenericActor {
                 hpBarImage.getX() + hpBarImage.getWidth()/2.85f,
                 hpBarImage.getY() + hpBarImage.getHeight()/2.85f
         );
-
-
-
     }
-
 
 
     public Group getGroup(){
@@ -133,6 +126,7 @@ public class Enemy2 extends GenericActor {
         }
 
 
+
         if(forwardForce >0) {
             facingRight = true;
 
@@ -159,6 +153,7 @@ public class Enemy2 extends GenericActor {
     public void act(float delta) {
 
         if (body.isAwake()) {
+
             //allow the movement, etc that is set on creation elsewhere to run
             super.act(delta);
 
@@ -188,4 +183,5 @@ public class Enemy2 extends GenericActor {
 
         }
     }
+
 }

@@ -152,8 +152,6 @@ public class UserInterface extends Stage {
 
 
 
-
-
         graphicsGroup.addActor(rightButtonsGroup);
 /*
 

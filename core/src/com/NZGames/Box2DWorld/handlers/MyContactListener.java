@@ -1,10 +1,10 @@
 package com.NZGames.Box2DWorld.handlers;
 
 import com.NZGames.Box2DWorld.MainGame;
-import com.NZGames.Box2DWorld.entities.GenericActor;
+import com.NZGames.Box2DWorld.entities.actors.GenericActor;
+import com.NZGames.Box2DWorld.entities.monster_drops.GenericMonsterDrop;
 import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by zac520 on 7/10/14.
@@ -43,15 +43,19 @@ public class MyContactListener implements ContactListener {
 
         //sword slash
         if(fa.getFilterData().categoryBits == Box2DVars.BIT_SWORD){
-            GenericActor myActor = (GenericActor) fb.getBody().getUserData();
-            //myActor.incurDamage(2);
-            myActor.getHitByPhysicalAttack(4);
+            if(fb.getBody().getUserData() instanceof  GenericActor) {
+                GenericActor myActor = (GenericActor) fb.getBody().getUserData();
+                //myActor.incurDamage(2);
+                myActor.getHitByPhysicalAttack(4);
+            }
         }
 
         if(fb.getFilterData().categoryBits == Box2DVars.BIT_SWORD){
-            GenericActor myActor = (GenericActor) fa.getBody().getUserData();
-            //myActor.incurDamage(2);
-            myActor.getHitByPhysicalAttack(4);
+            if(fb.getBody().getUserData() instanceof  GenericActor) {
+                GenericActor myActor = (GenericActor) fa.getBody().getUserData();
+                //myActor.incurDamage(2);
+                myActor.getHitByPhysicalAttack(4);
+            }
         }
 
         //crystal collecting
@@ -99,6 +103,42 @@ public class MyContactListener implements ContactListener {
             }
         }
 
+        //handle the monster pickups
+        if(fa.getFilterData().categoryBits == Box2DVars.BIT_PICKUP){
+            if(fb.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
+                if(fa.getBody().getUserData() instanceof  GenericMonsterDrop) {
+
+                    //get the pickup and player classes
+                    GenericMonsterDrop myPickup = (GenericMonsterDrop) fa.getBody().getUserData();
+                    GenericActor myPlayer = (GenericActor) fb.getBody().getUserData();
+
+                    //apply the pickups
+                    myPlayer.recieveHealth(myPickup.getHealthRestorePoints());
+                    myPlayer.recieveMagic(myPickup.getMagicRestorePoints());
+                    myPlayer.recieveMoney(myPickup.getMoney());
+
+                    //destroy the pickup
+                    myPickup.destroyMonsterDrop();
+                }
+
+
+            }
+        }
+
+        if(fb.getFilterData().categoryBits == Box2DVars.BIT_PICKUP){
+            if(fa.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
+                if(fb.getBody().getUserData() instanceof  GenericMonsterDrop) {
+                    GenericMonsterDrop myPickup = (GenericMonsterDrop) fb.getBody().getUserData();
+                    GenericActor myPlayer = (GenericActor) fa.getBody().getUserData();
+                    myPlayer.recieveHealth(myPickup.getHealthRestorePoints());
+                    myPlayer.recieveMagic(myPickup.getMagicRestorePoints());
+                    myPlayer.recieveMoney(myPickup.getMoney());
+
+                    //destroy the pickup
+                    myPickup.destroyMonsterDrop();
+                }
+            }
+        }
 
         //wake up the box2d body
         if(fa.getUserData() != null && fa.getUserData().equals("awake")){

@@ -1,16 +1,12 @@
-package com.NZGames.Box2DWorld.entities;
+package com.NZGames.Box2DWorld.entities.actors;
 
 import com.NZGames.Box2DWorld.MainGame;
+import com.NZGames.Box2DWorld.entities.monster_drops.HealthDrop;
 import com.NZGames.Box2DWorld.entities.spells.GenericSpell;
 import com.NZGames.Box2DWorld.handlers.AnimatedImage;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
-import com.NZGames.Box2DWorld.handlers.MyInput;
-import com.NZGames.Box2DWorld.screens.GameScreen;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -19,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -84,6 +79,7 @@ public class GenericActor extends Image  {
     protected int contactDamage; //damage player gets when he contacts enemy
     public float percentHitPointsRemaining;
     protected float maxHPImageWidth;
+    protected int money=0;
 
     public GenericActor(){
         //make the actor a button for the user to select for targeting
@@ -216,24 +212,7 @@ public class GenericActor extends Image  {
 
 
             if (hitPoints <= 0) {
-                //remove the box2d body
-                game.bodiesToRemove.add(this.getBody());
-
-                //remove the graphic
-                graphicsGroup.addAction(
-                        sequence(
-                                fadeOut(1),
-                                new Action() {
-                                    @Override
-                                    public boolean act(float delta) {
-
-                                        graphicsGroup.remove();
-                                        return false;
-                                    }
-                                }
-                        )
-                );
-                System.out.println("Actor has died");
+                destroyActor();
             }
         }
     }
@@ -262,24 +241,7 @@ public class GenericActor extends Image  {
 
             //check to see if actor died
             if (hitPoints <= 0) {
-                //remove the box2d body
-                game.bodiesToRemove.add(this.getBody());
-
-                //remove the graphic
-                graphicsGroup.addAction(
-                        sequence(
-                                fadeOut(1),
-                                new Action() {
-                                    @Override
-                                    public boolean act(float delta) {
-
-                                        graphicsGroup.remove();
-                                        return false;
-                                    }
-                                }
-                        )
-                );
-                System.out.println("Actor has died");
+                destroyActor();
             }
 
             else{
@@ -412,7 +374,7 @@ public class GenericActor extends Image  {
         //now add a flashing graphic
         graphicsGroup.addAction(
                 sequence(
-                        repeat(5,
+                        repeat(3,
                                 sequence(
                                         fadeOut(0.1f),
                                         fadeIn(0.1f)
@@ -433,5 +395,58 @@ public class GenericActor extends Image  {
 
         );
     }
+    private void destroyActor(){
 
+        //remove the box2d body
+        game.bodiesToRemove.add(this.getBody());
+
+
+        //remove the graphic
+        graphicsGroup.addAction(
+                sequence(
+                        fadeOut(1),
+                        new Action() {
+                            @Override
+                            public boolean act(float delta) {
+
+                                graphicsGroup.remove();
+                                return false;
+                            }
+                        }
+                )
+        );
+    }
+
+    /**
+     * since box2d will not allow the removal or creation of bodies during a step, this must be done outside.
+     * this will be called when we are safely destroying the body.
+     */
+    public void spawnPickup(){
+        //    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        int dropNumber = game.rand.nextInt((2 - 1) + 1) + 1;//one in 2 chance of a drop
+        if(dropNumber==1) {
+            //spawn the monster drops
+            HealthDrop healthDrop = new HealthDrop(body.getPosition(), game);
+            game.stage.addActor(healthDrop.getGroup());
+        }
+    }
+
+    public void recieveHealth(int health){
+        this.hitPoints += health;
+        if(hitPoints>maxHitPoints){
+            hitPoints = maxHitPoints;
+        }
+        updateHPLabels();
+    }
+    public void recieveMagic(int magic){
+        this.magicPoints += magic;
+        if(magicPoints>maxMagicPoints){
+            magicPoints=maxMagicPoints;
+        }
+    }
+
+    public void recieveMoney(int money){
+        this.money += money;
+    }
 }

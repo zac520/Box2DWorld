@@ -1,13 +1,14 @@
 package com.NZGames.Box2DWorld.handlers;
 
 import com.NZGames.Box2DWorld.MainGame;
-import com.NZGames.Box2DWorld.entities.*;
+import com.NZGames.Box2DWorld.entities.actors.Enemy1;
+import com.NZGames.Box2DWorld.entities.actors.Enemy2;
+import com.NZGames.Box2DWorld.entities.actors.Player;
+import com.NZGames.Box2DWorld.entities.actors.SpikeKinematic;
 import com.NZGames.Box2DWorld.screens.GameScreen;
-import com.NZGames.Box2DWorld.screens.MenuScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;

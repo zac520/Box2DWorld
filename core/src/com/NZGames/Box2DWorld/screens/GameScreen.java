@@ -2,6 +2,8 @@ package com.NZGames.Box2DWorld.screens;
 
 import com.NZGames.Box2DWorld.MainGame;
 import com.NZGames.Box2DWorld.entities.*;
+import com.NZGames.Box2DWorld.entities.actors.GenericActor;
+import com.NZGames.Box2DWorld.entities.actors.Player;
 import com.NZGames.Box2DWorld.handlers.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -148,6 +150,13 @@ public class GameScreen implements Screen{
         //remove enemies if necessary
         for(int i = 0; i< game.bodiesToRemove.size; i++){
             Body b = game.bodiesToRemove.get(i);
+
+            //if it is a generic actor, then we need to create a new body here by calling finish...
+            if(b.getUserData() instanceof GenericActor) {
+                GenericActor myEnemy = (GenericActor) b.getUserData();
+                myEnemy.spawnPickup();
+            }
+
             scene.getWorld().destroyBody(b);
             //player.collectCrystal(); this sort of thing will be used to give the player experience later
         }

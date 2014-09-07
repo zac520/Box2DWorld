@@ -1,10 +1,10 @@
-package com.NZGames.Box2DWorld.entities;
+package com.NZGames.Box2DWorld.entities.actors;
 
 import com.NZGames.Box2DWorld.MainGame;
+import com.NZGames.Box2DWorld.entities.actors.GenericActor;
 import com.NZGames.Box2DWorld.entities.spells.Fireflower;
 import com.NZGames.Box2DWorld.handlers.AnimatedImage;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
-import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.NZGames.Box2DWorld.screens.MenuScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,9 +13,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
@@ -25,7 +23,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 /**
  * Created by zac520 on 8/10/14.
  */
-public class Player extends GenericActor{
+public class Player extends GenericActor {
     public boolean  isWalking = false;
     int             crystalCount = 0;
     public static  int PLAYER_MAX_SPEED = 3;

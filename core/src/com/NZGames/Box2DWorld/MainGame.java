@@ -1,16 +1,13 @@
 package com.NZGames.Box2DWorld;
 
-import com.NZGames.Box2DWorld.entities.GenericActor;
-import com.NZGames.Box2DWorld.entities.Player;
+import com.NZGames.Box2DWorld.entities.actors.GenericActor;
+import com.NZGames.Box2DWorld.entities.actors.Player;
 import com.NZGames.Box2DWorld.entities.UserInterface;
-import com.NZGames.Box2DWorld.screens.GameScreen;
 import com.NZGames.Box2DWorld.screens.MenuScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -32,6 +29,7 @@ public class MainGame extends Game {
 
     /** Perhaps Should be in a "gamestate" class? **/
     public Array<Body> bodiesToRemove;
+
 
     /** Actors **/
     public Player player;
