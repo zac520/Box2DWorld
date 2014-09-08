@@ -1,7 +1,9 @@
 package com.NZGames.Box2DWorld.entities.actors;
 
 import com.NZGames.Box2DWorld.MainGame;
+import com.NZGames.Box2DWorld.entities.monster_drops.CoinDrop;
 import com.NZGames.Box2DWorld.entities.monster_drops.HealthDrop;
+import com.NZGames.Box2DWorld.entities.monster_drops.MagicDrop;
 import com.NZGames.Box2DWorld.entities.spells.GenericSpell;
 import com.NZGames.Box2DWorld.handlers.AnimatedImage;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
@@ -33,6 +35,10 @@ public class GenericActor extends Image  {
     public Group graphicsGroup;//used to link in the arrow later
     TextureRegion downArrow;
     Image downArrowImage;
+    public final int TYPE_HIT_POINTS =0;
+    public final int TYPE_MAGIC =1;
+    public final int TYPE_MONEY =2;
+
 
     /** How GenericEnemy relates to world**/
     protected float worldWidth;
@@ -57,7 +63,6 @@ public class GenericActor extends Image  {
     protected Image extraAnimationCurrentFrame; //used for spell animations
     protected boolean haveExtraAnimation = false;
     protected float animationDurationRemaining = 0;
-    protected Label label;
 
     /** Movement **/
     float previousPositionX;
@@ -66,6 +71,7 @@ public class GenericActor extends Image  {
     float maxDist = 0;
     float forwardForce = 0;
     float timeSpentTryingDirection = 0;
+    float timeInterval = 0;
     boolean playDownFrame = false;
 
     /** Reference to self**/
@@ -78,8 +84,10 @@ public class GenericActor extends Image  {
     protected int maxMagicPoints;
     protected int contactDamage; //damage player gets when he contacts enemy
     public float percentHitPointsRemaining;
+    public float percentMagicPointsRemaining;
     protected float maxHPImageWidth;
     protected int money=0;
+    public boolean canCauseDamage = true;
 
     public GenericActor(){
         //make the actor a button for the user to select for targeting
@@ -143,6 +151,9 @@ public class GenericActor extends Image  {
     }
     public Body getBody(){
         return body;
+    }
+    public int getContactDamage(){
+        return contactDamage;
     }
 
     public void incurDamage(int hp){
@@ -307,6 +318,15 @@ public class GenericActor extends Image  {
         );
 
     }
+    private void updateMPLabels(){
+        //update the percentage of hit and magic points left
+        percentMagicPointsRemaining =(float) magicPoints / maxMagicPoints;
+
+        game.userInterfaceStage.currentMP.setWidth(game.userInterfaceStage.maxPlayerVitalsWidth * percentMagicPointsRemaining);
+    }
+    private void updateCoinLabel(){
+        game.userInterfaceStage.coinCountLabel.setText(String.valueOf(money));
+    }
 
     public void makeContactInvincible(){
         //make the actor contact invincible
@@ -321,7 +341,11 @@ public class GenericActor extends Image  {
                 }
             }
             else{
-                bits &= ~Box2DVars.BIT_SWORD;
+                bits &= ~Box2DVars.BIT_SWORD;//make it so that player cannot hit him
+
+                //make it so that this enemy cannot cause damage
+                canCauseDamage = false;
+
             }
             myFilter.maskBits = bits;
             actorFixtures.get(x).setFilterData(
@@ -344,6 +368,10 @@ public class GenericActor extends Image  {
             }
             else{
                 bits |= Box2DVars.BIT_SWORD;//add back in the sword
+
+                //restore the ability to cause damage
+                canCauseDamage = true;
+
             }
 
             myFilter.maskBits = bits;
@@ -397,6 +425,11 @@ public class GenericActor extends Image  {
     }
     private void destroyActor(){
 
+        //unselect monster if selected
+        if(game.selectedEnemy==this){
+            game.selectedEnemy = null;
+        }
+
         //remove the box2d body
         game.bodiesToRemove.add(this.getBody());
 
@@ -415,6 +448,8 @@ public class GenericActor extends Image  {
                         }
                 )
         );
+
+
     }
 
     /**
@@ -424,29 +459,95 @@ public class GenericActor extends Image  {
     public void spawnPickup(){
         //    int randomNum = rand.nextInt((max - min) + 1) + min;
 
-        int dropNumber = game.rand.nextInt((2 - 1) + 1) + 1;//one in 2 chance of a drop
+        int dropNumber = game.rand.nextInt((4 - 1) + 1) + 1;//1,2 or 3. Only 1 or 2 equals something
         if(dropNumber==1) {
             //spawn the monster drops
             HealthDrop healthDrop = new HealthDrop(body.getPosition(), game);
             game.stage.addActor(healthDrop.getGroup());
         }
+        else if(dropNumber==2){
+            //spawn the monster drops
+            MagicDrop magicDrop = new MagicDrop(body.getPosition(), game);
+            game.stage.addActor(magicDrop.getGroup());
+        }
+        else if(dropNumber==3){
+            CoinDrop coinDrop = new CoinDrop(body.getPosition(), game);
+            game.stage.addActor(coinDrop.getGroup());
+        }
+
     }
 
-    public void recieveHealth(int health){
-        this.hitPoints += health;
-        if(hitPoints>maxHitPoints){
-            hitPoints = maxHitPoints;
-        }
-        updateHPLabels();
-    }
-    public void recieveMagic(int magic){
+    public void receivePickup(int health, int magic, int money){
+
+        //increase the player's stuff
         this.magicPoints += magic;
+        this.hitPoints += health;
+        this.money += money;
+
+        // make sure we aren't overfilling
         if(magicPoints>maxMagicPoints){
+            magic -= (magicPoints - maxMagicPoints);
             magicPoints=maxMagicPoints;
         }
+        if(hitPoints>maxHitPoints){
+            health -= (hitPoints - maxHitPoints);
+            hitPoints = maxHitPoints;
+        }
+
+        //add the labels to show the increase above character head
+        if(health>0) {
+            makeRecoverLabel(health, TYPE_HIT_POINTS);
+        }
+        if(magic>0) {
+            makeRecoverLabel(magic, TYPE_MAGIC);
+        }
+        if(money>0) {
+            makeRecoverLabel(money, TYPE_MONEY);
+        }
+
+        //update the UI labels
+        updateMPLabels();
+        updateHPLabels();
+        updateCoinLabel();
     }
 
-    public void recieveMoney(int money){
-        this.money += money;
+
+    private void makeRecoverLabel(int amount, int type){
+        //make the hp label
+        final Label label;
+        if(type==TYPE_HIT_POINTS) {
+            label = new Label(String.valueOf(amount), game.skin, "default-font", Color.GREEN);
+        }
+        else if (type==TYPE_MAGIC){
+            label = new Label(String.valueOf(amount), game.skin, "default-font", Color.YELLOW);
+        }
+        else{
+            label = new Label(String.valueOf(amount), game.skin, "default-font", Color.MAGENTA);
+        }
+
+        label.setFontScale(3);
+        label.setPosition(
+                getX() - 25,
+                getY() + worldHeight +50
+        );
+        //make the hp float up and then disappear
+        label.addAction(
+                sequence(
+                        moveTo(
+                                getX(),
+                                getY() + worldHeight/2,
+                                2
+                        ),
+                        fadeOut(1),
+                        new Action() {
+                            @Override
+                            public boolean act(float delta) {
+                                label.remove();
+                                return false;
+                            }
+                        }
+                )
+        );
+        graphicsGroup.addActor(label);
     }
 }

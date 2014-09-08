@@ -13,10 +13,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -42,9 +39,8 @@ public class LoadLevel implements Screen {
     private boolean gameIsLoaded = false;
 
     /** LoadScreen assets **/
-    TextureRegion christmasTree;
-    TextureRegion ball;
-    TextureRegion snow;
+    Animation rightAnimation;
+    private float RUNNING_FRAME_DURATION = 0.2f;
     Stage stage;
     BitmapFont font;
     OrthographicCamera camera;
@@ -66,6 +62,7 @@ public class LoadLevel implements Screen {
     public Player player;
     Stage backgroundStage;
 
+    private float percentLoaded;
 
 
     public LoadLevel(MainGame myGame, String filePath, String fileName){
@@ -88,71 +85,29 @@ public class LoadLevel implements Screen {
         }
 
         //have the asset manager get the rest of the graphics
-        game.assets.load(filepath +"Atlas/"+ filename + ".txt", TextureAtlas.class);
+        //game.assets.load(filepath +"Atlas/"+ filename + ".txt", TextureAtlas.class);
         game.assets.load(filepath + "Background/" + filename + ".png", Texture.class);
 
 
         //the rest of this is just the loading image
-//texture packer puts all the graphics in a single file with an "atlas"
-        //to find their coordinates in the file. This locates them.
-        atlas = new TextureAtlas(Gdx.files.internal("assets/textures/testPack.txt"));
-        christmasTree=atlas.findRegion("tree");
-        ball=atlas.findRegion("ball");
-        snow=atlas.findRegion("snow");
-
-
-
-
-
+        // create viewport
+        camera=new OrthographicCamera();
+        camera.setToOrtho(false, game.SCREEN_WIDTH, game.SCREEN_HEIGHT);
+        stage=new Stage();
+        stage.getViewport().setCamera(camera);
 
         //create font
         font = new BitmapFont();
 
-        // create viewport
-        camera=new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
-        stage=new Stage();
-        stage.getViewport().setCamera(camera);
-
         //set up the background camera
         backgroundStage=new Stage();
 
-        // our christmas tree
-        Image ctree = new Image(christmasTree);
-        ctree.setSize(296, 480); // scale the tree to the right size
-        ctree.setPosition(-300, 0);
-        ctree.addAction(moveTo(400 - 148, 0, 1f));
-        ctree.setZIndex(0);
-        stage.addActor(ctree);
-
-        //the ornament that rotates in
-        Image ballImage = new Image(ball);
-        ballImage.setPosition(400 - 148 + 60, 170);
-
-        ballImage.setOrigin(32, 32);
-        ballImage.setColor(1, 1, 1, 0);
-        ballImage.addAction(
-                sequence(delay(1),
-                        parallel(
-                                fadeIn(1),
-                                rotateBy(360, 1)),
-                        delay(2f),
-                        new Action() {
-                            // custom action to switch to the menu screen
-                            @Override
-                            public boolean act(float delta) {
-                                //game.setScreen(new MenuScreen(game));
-                                return false;
-                            }
-                        }));
-
-        stage.addActor(ballImage);
-
-        // create the snowflakes
-        for (int i = 0; i < 10; i++) {
-            spawnSnowflake();
-        }
-
+        game.atlas = new TextureAtlas(filepath +"Atlas/"+ filename +".txt");
+        rightAnimation = new Animation(RUNNING_FRAME_DURATION, game.atlas.findRegions("HerowSword_RV1"));
+        rightAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        AnimatedImage myAnimatedImage = new AnimatedImage(rightAnimation);
+        myAnimatedImage.setCenterPosition(game.SCREEN_WIDTH / 2, game.SCREEN_HEIGHT / 2);
+        stage.addActor(myAnimatedImage);
 
 
     }
@@ -160,7 +115,7 @@ public class LoadLevel implements Screen {
     @Override
     public void render(float delta) {
         // clear the screen
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // let the stage act and draw
@@ -168,15 +123,22 @@ public class LoadLevel implements Screen {
         stage.draw();
 
         // draw our text
+        percentLoaded = game.assets.getProgress();
+        percentLoaded -= 0.1f;//subtract 10% because the last step will not show
+        percentLoaded *=100;//turn into percent
         batch.begin();
-        font.draw(batch, "Loading the game!", 50, 80);
+        font.draw(batch, String.valueOf(((int) percentLoaded))+"%", 50, 80);
         batch.end();
 
 
         if(game.assets.update()){
+
+
             // all the assets are loaded, time to load the screen!
-            //create the world for the gamescreen
-            game.atlas = game.assets.get(filepath +"Atlas/"+ filename +".txt", TextureAtlas.class);
+
+
+            //remove all of the loading screen stuff before adding in the new stuff
+            stage.clear();
 
             //load the world (we repeat a bit of code from the steps above... could be more efficient, but only a little
             loadWorld();
@@ -495,34 +457,6 @@ public class LoadLevel implements Screen {
 
         }
 
-
-
-
-    public void spawnSnowflake() {
-        final Image snowflake = new Image(snow);
-        snowflake.setOrigin(64, 64);
-        int x = (int) (Math.random() * 800);
-        snowflake.setPosition(x, 480);
-        snowflake.setScale((float) (Math.random() * 0.8f + 0.2f));
-        snowflake.addAction(parallel(
-                forever(rotateBy(360, (float) (Math.random() * 6))),
-                sequence(moveTo(x, 0, (float) (Math.random() * 15)),
-                        fadeOut((float) (Math.random() * 1)), new Action() { // we
-                            // can
-                            // define
-                            // custom
-                            // actions
-                            // :)
-
-                            @Override
-                            public boolean act(float delta) {
-                                snowflake.remove(); // delete this snowflake
-                                spawnSnowflake(); // spawn a new snowflake
-                                return false;
-                            }
-                        })));
-        stage.addActor(snowflake);
-    }
 
     //load up all of the filenames
     private void filenameLoad() {

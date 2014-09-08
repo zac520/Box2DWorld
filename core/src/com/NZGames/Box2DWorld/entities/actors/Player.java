@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
@@ -33,7 +34,8 @@ public class Player extends GenericActor {
 
     private Animation swordSlashAnimationRight;
     private Animation swordSlashAnimationLeft;
-    boolean isSlashingSword = false;
+    public boolean isSlashingSword = false;
+    public boolean ableToSlash = true;
     Fixture swordSlashRight;
     Fixture swordSlashLeft;
     Filter enemiesHitable;
@@ -135,11 +137,11 @@ public class Player extends GenericActor {
         //update the time for this class
         this.update(delta);
 
-        //if player runs out of hp, we st
-        if(hitPoints <=0){
-            //TODO we need a death animation, and a game over screen. For now, we just go back to menu
-            game.setScreen(new MenuScreen(game));
-        }
+//        //if player runs out of hp, we st
+//        if(hitPoints <=0){
+//            //TODO we need a death animation, and a game over screen. For now, we just go back to menu
+//            game.setScreen(new MenuScreen(game));
+//        }
 
         //walking left or right normally
         if(!isSlashingSword) {
@@ -212,13 +214,35 @@ public class Player extends GenericActor {
                                     }
                                 }
 
+                                //set a short timer to allow a slash again
+                                Timer.schedule(new Timer.Task(){
+                                    @Override
+                                    public void run() {
+                                        ableToSlash = true;
+                                    }
+                                }, 0.2f);
                                 return false;
                             }
                         }));
         graphicsGroup.addActor(swordslash);
         isSlashingSword = true;
+        ableToSlash = false;
     }
 
+    public void castSpell(){
+
+        if(magicPoints > this.currentSpell.getSpellCost()) {
+            //cast the spell
+            game.selectedEnemy.incurDamage(this.currentSpell.getSpellDamage(), this.currentSpell.getSpellAnimation());
+
+            //subtract the magic cost from the spell
+            magicPoints -= this.currentSpell.getSpellCost();
+
+            //update the percentage of hit and magic points left
+            percentMagicPointsRemaining = (float) magicPoints / maxMagicPoints;
+            game.userInterfaceStage.currentMP.setWidth(game.userInterfaceStage.maxPlayerVitalsWidth * percentMagicPointsRemaining);
+        }
+    }
     public Group getGroup(){
         return graphicsGroup;
     }
@@ -231,7 +255,9 @@ public class Player extends GenericActor {
     public boolean getIsWalking(){
         return isWalking;
     }
-
+    public int getHitPoints(){
+        return hitPoints;
+    }
     public float getStateTime(){
         return stateTime;
     }

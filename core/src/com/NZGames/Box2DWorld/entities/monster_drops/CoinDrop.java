@@ -1,31 +1,30 @@
 package com.NZGames.Box2DWorld.entities.monster_drops;
 
 import com.NZGames.Box2DWorld.MainGame;
-import com.NZGames.Box2DWorld.entities.actors.GenericActor;
 import com.NZGames.Box2DWorld.handlers.Box2DVars;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by zac520 on 9/6/14.
+ * Created by zac520 on 9/8/14.
  */
-public class HealthDrop  extends GenericMonsterDrop {
+public class CoinDrop  extends GenericMonsterDrop {
     float FRAME_DURATION= 0.12f;
     float MAX_SPEED = 1;
     float FORWARD_FORCE = 1;
 
-    public HealthDrop(Vector2 bodyPosition, MainGame myGame) {
+    public CoinDrop(Vector2 bodyPosition, MainGame myGame) {
 
 
         //set the hp and mp and contact damage
-        healthRestorePoints = 10;
+        healthRestorePoints = 0;
         magicRestorePoints = 0;
-        money = 0;
+        money = 1;
 
         //set the box2d body and the world it lives in
         //define platform body
@@ -64,7 +63,7 @@ public class HealthDrop  extends GenericMonsterDrop {
         this.game = myGame;
 
         //set the animation
-        animation = new Animation(FRAME_DURATION, game.atlas.findRegions("Heart1"));
+        animation = new Animation(FRAME_DURATION, game.atlas.findRegions("DinoCoin"));
 
 
         //set the current drawable to the animation

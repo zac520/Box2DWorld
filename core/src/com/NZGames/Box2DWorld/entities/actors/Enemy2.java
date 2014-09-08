@@ -26,6 +26,7 @@ public class Enemy2 extends GenericActor {
         hitPoints = 10;
         magicPoints = 10;
         maxMagicPoints = 10;
+        contactDamage = 20;
 
         //set the box2d body and the world it lives in
         this.body = myBody;

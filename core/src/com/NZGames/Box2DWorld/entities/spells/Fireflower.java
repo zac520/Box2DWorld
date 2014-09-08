@@ -13,7 +13,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 /**
  * Created by zac520 on 8/31/14.
  */
-public class Fireflower extends GenericSpell {//extends actor just so that I can grab it without making an empty superclass
+public class Fireflower extends GenericSpell {
     public static  float FRAME_DURATION = 0.2f;
 
     public Fireflower(MainGame myGame){
@@ -24,6 +24,7 @@ public class Fireflower extends GenericSpell {//extends actor just so that I can
 
         spellDamage = 3;
         spellMinPercent = 0.6f;
+        spellCost = 1;
     }
 
 }

@@ -20,6 +20,7 @@ public class Enemy1  extends GenericActor {
     float FRAME_DURATION= 0.12f;
     float MAX_SPEED = 1;
     float FORWARD_FORCE = 1;
+    float JUMP_FORCE = 4;
 
     public Enemy1(Body myBody, MainGame myGame, float width, float height) {
 
@@ -28,6 +29,7 @@ public class Enemy1  extends GenericActor {
         hitPoints = 10;
         magicPoints = 10;
         maxMagicPoints = 10;
+        contactDamage = 15;
 
         //set the box2d body and the world it lives in
         this.body = myBody;
@@ -92,7 +94,7 @@ public class Enemy1  extends GenericActor {
     }
 
     private void addMovement(){
-        maxDist = 1;
+        maxDist = 3;
         dist = 0;
 
         //give it the initial velocity
@@ -111,11 +113,12 @@ public class Enemy1  extends GenericActor {
         //update statetime for animation
         stateTime += delta;
         timeSpentTryingDirection += delta;
+        timeInterval += delta;
         dist = (body.getPosition().x - previousPositionX);
 
-        //if it has gone farther than our max distance, or it tries for 3 seconds
+        //if it has gone farther than our max distance, or it tries for 5 seconds
         // (and is stuck for some reason), we reverse the direction
-        if((Math.abs(dist) > maxDist) || (timeSpentTryingDirection >3)) {
+        if((Math.abs(dist) > maxDist) || (timeSpentTryingDirection >5)) {
             forwardForce *= -1;
             dist = 0;
             previousPositionX = body.getPosition().x;
@@ -125,6 +128,17 @@ public class Enemy1  extends GenericActor {
             playDownFrame = true;
         }
 
+        //add a jump every 2 second
+        if(timeInterval >2){
+            //if the monster is moving slower than the max speed, then add force
+            if (body.getLinearVelocity().y < MAX_SPEED) {
+                //body.applyForceToCenter(forwardForce, 0, false);
+                body.setLinearVelocity(
+                        body.getLinearVelocity().x ,
+                        body.getLinearVelocity().y+ JUMP_FORCE);
+            }
+            timeInterval=0;
+        }
 
 
         if(forwardForce >0) {

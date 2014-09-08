@@ -57,6 +57,18 @@ public class MainGame extends Game {
         setScreen(new MenuScreen(this));
 	}
 
+    public void returnToMenu(){
+        //destroy anything we are holding
+        scene.getWorld().dispose();
+        stage.dispose();
+        backgroundStage.dispose();
+        atlas.dispose();
+        bodiesToRemove.clear();
+        assets.dispose();
+        
+        //return to the load menu
+        setScreen(new MenuScreen(this));
+    }
 
     /**
      * This function will be called from an Actor to let this GameScreen class know which Actor is selected

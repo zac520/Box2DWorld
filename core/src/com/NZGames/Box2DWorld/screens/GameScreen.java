@@ -167,6 +167,11 @@ public class GameScreen implements Screen{
         handleInput();
         player.update(delta);
 
+        if(player.getHitPoints()<=0){
+            //game.setScreen(new MenuScreen(game));
+            game.returnToMenu();
+        }
+
         //render the background
         backgroundStage.act(delta);
         backgroundStage.draw();
@@ -329,17 +334,20 @@ public class GameScreen implements Screen{
         //inflict damage and play animation of the spell
         if (MyInput.isPressed(MyInput.MAGIC)) {
             if(game.selectedEnemy != null) {
-                game.selectedEnemy.incurDamage(player.currentSpell.getSpellDamage(), player.currentSpell.getSpellAnimation());
+                player.castSpell();
             }
 
             MyInput.setKey(MyInput.MAGIC, false);
         }
 
-        //inflict damage and play animation of the spell
+
+        //slash sword
         if (MyInput.isPressed(MyInput.SWORD)) {
 
-            //change graphics to show slash
-            player.slashSword();
+            //change graphics to show slash if the player is not already slashing
+            if(player.ableToSlash) {
+                player.slashSword();
+            }
 
             //change box2d to allow contact
 

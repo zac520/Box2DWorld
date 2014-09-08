@@ -19,6 +19,7 @@ public class GenericSpell {
     public Animation spellAnimation; //I think we will put these in their own class later.
     protected float spellMinPercent;
     protected int spellDamage;
+    protected int spellCost;
 
     public GenericSpell(){
 
@@ -37,7 +38,9 @@ public class GenericSpell {
             return randSpellDamage;
         }
     }
-
+    public int getSpellCost(){
+        return spellCost;
+    }
     public AnimatedImage getSpellAnimation(){
 
         //turn it into something we can add to the stage directly

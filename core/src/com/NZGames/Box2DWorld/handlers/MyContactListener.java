@@ -89,17 +89,36 @@ public class MyContactListener implements ContactListener {
         //handle the enemy collision
         if(fa.getFilterData().categoryBits == Box2DVars.BIT_ENEMY){
             if(fb.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
-                GenericActor myActor = (GenericActor) fb.getBody().getUserData();
-                //myActor.incurDamage(25);
-                myActor.getHitByPhysicalAttack(25);
+
+                //player collides with enemy
+                if((fa.getBody().getUserData() instanceof  GenericActor) && (fb.getBody().getUserData() instanceof  GenericActor) ) {
+                    GenericActor myActor = (GenericActor) fb.getBody().getUserData();
+                    GenericActor myEnemy = (GenericActor) fa.getBody().getUserData();
+                    if (myEnemy.canCauseDamage) {
+                        myActor.getHitByPhysicalAttack(myEnemy.getContactDamage());
+                    }
+                }
+                else{//the player hit spikes or something
+                    GenericActor myActor = (GenericActor) fb.getBody().getUserData();
+                    myActor.getHitByPhysicalAttack(25);
+                }
             }
+
         }
 
         if(fb.getFilterData().categoryBits == Box2DVars.BIT_ENEMY){
             if(fa.getFilterData().categoryBits == Box2DVars.BIT_PLAYER){
-                GenericActor myActor = (GenericActor) fa.getBody().getUserData();
-                //myActor.incurDamage(25);
-                myActor.getHitByPhysicalAttack(25);
+                if((fa.getBody().getUserData() instanceof  GenericActor) && (fb.getBody().getUserData() instanceof  GenericActor) ) {
+                    GenericActor myActor = (GenericActor) fa.getBody().getUserData();
+                    GenericActor myEnemy = (GenericActor) fb.getBody().getUserData();
+                    if (myEnemy.canCauseDamage) {
+                        myActor.getHitByPhysicalAttack(myEnemy.getContactDamage());
+                    }
+                }
+                else{//the player hit spikes or something
+                    GenericActor myActor = (GenericActor) fa.getBody().getUserData();
+                    myActor.getHitByPhysicalAttack(25);
+                }
             }
         }
 
@@ -113,9 +132,11 @@ public class MyContactListener implements ContactListener {
                     GenericActor myPlayer = (GenericActor) fb.getBody().getUserData();
 
                     //apply the pickups
-                    myPlayer.recieveHealth(myPickup.getHealthRestorePoints());
-                    myPlayer.recieveMagic(myPickup.getMagicRestorePoints());
-                    myPlayer.recieveMoney(myPickup.getMoney());
+                    myPlayer.receivePickup(
+                            myPickup.getHealthRestorePoints(),
+                            myPickup.getMagicRestorePoints(),
+                            myPickup.getMoney()
+                    );
 
                     //destroy the pickup
                     myPickup.destroyMonsterDrop();
@@ -130,9 +151,13 @@ public class MyContactListener implements ContactListener {
                 if(fb.getBody().getUserData() instanceof  GenericMonsterDrop) {
                     GenericMonsterDrop myPickup = (GenericMonsterDrop) fb.getBody().getUserData();
                     GenericActor myPlayer = (GenericActor) fa.getBody().getUserData();
-                    myPlayer.recieveHealth(myPickup.getHealthRestorePoints());
-                    myPlayer.recieveMagic(myPickup.getMagicRestorePoints());
-                    myPlayer.recieveMoney(myPickup.getMoney());
+
+                    //apply the pickups
+                    myPlayer.receivePickup(
+                            myPickup.getHealthRestorePoints(),
+                            myPickup.getMagicRestorePoints(),
+                            myPickup.getMoney()
+                    );
 
                     //destroy the pickup
                     myPickup.destroyMonsterDrop();
