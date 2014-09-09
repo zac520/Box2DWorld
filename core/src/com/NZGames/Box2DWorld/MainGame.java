@@ -65,7 +65,7 @@ public class MainGame extends Game {
         atlas.dispose();
         bodiesToRemove.clear();
         assets.dispose();
-        
+
         //return to the load menu
         setScreen(new MenuScreen(this));
     }

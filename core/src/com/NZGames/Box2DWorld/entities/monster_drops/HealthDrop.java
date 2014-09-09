@@ -23,7 +23,7 @@ public class HealthDrop  extends GenericMonsterDrop {
 
 
         //set the hp and mp and contact damage
-        healthRestorePoints = 10;
+        healthRestorePoints = 20;
         magicRestorePoints = 0;
         money = 0;
 

@@ -137,11 +137,12 @@ public class Player extends GenericActor {
         //update the time for this class
         this.update(delta);
 
-//        //if player runs out of hp, we st
-//        if(hitPoints <=0){
-//            //TODO we need a death animation, and a game over screen. For now, we just go back to menu
-//            game.setScreen(new MenuScreen(game));
-//        }
+        //if player runs out of hp, we st
+        if(hitPoints <=0){
+            //TODO we need a death animation, and a game over screen. For now, we just go back to menu
+            //game.setScreen(new MenuScreen(game));
+            game.returnToMenu();
+        }
 
         //walking left or right normally
         if(!isSlashingSword) {

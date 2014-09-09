@@ -96,6 +96,7 @@ public class GameScreen implements Screen{
         //set up the background camera
         backgroundCamera=new OrthographicCamera();
         backgroundCamera.setToOrtho(false, MainGame.SCREEN_WIDTH, MainGame.SCREEN_HEIGHT);
+
         backgroundStage= game.backgroundStage;
         backgroundStage.getViewport().setCamera(backgroundCamera);
 
@@ -167,10 +168,10 @@ public class GameScreen implements Screen{
         handleInput();
         player.update(delta);
 
-        if(player.getHitPoints()<=0){
-            //game.setScreen(new MenuScreen(game));
-            game.returnToMenu();
-        }
+//        if(player.getHitPoints()<=0){
+//            //game.setScreen(new MenuScreen(game));
+//            game.returnToMenu();
+//        }
 
         //render the background
         backgroundStage.act(delta);

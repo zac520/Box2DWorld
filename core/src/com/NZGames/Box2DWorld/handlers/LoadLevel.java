@@ -222,9 +222,9 @@ public class LoadLevel implements Screen {
                     //create a box around the player to wake sleeping box2d objects
                     PolygonShape shape = new PolygonShape();
                     FixtureDef fdef = new FixtureDef();
-                    shape.setAsBox(MainGame.SCREEN_WIDTH / Box2DVars.PPM, MainGame.SCREEN_HEIGHT / Box2DVars.PPM);
+                    shape.setAsBox(MainGame.SCREEN_WIDTH/1.5f / Box2DVars.PPM, MainGame.SCREEN_HEIGHT/1.5f / Box2DVars.PPM);
                     fdef.shape = shape;
-                    fdef.filter.categoryBits = Box2DVars.BIT_ENEMY;//right now this box shares enemy bit and can only awaken enemies
+                    fdef.filter.categoryBits = Box2DVars.BIT_GROUND;//right now this box shares enemy bit and can only awaken enemies
                     fdef.filter.maskBits = Box2DVars.BIT_ENEMY;
                     fdef.isSensor = true;
                     myBodies.get(x).createFixture(fdef).setUserData("awake");
